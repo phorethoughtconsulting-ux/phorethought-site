@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE — Online Strength Coaching with Marcus Vale</title>
+<meta name="description" content="1-on-1 online strength & conditioning coaching. Custom programming, weekly check-ins, real results. Start your transformation today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0b0b0d; --ink2:#141417; --ink3:#1d1d22; --line:#2a2a30;
+    --paper:#f4f4f2; --muted:#9a9aa3; --soft:#c7c7cf;
+    --lime:#c8ff2e; --lime-dim:#1f2607;
+    --disp:'Anton',Impact,sans-serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--ink);color:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+  .disp{font-family:var(--disp);font-weight:400;letter-spacing:.5px;text-transform:uppercase;line-height:.96}
+  .accent{color:var(--lime)}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,11,13,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:var(--disp);font-size:26px;letter-spacing:2px}
+  .logo span{color:var(--lime)}
+  .nav-links{display:flex;gap:34px;align-items:center}
+  .nav-links a{font-size:14px;font-weight:500;color:var(--soft);transition:color .2s}
+  .nav-links a:hover{color:#fff}
+  .btn{display:inline-block;font-weight:700;font-size:14px;letter-spacing:.3px;padding:13px 24px;border-radius:6px;transition:transform .15s,background .2s,color .2s;cursor:pointer}
+  .btn-lime{background:var(--lime);color:#0b0b0d}
+  .btn-lime:hover{transform:translateY(-2px)}
+  .btn-ghost{border:1px solid var(--line);color:#fff}
+  .btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+  .nav-toggle{display:none}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 70px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:url('https://picsum.photos/seed/forge-gym/1600/1100') center/cover;filter:grayscale(.3) contrast(1.05)}
+  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(11,11,13,.96) 0%,rgba(11,11,13,.8) 45%,rgba(11,11,13,.45) 100%)}
+  .hero-inner{position:relative;max-width:760px}
+  .kicker{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--lime);margin-bottom:24px}
+  .kicker::before{content:'';width:30px;height:2px;background:var(--lime)}
+  .hero h1{font-family:var(--disp);font-size:clamp(54px,9vw,116px);letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+  .hero h1 em{font-style:normal;color:var(--lime)}
+  .hero p{font-size:clamp(17px,2.4vw,21px);font-weight:300;color:var(--soft);max-width:520px;margin-bottom:38px}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .hero-note{font-size:13px;color:var(--muted);margin-top:26px;display:flex;align-items:center;gap:8px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(200,255,46,.15)}
+
+  /* STATS */
+  .stats{background:var(--lime);color:#0b0b0d}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .stat{padding:34px 20px;text-align:center;border-right:1px solid rgba(11,11,13,.12)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-family:var(--disp);font-size:clamp(38px,5vw,58px)}
+  .stat .l{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;opacity:.7}
+
+  /* SECTION */
+  section.pad{padding:100px 0}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--lime);margin-bottom:16px}
+  .h2{font-family:var(--disp);font-size:clamp(34px,5vw,62px);text-transform:uppercase;letter-spacing:.5px;margin-bottom:18px}
+  .sub{font-size:17px;font-weight:300;color:var(--soft);max-width:560px}
+
+  /* PROGRAMS */
+  .prog-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:50px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:34px 28px;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-6px);border-color:var(--lime)}
+  .card .pic{width:54px;height:54px;border-radius:12px;background:var(--lime-dim);border:1px solid #38450f;display:flex;align-items:center;justify-content:center;margin-bottom:22px;font-family:var(--disp);font-size:24px;color:var(--lime)}
+  .card h3{font-size:22px;font-weight:700;margin-bottom:10px}
+  .card p{font-size:14.5px;color:var(--muted);margin-bottom:20px}
+  .card ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .card li{font-size:14px;color:var(--soft);padding-left:24px;position:relative}
+  .card li::before{content:'✓';position:absolute;left:0;color:var(--lime);font-weight:700}
+
+  /* ABOUT */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .about-img{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5}
+  .about-img img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.2)}
+  .about-badge{position:absolute;bottom:18px;left:18px;background:var(--lime);color:#0b0b0d;font-family:var(--disp);font-size:15px;letter-spacing:1px;padding:10px 16px;border-radius:8px;text-transform:uppercase}
+  .about h2{margin-bottom:20px}
+  .about p{font-size:16px;color:var(--soft);font-weight:300;margin-bottom:18px}
+  .about p strong{color:#fff;font-weight:600}
+  .creds{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+  .cred{font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--lime);border:1px solid #38450f;background:var(--lime-dim);padding:7px 13px;border-radius:30px}
+
+  /* RESULTS */
+  .results{background:var(--ink2)}
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}
+  .quote{background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:30px}
+  .stars{color:var(--lime);font-size:15px;letter-spacing:2px;margin-bottom:16px}
+  .quote p{font-size:15px;color:var(--soft);margin-bottom:22px;font-weight:300}
+  .who{display:flex;align-items:center;gap:12px}
+  .who img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+  .who .nm{font-size:14px;font-weight:600}
+  .who .rl{font-size:12px;color:var(--muted)}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px}
+  .step{position:relative;padding-top:18px;border-top:2px solid var(--line)}
+  .step .num{font-family:var(--disp);font-size:46px;color:var(--ink3);line-height:1;margin-bottom:14px;-webkit-text-stroke:1px var(--line)}
+  .step h4{font-size:18px;font-weight:700;margin-bottom:8px}
+  .step p{font-size:14px;color:var(--muted);font-weight:300}
+
+  /* PRICING */
+  .pricing{background:linear-gradient(180deg,var(--ink) 0%,var(--ink2) 100%)}
+  .price-card{max-width:560px;margin:50px auto 0;background:var(--ink2);border:1px solid var(--lime);border-radius:18px;padding:46px 40px;text-align:center;position:relative;overflow:hidden}
+  .price-card::before{content:'MOST POPULAR';position:absolute;top:18px;right:-42px;transform:rotate(45deg);background:var(--lime);color:#0b0b0d;font-size:11px;font-weight:800;letter-spacing:1px;padding:6px 50px}
+  .price-card .name{font-family:var(--disp);font-size:30px;letter-spacing:1px;margin-bottom:6px}
+  .price-card .amt{font-family:var(--disp);font-size:72px;color:var(--lime);line-height:1;margin:14px 0 4px}
+  .price-card .amt small{font-family:var(--sans);font-size:16px;color:var(--muted);font-weight:400}
+  .price-card .plist{list-style:none;text-align:left;max-width:340px;margin:28px auto 32px;display:flex;flex-direction:column;gap:12px}
+  .price-card .plist li{font-size:15px;color:var(--soft);padding-left:28px;position:relative}
+  .price-card .plist li::before{content:'✓';position:absolute;left:0;color:var(--lime);font-weight:800}
+  .price-card .btn{width:100%}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:50px auto 0;display:flex;flex-direction:column;gap:12px}
+  details{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:0 24px;transition:border-color .2s}
+  details[open]{border-color:var(--lime)}
+  summary{list-style:none;cursor:pointer;padding:22px 0;font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:'+';font-family:var(--disp);font-size:26px;color:var(--lime);line-height:1}
+  details[open] summary::after{content:'–'}
+  details p{padding:0 0 22px;font-size:15px;color:var(--muted);font-weight:300}
+
+  /* CTA */
+  .cta{position:relative;text-align:center;padding:120px 0;overflow:hidden}
+  .cta-bg{position:absolute;inset:0;background:url('https://picsum.photos/seed/forge-cta/1600/700') center/cover;filter:grayscale(.5)}
+  .cta-bg::after{content:'';position:absolute;inset:0;background:rgba(11,11,13,.82)}
+  .cta-inner{position:relative}
+  .cta h2{font-family:var(--disp);font-size:clamp(40px,7vw,84px);text-transform:uppercase;margin-bottom:20px}
+  .cta p{font-size:18px;color:var(--soft);font-weight:300;max-width:480px;margin:0 auto 36px}
+
+  /* FOOTER */
+  footer{background:var(--ink2);border-top:1px solid var(--line);padding:44px 0}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+  .foot .logo{font-size:22px}
+  .foot-links{display:flex;gap:24px}
+  .foot-links a{font-size:13px;color:var(--muted);transition:color .2s}
+  .foot-links a:hover{color:var(--lime)}
+  .foot .cr{font-size:12px;color:var(--muted);width:100%;border-top:1px solid var(--line);padding-top:18px;margin-top:6px}
+
+  @media(max-width:880px){
+    .nav-links{display:none}
+    .stats-grid{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:none}
+    .cards{grid-template-columns:1fr}
+    .about{grid-template-columns:1fr;gap:36px}.about-img{max-width:420px}
+    .quotes{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:520px){
+    .stats-grid{grid-template-columns:1fr}.stat{border-right:none;border-bottom:1px solid rgba(11,11,13,.12)}
+    .steps{grid-template-columns:1fr}
+    .price-card{padding:36px 24px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav">
+    <div class="logo">FOR<span>GE</span></div>
+    <div class="nav-links">
+      <a href="#programs">Programs</a>
+      <a href="#coach">Coach</a>
+      <a href="#results">Results</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#start" class="btn btn-lime">Start Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-inner">
+    <div class="kicker">Online Strength Coaching</div>
+    <h1 class="disp">Build the body<br>you <em>won't quit</em> on</h1>
+    <p>1-on-1 online coaching with custom programming, weekly check-ins, and a coach who actually answers. No fads. No guesswork. Just results that stick.</p>
+    <div class="hero-actions">
+      <a href="#start" class="btn btn-lime">Start your transformation</a>
+      <a href="#results" class="btn btn-ghost">See the results</a>
+    </div>
+    <div class="hero-note"><span class="dot"></span> Taking 6 new clients this month</div>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="n">500+</div><div class="l">Clients coached</div></div>
+    <div class="stat"><div class="n">12kg</div><div class="l">Avg. fat lost</div></div>
+    <div class="stat"><div class="n">8 yrs</div><div class="l">Coaching</div></div>
+    <div class="stat"><div class="n">4.9★</div><div class="l">Client rating</div></div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="pad" id="programs">
+  <div class="wrap">
+    <div class="prog-head">
+      <div>
+        <div class="eyebrow">Programs</div>
+        <h2 class="h2">Pick your path</h2>
+      </div>
+      <p class="sub">Every program is built around your body, your schedule, and your goal — then adjusted every week as you progress.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="pic">01</div>
+        <h3>Fat Loss Foundations</h3>
+        <p>Drop fat without losing your mind — or your muscle.</p>
+        <ul><li>Custom training plan</li><li>Flexible nutrition targets</li><li>Weekly check-ins</li></ul>
+      </div>
+      <div class="card">
+        <div class="pic">02</div>
+        <h3>Strength &amp; Muscle</h3>
+        <p>Get visibly stronger with progressive, structured lifting.</p>
+        <ul><li>Periodized programming</li><li>Form video reviews</li><li>Progress tracking app</li></ul>
+      </div>
+      <div class="card">
+        <div class="pic">03</div>
+        <h3>Total Transformation</h3>
+        <p>The full package for a complete body recomposition.</p>
+        <ul><li>Everything included</li><li>Daily message access</li><li>Habit &amp; mindset coaching</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="pad" id="coach">
+  <div class="wrap about">
+    <div class="about-img">
+      <img src="https://picsum.photos/seed/coach-marcus/800/1000" alt="Coach Marcus Vale">
+      <div class="about-badge">Marcus Vale</div>
+    </div>
+    <div>
+      <div class="eyebrow">Your Coach</div>
+      <h2 class="h2">Real coaching.<br>No bots.</h2>
+      <p>I'm Marcus — a strength coach who's spent <strong>8 years</strong> helping everyday people get into the best shape of their lives, all online.</p>
+      <p>No copy-paste plans. No app that ghosts you. You get a program built for <strong>your</strong> body and a coach who adjusts it every single week based on how you're actually responding.</p>
+      <p>If you're done starting over, this is where it sticks.</p>
+      <div class="creds">
+        <span class="cred">CSCS Certified</span>
+        <span class="cred">Precision Nutrition L2</span>
+        <span class="cred">500+ Clients</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="pad results" id="results">
+  <div class="wrap">
+    <div class="eyebrow">Results</div>
+    <h2 class="h2">They stopped starting over</h2>
+    <div class="quotes">
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Lost 14kg in 5 months and I actually understand food now. Marcus adjusted everything around my crazy work schedule. Life-changing."</p>
+        <div class="who"><img src="https://picsum.photos/seed/client-1/100/100" alt=""><div><div class="nm">Sarah K.</div><div class="rl">Total Transformation</div></div></div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"First time a program ever stuck. The weekly check-ins kept me honest and the form reviews fixed my squat in a week."</p>
+        <div class="who"><img src="https://picsum.photos/seed/client-2/100/100" alt=""><div><div class="nm">James T.</div><div class="rl">Strength &amp; Muscle</div></div></div>
+      </div>
+      <div class="quote">
+        <div class="stars">★★★★★</div>
+        <p>"Down two pant sizes and stronger than I was at 25. Worth every penny — having a real coach in my corner changed everything."</p>
+        <div class="who"><img src="https://picsum.photos/seed/client-3/100/100" alt=""><div><div class="nm">Priya M.</div><div class="rl">Fat Loss Foundations</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="pad">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2 class="h2">Four steps to start</h2>
+    <div class="steps">
+      <div class="step"><div class="num disp">01</div><h4>Apply</h4><p>Fill out a 2-minute application so I understand your goals and starting point.</p></div>
+      <div class="step"><div class="num disp">02</div><h4>Strategy call</h4><p>We map out your plan together on a free 20-minute call. No pressure.</p></div>
+      <div class="step"><div class="num disp">03</div><h4>Get your plan</h4><p>Custom training + nutrition delivered to your app within 48 hours.</p></div>
+      <div class="step"><div class="num disp">04</div><h4>Check in weekly</h4><p>We adjust every week based on your progress. You're never on your own.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pad pricing" id="pricing">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow">Coaching</div>
+    <h2 class="h2">One plan. All in.</h2>
+    <p class="sub" style="margin:0 auto">Everything you need to transform — no upsells, no hidden tiers.</p>
+    <div class="price-card">
+      <div class="name disp">1-on-1 Coaching</div>
+      <div class="amt">$199<small>/mo</small></div>
+      <div style="color:var(--muted);font-size:14px">Cancel anytime · First week free</div>
+      <ul class="plist">
+        <li>Fully custom training program</li>
+        <li>Personalized nutrition coaching</li>
+        <li>Weekly check-ins &amp; adjustments</li>
+        <li>Form video reviews</li>
+        <li>Direct message access to Marcus</li>
+        <li>Progress-tracking app</li>
+      </ul>
+      <a href="#start" class="btn btn-lime">Claim your free week</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pad">
+  <div class="wrap">
+    <div style="text-align:center">
+      <div class="eyebrow">Questions</div>
+      <h2 class="h2">Good to know</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Do I need a gym?</summary><p>Nope. I build your program around whatever you have — full gym, home setup, or just dumbbells. We work with your reality.</p></details>
+      <details><summary>I'm a total beginner. Is this for me?</summary><p>Absolutely. Most of my clients start with zero experience. Everything is explained with video, and we start exactly where you are.</p></details>
+      <details><summary>What if I'm too busy?</summary><p>Programs are built around your schedule — even if that's 3 short sessions a week. Consistency beats perfection, and I'll keep it realistic.</p></details>
+      <details><summary>How fast will I see results?</summary><p>Most clients feel stronger in 2–3 weeks and see visible change by week 6. Sustainable results, not crash-diet rebounds.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="start">
+  <div class="cta-bg"></div>
+  <div class="wrap cta-inner">
+    <h2 class="disp">Your first week<br>is on me</h2>
+    <p>Six spots open this month. Apply now, get your custom plan, and train free for 7 days.</p>
+    <a href="#" class="btn btn-lime">Apply for coaching</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="logo">FOR<span>GE</span></div>
+      <div class="foot-links">
+        <a href="#programs">Programs</a>
+        <a href="#coach">Coach</a>
+        <a href="#results">Results</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+    </div>
+    <div class="cr">© 2026 FORGE Coaching · Sample build by Phorethought — phorethought.com</div>
+  </div>
+</footer>
+
+</body>
+</html>

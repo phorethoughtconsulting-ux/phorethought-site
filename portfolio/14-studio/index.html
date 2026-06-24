@@ -42,6 +42,7 @@
   /* hotspot markers */
   .hotspots{position:absolute;inset:0;z-index:6;transition:opacity .5s}
   .hotspots.hide{opacity:0;pointer-events:none}
+  .hotspots.off{opacity:0;pointer-events:none}
   .hot{position:absolute;transform:translate(-50%,-50%) scale(.6);background:none;border:none;cursor:pointer;padding:0;opacity:0;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
   .hot.in{opacity:1;transform:translate(-50%,-50%) scale(1)}
   .hot .ring{position:absolute;top:50%;left:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border:1px solid rgba(255,255,255,.6);border-radius:50%;animation:pulse 2.6s ease-out infinite}
@@ -73,6 +74,7 @@
   .nav{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;font-family:'DM Mono';flex-wrap:wrap;justify-content:center;max-width:94vw}
   .nav .wide{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border-radius:30px;border:1px solid rgba(255,255,255,.25);background:rgba(8,10,16,.4);backdrop-filter:blur(6px);color:#fff;cursor:pointer;transition:.25s;margin-right:6px}
   .nav .wide:hover{background:#fff;color:#000}
+  .nav .wide.on{background:var(--gold);border-color:var(--gold);color:#06070b}
   .nav .r{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 13px;border-radius:30px;color:rgba(255,255,255,.6);cursor:pointer;transition:.25s;white-space:nowrap}
   .nav .r:hover{color:#fff}
   .nav .r.active{color:#06070b;background:#fff}
@@ -155,6 +157,7 @@
       <div class="nav" id="nav">
         <button class="wide" id="wideBtn">⤢ Wide</button>
         <div class="rooms" id="rooms" style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center"></div>
+        <button class="wide" id="toggleBtn" title="Show or hide the markers">Hide markers</button>
       </div>
       <div class="hint" id="hint">Click a marker to look closer</div>
     </div>
@@ -215,7 +218,7 @@ const ZONES=[
 
 const cam=document.getElementById('cam'),hotsEl=document.getElementById('hotspots'),detail=document.getElementById('detail');
 const hint=document.getElementById('hint');
-let locked=false;
+let locked=false, markersHidden=false;
 
 function renderHots(){
   hotsEl.innerHTML='';
@@ -258,13 +261,24 @@ function focus(i){
 function wide(){
   cam.style.transform='scale(1)';
   setTimeout(()=>cam.classList.add('idle'),1200);
-  hotsEl.classList.remove('hide');hint.classList.remove('hide');detail.classList.remove('show');
+  hotsEl.classList.remove('hide');detail.classList.remove('show');
+  if(!markersHidden)hint.classList.remove('hide');
   document.getElementById('mno').textContent='EXPLORE';
   document.getElementById('mnm').textContent='The Studio';
   [...document.querySelectorAll('.nav .r')].forEach(el=>el.classList.remove('active'));
 }
 document.getElementById('dx').onclick=wide;
 document.getElementById('wideBtn').onclick=wide;
+
+// toggle markers (clean photo view)
+const toggleBtn=document.getElementById('toggleBtn');
+toggleBtn.onclick=()=>{
+  markersHidden=!markersHidden;
+  hotsEl.classList.toggle('off',markersHidden);
+  toggleBtn.classList.toggle('on',markersHidden);
+  toggleBtn.textContent=markersHidden?'Show markers':'Hide markers';
+  hint.classList.toggle('hide',markersHidden);
+};
 
 // nav zone buttons
 const roomsNav=document.getElementById('rooms');

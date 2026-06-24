@@ -77,7 +77,7 @@
   <div class="note">PHORETHOUGHT · estimate is a starting point — final quote confirmed after a quick scope chat.</div>
 <script>
 const TYPES=[{n:'Landing Page',p:300},{n:'Full Website',p:600},{n:'Web App / AI Tool',p:1500},{n:'Online Store',p:1200}];
-const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:200,mo:true}];
+const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:150,mo:true}];
 let type=0,rush=1;const sel=new Set();const $=id=>document.getElementById(id);
 $('types').innerHTML=TYPES.map((t,i)=>'<div class="opt'+(i===0?' on':'')+'" data-i="'+i+'"><div class="n">'+t.n+'</div><div class="p">from $'+t.p.toLocaleString()+'</div></div>').join('');
 $('types').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{type=+o.dataset.i;$('types').querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');calc();});

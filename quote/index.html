@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a Project Quote — Phorethought</title>
+<meta name="description" content="Build an instant estimate for your website, app, or tool. Phorethought.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#0a0f1e;--soft:#444;--muted:#888;--ghost:#bbb;--paper:#fff;--warm:#f9f8f6;--blue:#1a56db;--rule:#e8e8e8;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
+  body{font-family:var(--sans);background:var(--warm);color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 20px;line-height:1.6}
+  .head{max-width:960px;margin:0 auto 26px}
+  .logo{font-family:var(--serif);font-size:22px}
+  .head h1{font-family:var(--serif);font-size:clamp(30px,4vw,44px);letter-spacing:-1px;margin-top:14px}
+  .head p{color:var(--soft);font-weight:300;max-width:520px;margin-top:6px}
+  .grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:start}
+  .panel{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:24px}
+  .lab{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:20px 0 10px}.lab:first-child{margin-top:0}
+  .types{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt{border:1px solid var(--rule);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--ghost)}.opt.on{border-color:var(--blue);background:rgba(26,86,219,.05)}
+  .opt .n{font-family:var(--serif);font-size:17px}.opt .p{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:2px}
+  .addons{display:flex;flex-direction:column;gap:9px}
+  .add{display:flex;align-items:center;gap:12px;border:1px solid var(--rule);border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
+  .add:hover{border-color:var(--ghost)}.add.on{border-color:var(--blue);background:rgba(26,86,219,.04)}
+  .add .box{width:20px;height:20px;border-radius:6px;border:2px solid var(--ghost);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+  .add.on .box{background:var(--blue);border-color:var(--blue)}
+  .add .n{flex:1;font-size:14px}.add .p{font-size:13px;color:var(--muted);font-family:var(--mono)}
+  .slider{display:flex;align-items:center;gap:14px}.slider input{flex:1}.slider .v{font-family:var(--serif);font-size:20px;width:44px;text-align:right}
+  .toggle{display:flex;gap:8px}.toggle .t{flex:1;text-align:center;border:1px solid var(--rule);border-radius:10px;padding:11px;font-size:13px;cursor:pointer;transition:.15s}
+  .toggle .t.on{border-color:var(--blue);background:rgba(26,86,219,.08)}
+  .quote{position:sticky;top:20px}
+  .quote h3{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .lines{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;min-height:30px}
+  .line{display:flex;justify-content:space-between;font-size:13px;color:var(--soft)}.line span:last-child{color:var(--ink);font-family:var(--mono)}
+  .total{border-top:1px solid var(--rule);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline}
+  .total .l{font-size:13px;color:var(--soft)}.total .v{font-family:var(--serif);font-size:40px;color:var(--ink)}
+  .mo{font-size:12px;color:var(--soft);text-align:right;margin-top:4px;font-family:var(--mono)}
+  .cta{width:100%;margin-top:16px;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-weight:600;font-size:15px;color:#fff;background:var(--ink);cursor:pointer;transition:transform .12s,background .2s}
+  .cta:hover{transform:translateY(-2px);background:#1a2744}
+  .reqform{margin-top:12px;display:none;gap:8px}.reqform.show{display:flex}
+  .reqform input{flex:1;background:var(--warm);border:1px solid var(--rule);border-radius:10px;padding:11px;font-family:inherit;outline:none}
+  .ok{display:none;margin-top:12px;font-size:13px;color:var(--blue);text-align:center}.ok.show{display:block}
+  .note{max-width:960px;margin:18px auto 0;text-align:center;font-size:11px;color:var(--ghost);font-family:var(--mono)}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}.quote{position:static}.types{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="logo">Phorethought</div>
+    <h1>Get a project quote</h1>
+    <p>Pick what you need and see a real estimate instantly. No calls, no pressure — your detailed quote arrives by email.</p>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="lab">What are we building?</div>
+      <div class="types" id="types"></div>
+      <div class="lab">Pages / screens</div>
+      <div class="slider"><input type="range" id="pages" min="1" max="14" value="3"><span class="v" id="pagesv">3</span></div>
+      <div class="lab">Add-ons</div>
+      <div class="addons" id="addons"></div>
+      <div class="lab">Timeline</div>
+      <div class="toggle" id="timeline"><div class="t on" data-r="1">Standard</div><div class="t" data-r="1.3">Rush (+30%)</div></div>
+    </div>
+    <div class="panel quote">
+      <h3>Your estimate</h3>
+      <div class="lines" id="lines"></div>
+      <div class="total"><span class="l">Project total</span><span class="v" id="total">$0</span></div>
+      <div class="mo" id="mo"></div>
+      <button class="cta" id="cta">Get my full quote →</button>
+      <div class="reqform" id="reqform"><input type="email" placeholder="your@email.com"><button class="cta" style="margin:0;width:auto;padding:11px 16px" id="send">Send</button></div>
+      <div class="ok" id="ok">✓ Got it — your full quote is on its way within 24 hours.</div>
+      <div style="font-size:11px;color:var(--ghost);text-align:center;margin-top:12px">Your info is only used to send your quote. <a href="../privacy/index.html" style="color:var(--blue)">Privacy</a></div>
+    </div>
+  </div>
+  <div class="note">PHORETHOUGHT · estimate is a starting point — final quote confirmed after a quick scope chat.</div>
+<script>
+const TYPES=[{n:'Landing Page',p:300},{n:'Full Website',p:600},{n:'Web App / AI Tool',p:1500},{n:'Online Store',p:1200}];
+const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:200,mo:true}];
+let type=0,rush=1;const sel=new Set();const $=id=>document.getElementById(id);
+$('types').innerHTML=TYPES.map((t,i)=>'<div class="opt'+(i===0?' on':'')+'" data-i="'+i+'"><div class="n">'+t.n+'</div><div class="p">from $'+t.p.toLocaleString()+'</div></div>').join('');
+$('types').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{type=+o.dataset.i;$('types').querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');calc();});
+$('addons').innerHTML=ADDONS.map((a,i)=>'<div class="add" data-i="'+i+'"><div class="box">✓</div><div class="n">'+a.n+'</div><div class="p">+$'+a.p.toLocaleString()+(a.mo?'/mo':'')+'</div></div>').join('');
+$('addons').querySelectorAll('.add').forEach(a=>a.onclick=()=>{const i=+a.dataset.i;if(sel.has(i)){sel.delete(i);a.classList.remove('on');}else{sel.add(i);a.classList.add('on');}calc();});
+$('pages').oninput=()=>{$('pagesv').textContent=$('pages').value;calc();};
+$('timeline').querySelectorAll('.t').forEach(t=>t.onclick=()=>{rush=+t.dataset.r;$('timeline').querySelectorAll('.t').forEach(x=>x.classList.remove('on'));t.classList.add('on');calc();});
+let shown=0;function animateTo(v){const el=$('total'),start=shown,diff=v-start,t0=performance.now();function s(n){const k=Math.min(1,(n-t0)/400);el.textContent='$'+Math.round(start+diff*(0.5-Math.cos(k*Math.PI)/2)).toLocaleString();if(k<1)requestAnimationFrame(s);else shown=v;}requestAnimationFrame(s);}
+function calc(){const lines=[];let one=TYPES[type].p,monthly=0;lines.push([TYPES[type].n,'$'+TYPES[type].p.toLocaleString()]);
+  const pages=+$('pages').value;if(pages>1){const c=(pages-1)*120;one+=c;lines.push([(pages-1)+' extra pages','$'+c.toLocaleString()]);}
+  sel.forEach(i=>{const a=ADDONS[i];if(a.mo)monthly+=a.p;else one+=a.p;lines.push([a.n,'+$'+a.p.toLocaleString()+(a.mo?'/mo':'')]);});
+  if(rush>1){const add=Math.round(one*(rush-1));lines.push(['Rush delivery','+$'+add.toLocaleString()]);one=Math.round(one*rush);}
+  $('lines').innerHTML=lines.map(l=>'<div class="line"><span>'+l[0]+'</span><span>'+l[1]+'</span></div>').join('');
+  animateTo(one);$('mo').textContent=monthly?('+ $'+monthly.toLocaleString()+'/mo ongoing'):'';}
+$('cta').onclick=()=>{$('reqform').classList.add('show');$('cta').style.display='none';};
+$('send').onclick=()=>{$('reqform').classList.remove('show');$('ok').classList.add('show');};
+calc();
+</script>
+</body>
+</html>

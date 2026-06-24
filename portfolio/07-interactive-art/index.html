@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOW — interactive art by Phorethought</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#05060a;cursor:crosshair}
+  canvas{display:block}
+  .overlay{position:fixed;top:0;left:0;right:0;padding:26px 30px;pointer-events:none;font-family:'Space Grotesk',sans-serif;z-index:2}
+  .overlay h1{font-size:clamp(28px,5vw,52px);font-weight:700;letter-spacing:-1px;color:#fff;mix-blend-mode:difference}
+  .overlay p{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#9aa;margin-top:6px;mix-blend-mode:difference}
+  .hint{position:fixed;bottom:24px;left:0;right:0;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#667;pointer-events:none;z-index:2}
+  .credit{position:fixed;bottom:24px;right:30px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:1px;color:#445;z-index:2}
+</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div class="overlay"><h1>FLOW</h1><p>Interactive Art</p></div>
+  <div class="hint">Move your cursor — the field reacts · click to ripple · tap on mobile</div>
+  <div class="credit">Phorethought</div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H,DPR;
+function size(){DPR=Math.min(2,window.devicePixelRatio||1);W=c.width=innerWidth*DPR;H=c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
+size();addEventListener('resize',()=>{size();build();});
+const mouse={x:-9999,y:-9999,down:false};
+addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;});
+addEventListener('mousedown',()=>ripple(mouse.x,mouse.y));
+addEventListener('mouseleave',()=>{mouse.x=mouse.y=-9999;});
+addEventListener('touchmove',e=>{const t=e.touches[0];mouse.x=t.clientX*DPR;mouse.y=t.clientY*DPR;},{passive:true});
+addEventListener('touchstart',e=>{const t=e.touches[0];mouse.x=t.clientX*DPR;mouse.y=t.clientY*DPR;ripple(mouse.x,mouse.y);},{passive:true});
+const PAL=['#22e3ff','#9b6bff','#ff3ea5','#c8ff2e','#ff8a3d'];
+let dots=[],hue=0;
+function build(){
+  dots=[];const gap=46*DPR,r=()=>Math.random();
+  for(let yy=gap;yy<H;yy+=gap)for(let xx=gap;xx<W;xx+=gap){
+    dots.push({hx:xx,hy:yy,x:xx,y:yy,vx:0,vy:0,c:PAL[(Math.floor(xx/gap)+Math.floor(yy/gap))%PAL.length],sz:(1.6+r()*1.8)*DPR});
+  }
+}
+build();
+const ripples=[];
+function ripple(px,py){ripples.push({x:px,y:py,r:0,a:1});}
+function frame(){
+  x.fillStyle='rgba(5,6,10,0.22)';x.fillRect(0,0,W,H);
+  const rad=150*DPR;
+  for(const d of dots){
+    const dx=d.x-mouse.x,dy=d.y-mouse.y,dist=Math.hypot(dx,dy);
+    if(dist<rad){const f=(1-dist/rad)*7*DPR,a=Math.atan2(dy,dx);d.vx+=Math.cos(a)*f;d.vy+=Math.sin(a)*f;}
+    // ripples push
+    for(const rp of ripples){const ddx=d.x-rp.x,ddy=d.y-rp.y,dd=Math.hypot(ddx,ddy);
+      if(Math.abs(dd-rp.r)<30*DPR){const a=Math.atan2(ddy,ddx),f=rp.a*4*DPR;d.vx+=Math.cos(a)*f;d.vy+=Math.sin(a)*f;}}
+    d.vx+=(d.hx-d.x)*0.012;d.vy+=(d.hy-d.y)*0.012;
+    d.vx*=0.9;d.vy*=0.9;d.x+=d.vx;d.y+=d.vy;
+    const speed=Math.min(1,Math.hypot(d.vx,d.vy)/8);
+    x.beginPath();x.fillStyle=d.c;x.globalAlpha=0.35+speed*0.65;
+    x.shadowColor=d.c;x.shadowBlur=(4+speed*16)*DPR;
+    x.arc(d.x,d.y,d.sz+speed*2.5*DPR,0,7);x.fill();
+  }
+  x.globalAlpha=1;x.shadowBlur=0;
+  for(let i=ripples.length-1;i>=0;i--){const rp=ripples[i];rp.r+=9*DPR;rp.a-=0.02;if(rp.a<=0)ripples.splice(i,1);}
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body>
+</html>

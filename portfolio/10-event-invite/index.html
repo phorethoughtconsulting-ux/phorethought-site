@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFTERGLOW — launch night · invite</title>
+<meta name="description" content="You're invited to AFTERGLOW — one night, one launch. RSVP now.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0e0a18;--bg2:#160f26;--gold:#e8c87d;--ink:#f3eee6;--muted:#a89fb5;--line:rgba(232,200,125,.25)}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:900px;margin:0 auto;padding:0 26px}
+  .serif{font-family:'Cormorant Garamond',serif;font-weight:400}
+  .gold{color:var(--gold)}
+  a{color:inherit}
+  /* hero */
+  .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 26px;overflow:hidden}
+  .hero::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(232,200,125,.16),transparent 65%);top:-10%}
+  .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(139,80,200,.18),transparent 60%)}
+  .hero>*{position:relative;z-index:1}
+  .kicker{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(64px,16vw,170px);line-height:.92;letter-spacing:2px}
+  .hero .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,3vw,30px);color:var(--muted);margin-top:10px}
+  .meta{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink)}
+  .meta span{display:flex;flex-direction:column;gap:4px}.meta b{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:1px;color:var(--gold);text-transform:none}
+  /* countdown */
+  .count{display:flex;gap:14px;justify-content:center;margin-top:40px}
+  .cu{min-width:74px}
+  .cu .n{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,6vw,54px);color:var(--ink);line-height:1;background:linear-gradient(180deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cu .l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .btn{display:inline-block;margin-top:42px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:16px 40px;border-radius:40px;text-decoration:none;font-weight:600;transition:transform .15s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,200,125,.3)}
+  .scroll{margin-top:46px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  /* details */
+  section{padding:90px 0}
+  .dt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;text-align:center}
+  .dgrid h3{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .dgrid p{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink)}
+  .dgrid small{display:block;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;margin-top:4px}
+  /* rsvp */
+  .rsvp{text-align:center}
+  .rsvp h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,64px);margin-bottom:8px}
+  .rsvp .lead{color:var(--muted);margin-bottom:36px}
+  form{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:14px;text-align:left}
+  label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+  input,select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--ink);font-family:inherit;font-size:15px;outline:none;transition:border-color .2s}
+  input:focus,select:focus{border-color:var(--gold)}
+  .two{display:flex;gap:14px}.two>div{flex:1}
+  form .btn{border:none;cursor:pointer;width:100%;margin-top:10px;font-family:inherit}
+  .done{display:none;flex-direction:column;align-items:center;gap:12px;animation:fade .5s}
+  .done.show{display:flex}@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+  .done .check{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:30px}
+  .done h3{font-family:'Cormorant Garamond',serif;font-size:32px}
+  .note{font-size:11px;color:#665;margin-top:30px;text-align:center}
+  footer{padding:30px 0;border-top:1px solid var(--line);text-align:center;font-size:12px;color:#665;letter-spacing:1px}
+  @media(max-width:680px){.dgrid{grid-template-columns:1fr;gap:24px}.count{gap:8px}.cu{min-width:60px}.two{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="kicker">You're invited</div>
+  <h1 class="serif">Afterglow</h1>
+  <div class="sub serif">one night · one launch</div>
+  <div class="meta">
+    <span>When<b>Sep 20, 2026 · 8PM</b></span>
+    <span>Where<b>The Glasshouse, Austin</b></span>
+    <span>Dress<b>Cocktail</b></span>
+  </div>
+  <div class="count" id="count">
+    <div class="cu"><div class="n" id="d">--</div><div class="l">Days</div></div>
+    <div class="cu"><div class="n" id="h">--</div><div class="l">Hours</div></div>
+    <div class="cu"><div class="n" id="m">--</div><div class="l">Mins</div></div>
+    <div class="cu"><div class="n" id="s">--</div><div class="l">Secs</div></div>
+  </div>
+  <a class="btn" href="#rsvp">RSVP</a>
+  <div class="scroll">Scroll for details ↓</div>
+</header>
+
+<section class="dt"><div class="wrap">
+  <div class="dgrid">
+    <div><h3>The Night</h3><p class="serif">An immersive launch</p><small>Live music, first looks, and a toast to what's next.</small></div>
+    <div><h3>Arrival</h3><p class="serif">Doors at 8:00</p><small>Welcome cocktail on arrival. Program at 9.</small></div>
+    <div><h3>Location</h3><p class="serif">The Glasshouse</p><small>1100 E 5th St, Austin · valet available</small></div>
+  </div>
+</div></section>
+
+<section class="rsvp" id="rsvp"><div class="wrap">
+  <h2 class="serif">Will you join us?</h2>
+  <p class="lead">Kindly reply by September 1st.</p>
+  <form id="form">
+    <div><label>Full name</label><input required placeholder="Your name"></div>
+    <div><label>Email</label><input type="email" required placeholder="you@email.com"></div>
+    <div class="two">
+      <div><label>Guests</label><select><option>Just me</option><option>+1</option><option>+2</option></select></div>
+      <div><label>Attending?</label><select><option>Joyfully accepts</option><option>Regretfully declines</option></select></div>
+    </div>
+    <button class="btn" type="submit">Send RSVP</button>
+  </form>
+  <div class="done" id="done"><div class="check">✓</div><h3 class="serif">You're on the list.</h3><p style="color:var(--muted)">A confirmation is on its way. We can't wait to see you.</p></div>
+  <div class="note">Demo build — RSVP shows confirmation locally. A live version emails you each reply / saves to a sheet.</div>
+</div></section>
+
+<footer>AFTERGLOW · Sample build by Phorethought — phorethought.com</footer>
+<script>
+const target=new Date('2026-09-20T20:00:00').getTime();
+const d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m'),s=document.getElementById('s');
+function tick(){
+  const now=Date.now(),gap=Math.max(0,target-now);
+  const dd=Math.floor(gap/86400000),hh=Math.floor(gap%86400000/3600000),mm=Math.floor(gap%3600000/60000),ss=Math.floor(gap%60000/1000);
+  d.textContent=dd;h.textContent=String(hh).padStart(2,'0');m.textContent=String(mm).padStart(2,'0');s.textContent=String(ss).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();document.getElementById('form').style.display='none';document.getElementById('done').classList.add('show');});
+</script>
+</body>
+</html>

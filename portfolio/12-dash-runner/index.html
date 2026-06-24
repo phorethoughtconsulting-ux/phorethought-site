@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<title>PULSE DASH — a one-tap game by Phorethought</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#070713;font-family:'Inter',sans-serif;touch-action:none;user-select:none}
+  #c{display:block}
+  .ui{position:fixed;inset:0;pointer-events:none;z-index:2}
+  .top{position:absolute;top:18px;left:0;right:0;display:flex;justify-content:space-between;padding:0 26px;font-family:'Orbitron',sans-serif}
+  .top .s{font-size:14px;letter-spacing:2px;color:#9ad}.top .s b{color:#fff;font-size:20px}
+  .title{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:4px;font-size:18px;background:linear-gradient(90deg,#22e3ff,#c8ff2e);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(7,7,19,.78);backdrop-filter:blur(4px);z-index:3;text-align:center;padding:24px}
+  .overlay h2{font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(30px,7vw,52px);letter-spacing:2px;background:linear-gradient(90deg,#22e3ff,#c8ff2e);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .overlay p{color:#9ab;font-size:14px;max-width:300px}
+  .btn{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:2px;font-size:14px;padding:15px 34px;border:none;border-radius:40px;cursor:pointer;color:#070713;background:linear-gradient(90deg,#22e3ff,#c8ff2e);box-shadow:0 0 40px rgba(34,227,255,.4);pointer-events:auto;transition:transform .15s}
+  .btn:hover{transform:scale(1.05)}
+  .hidden{display:none}
+  .foot{position:fixed;bottom:16px;left:0;right:0;text-align:center;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;color:#445;z-index:2}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="ui">
+  <div class="title">PULSE&nbsp;DASH</div>
+  <div class="top"><div class="s">SCORE <b id="score">0</b></div><div class="s">BEST <b id="best">0</b></div></div>
+</div>
+<div class="overlay" id="ov">
+  <h2 id="ovt">PULSE DASH</h2>
+  <p id="ovp">Tap, click, or press Space to jump. Clear the spikes and blocks. One hit and you restart — how far can you go?</p>
+  <button class="btn" id="btn">PLAY</button>
+</div>
+<div class="foot">Sample build by Phorethought</div>
+<script>
+const cv=document.getElementById('c'),x=cv.getContext('2d');
+let W,H,DPR,G,groundY;
+function size(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';x.setTransform(DPR,0,0,DPR,0,0);groundY=H-Math.max(90,H*0.18);}
+size();addEventListener('resize',size);
+const scoreEl=document.getElementById('score'),bestEl=document.getElementById('best'),ov=document.getElementById('ov'),ovt=document.getElementById('ovt'),ovp=document.getElementById('ovp'),btn=document.getElementById('btn');
+let best=+(localStorage.getItem('pulsedash_best')||0);bestEl.textContent=best;
+const SIZE=34,GRAV=0.9,JUMP=15.5;
+let player,obs,speed,dist,running,hold,particles,spawnX,shake;
+function reset(){
+  player={x:Math.max(110,W*0.18),y:groundY-SIZE,vy:0,onGround:true,rot:0};
+  obs=[];speed=6.2;dist=0;particles=[];hold=false;shake=0;
+  spawnX=W+200;
+  for(let i=0;i<4;i++)addObstacle();
+}
+function addObstacle(){
+  const gap=260+Math.random()*220;       // fair, jumpable spacing
+  spawnX+=gap;
+  const r=Math.random();
+  if(r<0.62){ // spike(s)
+    const n=Math.random()<0.45?(Math.random()<0.5?2:3):1;
+    for(let i=0;i<n;i++)obs.push({t:'spike',x:spawnX+i*30,w:30,h:34});
+    spawnX+=(n-1)*30;
+  } else { // block
+    const h=40+Math.random()*40;obs.push({t:'block',x:spawnX,w:38,h});
+  }
+}
+function jump(){if(player.onGround&&running){player.vy=-JUMP;player.onGround=false;}}
+function press(){hold=true;jump();}
+function release(){hold=false;}
+addEventListener('keydown',e=>{if(e.code==='Space'||e.key==='ArrowUp'){e.preventDefault();press();}});
+addEventListener('keyup',e=>{if(e.code==='Space'||e.key==='ArrowUp')release();});
+cv.addEventListener('mousedown',press);cv.addEventListener('mouseup',release);
+cv.addEventListener('touchstart',e=>{e.preventDefault();press();},{passive:false});
+cv.addEventListener('touchend',e=>{e.preventDefault();release();},{passive:false});
+
+function boom(px,py){for(let i=0;i<24;i++)particles.push({x:px,y:py,vx:(Math.random()-.5)*11,vy:(Math.random()-.5)*11,life:1,c:Math.random()<.5?'#22e3ff':'#c8ff2e'});}
+function die(){running=false;shake=14;boom(player.x+SIZE/2,player.y+SIZE/2);
+  const sc=Math.floor(dist/10);if(sc>best){best=sc;localStorage.setItem('pulsedash_best',best);bestEl.textContent=best;}
+  ovt.textContent='GAME OVER';ovp.textContent='Score '+sc+'  ·  Best '+best;btn.textContent='RETRY';
+  setTimeout(()=>ov.classList.remove('hidden'),400);
+}
+let bgOff=0;
+function loop(){
+  if(!running){drawParticles();requestAnimationFrame(loop);return;}
+  dist+=speed;speed+=0.0016;
+  scoreEl.textContent=Math.floor(dist/10);
+  if(hold)jump();
+  // player physics
+  player.vy+=GRAV;player.y+=player.vy;
+  if(player.y>=groundY-SIZE){player.y=groundY-SIZE;player.vy=0;if(!player.onGround){player.rot=0;}player.onGround=true;}
+  else{player.onGround=false;player.rot+=0.17;}
+  // obstacles
+  for(const o of obs)o.x-=speed;
+  while(obs.length&&obs[0].x+ (obs[0].w||30) <-10)obs.shift();
+  spawnX-=speed;
+  if(obs.length<6)addObstacle();
+  // collision
+  const pad=6,pb={x:player.x+pad,y:player.y+pad,w:SIZE-pad*2,h:SIZE-pad*2};
+  for(const o of obs){
+    if(o.t==='spike'){
+      const sx=o.x,sw=o.w,base=groundY,top=groundY-o.h;
+      if(pb.x<sx+sw-4&&pb.x+pb.w>sx+4&&pb.y+pb.h>top+8){die();break;}
+    }else{
+      const bx=o.x,bw=o.w,by=groundY-o.h;
+      if(pb.x<bx+bw&&pb.x+pb.w>bx&&pb.y+pb.h>by){die();break;}
+    }
+  }
+  draw();requestAnimationFrame(loop);
+}
+function draw(){
+  x.save();
+  if(shake>0){x.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=0.85;if(shake<0.5)shake=0;}
+  // bg
+  const grd=x.createLinearGradient(0,0,0,H);grd.addColorStop(0,'#0a0a1e');grd.addColorStop(1,'#10122e');x.fillStyle=grd;x.fillRect(0,0,W,H);
+  // moving grid
+  bgOff=(bgOff+speed*0.5)%60;x.strokeStyle='rgba(90,120,255,0.10)';x.lineWidth=1;
+  for(let gx=-bgOff;gx<W;gx+=60){x.beginPath();x.moveTo(gx,0);x.lineTo(gx,groundY);x.stroke();}
+  for(let gy=0;gy<groundY;gy+=60){x.beginPath();x.moveTo(0,gy);x.lineTo(W,gy);x.stroke();}
+  // ground
+  x.fillStyle='#070716';x.fillRect(0,groundY,W,H-groundY);
+  x.strokeStyle='#22e3ff';x.lineWidth=3;x.shadowColor='#22e3ff';x.shadowBlur=16;
+  x.beginPath();x.moveTo(0,groundY);x.lineTo(W,groundY);x.stroke();x.shadowBlur=0;
+  // obstacles
+  for(const o of obs){
+    if(o.t==='spike'){x.fillStyle='#ff3ea5';x.shadowColor='#ff3ea5';x.shadowBlur=14;
+      x.beginPath();x.moveTo(o.x,groundY);x.lineTo(o.x+o.w/2,groundY-o.h);x.lineTo(o.x+o.w,groundY);x.closePath();x.fill();}
+    else{x.fillStyle='#9b6bff';x.shadowColor='#9b6bff';x.shadowBlur=14;x.fillRect(o.x,groundY-o.h,o.w,o.h);}
+  }
+  x.shadowBlur=0;
+  // player cube
+  const cx=player.x+SIZE/2,cy=player.y+SIZE/2;
+  x.save();x.translate(cx,cy);x.rotate(player.rot);
+  x.fillStyle='#c8ff2e';x.shadowColor='#c8ff2e';x.shadowBlur=20;
+  x.fillRect(-SIZE/2,-SIZE/2,SIZE,SIZE);
+  x.fillStyle='#070713';x.fillRect(-SIZE/6,-SIZE/6,SIZE/3,SIZE/3);
+  x.restore();x.shadowBlur=0;
+  drawParticles();
+  x.restore();
+}
+function drawParticles(){
+  for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.3;p.life-=0.03;
+    if(p.life<=0){particles.splice(i,1);continue;}
+    x.globalAlpha=p.life;x.fillStyle=p.c;x.fillRect(p.x,p.y,5,5);x.globalAlpha=1;}
+}
+function start(){ov.classList.add('hidden');reset();running=true;}
+btn.addEventListener('click',start);
+reset();draw();loop();
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You think it. — an interactive story by Phorethought</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#0b0b10}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--ink);color:#fff;overflow-x:hidden}
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#ff6ec4,#7873f5,#4ad0ff);z-index:50;width:0}
+  .serif{font-family:'Fraunces',serif}
+  section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;transition:background .8s ease}
+  .big{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(48px,11vw,140px);line-height:.95;letter-spacing:-2px}
+  .lead{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(32px,6vw,72px);line-height:1.08;letter-spacing:-1px;max-width:900px}
+  .small{font-size:clamp(16px,2.5vw,22px);color:#aab;font-weight:300;max-width:520px;margin-top:22px}
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .word{display:inline-block;opacity:0;transform:translateY(30px) rotate(4deg);transition:opacity .6s,transform .6s}
+  .word.in{opacity:1;transform:none}
+  .hint{position:fixed;bottom:26px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#556;z-index:40;transition:opacity .4s}
+  .accent{background:linear-gradient(90deg,#ff6ec4,#7873f5,#4ad0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cta-btn{margin-top:40px;display:inline-block;font-family:'Inter',sans-serif;font-weight:600;font-size:16px;color:#0b0b10;background:#fff;padding:16px 36px;border-radius:40px;text-decoration:none;transition:transform .15s}
+  .cta-btn:hover{transform:scale(1.05)}
+  .credit{position:fixed;top:18px;right:22px;font-size:11px;letter-spacing:2px;color:#667;z-index:40}
+  .skip{position:fixed;top:18px;left:22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#889;z-index:41;text-decoration:none;border:1px solid #2a2a3a;padding:6px 12px;border-radius:30px;transition:color .2s,border-color .2s}
+  .skip:hover{color:#fff;border-color:#667}
+</style>
+</head>
+<body>
+  <div class="progress" id="prog"></div>
+  <div class="credit">PHORETHOUGHT</div>
+  <a class="skip" href="../../index.html">Skip intro →</a>
+  <div class="hint" id="hint">Scroll ↓</div>
+
+  <section data-bg="#0b0b10">
+    <h1 class="big" id="hero"></h1>
+    <p class="small reveal">An idea is the easy part.</p>
+  </section>
+
+  <section data-bg="#15102a">
+    <p class="lead reveal">You've had it for <span class="accent">months.</span><br>Maybe years.</p>
+  </section>
+
+  <section data-bg="#0a1726">
+    <p class="lead reveal">The website. The app.<br>The tool you wish existed.</p>
+    <p class="small reveal">It's still in your head.</p>
+  </section>
+
+  <section data-bg="#1a0f14">
+    <p class="lead reveal">Because building it felt<br><span class="accent">impossible.</span></p>
+  </section>
+
+  <section data-bg="#0b1a14">
+    <p class="lead reveal">Not anymore.</p>
+    <p class="small reveal">You describe it. I build it. You own it.</p>
+  </section>
+
+  <section data-bg="#0b0b10">
+    <h2 class="big">You think it.<br><span class="accent">I create it.</span></h2>
+    <a class="cta-btn" href="../../index.html">Enter the site →</a>
+  </section>
+
+<script>
+// kinetic hero
+const hero=document.getElementById('hero');
+"EVERYTHING STARTS AS A THOUGHT".split(' ').forEach((w,i)=>{
+  const s=document.createElement('span');s.className='word';s.textContent=w+' ';s.style.transitionDelay=(i*.12)+'s';hero.appendChild(s);
+});
+// reveal observer
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.3});
+document.querySelectorAll('.reveal,.word').forEach(el=>io.observe(el));
+// bg color shift + progress
+const secs=[...document.querySelectorAll('section[data-bg]')];
+const prog=document.getElementById('prog'),hint=document.getElementById('hint');
+let ticking=false;
+function onScroll(){
+  if(ticking)return;ticking=true;
+  requestAnimationFrame(()=>{
+    const sc=scrollY,h=document.body.scrollHeight-innerHeight;
+    prog.style.width=(sc/h*100)+'%';
+    hint.style.opacity=sc>200?0:1;
+    // active section bg
+    let active=secs[0];
+    for(const s of secs){if(s.getBoundingClientRect().top<=innerHeight*0.5)active=s;}
+    document.body.style.background=active.dataset.bg;
+    ticking=false;
+  });
+}
+addEventListener('scroll',onScroll);onScroll();
+</script>
+</body>
+</html>

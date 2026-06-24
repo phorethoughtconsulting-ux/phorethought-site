@@ -592,19 +592,41 @@
   }
 
   /* ─── SELECTED WORK ─── */
-  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 50px; }
-  .work-card { display: block; background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
-  .work-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(10,15,30,0.10); border-color: var(--ink); }
-  .work-thumb { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--paper-warm); border-bottom: 1px solid var(--rule); }
-  .work-thumb iframe { position: absolute; top: 0; left: 0; width: 300%; height: 300%; border: 0; transform: scale(0.3333); transform-origin: 0 0; pointer-events: none; }
-  .work-thumb .view { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(10,15,30,0); opacity: 0; transition: opacity 0.25s, background 0.25s; }
-  .work-card:hover .work-thumb .view { opacity: 1; background: rgba(10,15,30,0.55); }
-  .work-thumb .view span { background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; padding: 11px 20px; border-radius: 8px; }
-  .work-meta { padding: 22px 24px; }
-  .work-meta .work-tag { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); letter-spacing: 1.5px; text-transform: uppercase; }
-  .work-meta .wt { font-family: var(--serif); font-size: 22px; color: var(--ink); margin: 6px 0 4px; }
-  .work-meta .wd { font-size: 14px; color: var(--ink-soft); }
-  @media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+  .work-intro { font-size: 17px; font-weight: 300; color: var(--ink-soft); line-height: 1.7; max-width: 620px; }
+  .work-group { margin-top: 46px; }
+  .work-group .gh { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .work-group .gh::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .work-card { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 24px; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+  .work-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(10,15,30,0.10); border-color: var(--ink); }
+  .work-card .tag { align-self: flex-start; font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); border: 1px solid rgba(26,86,219,0.3); border-radius: 30px; padding: 5px 11px; margin-bottom: 16px; }
+  .work-card .wt { font-family: var(--serif); font-size: 24px; color: var(--ink); margin-bottom: 6px; }
+  .work-card .wd { font-size: 14px; color: var(--ink-soft); flex: 1; line-height: 1.55; }
+  .work-card .view { margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 5px; }
+  .work-card:hover .view { color: var(--blue); }
+  @media (max-width: 860px) { .work-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .work-grid { grid-template-columns: 1fr; } }
+
+  /* ─── MOBILE ─── */
+  .nav-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--ink); cursor: pointer; line-height: 1; padding: 4px; }
+  @media (max-width: 680px) {
+    .nav-toggle { display: block; }
+    .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 6px 0; display: none; }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a { display: block; padding: 14px 32px; }
+    .nav-cta { display: inline-block; margin: 10px 32px; text-align: center; }
+    .hero { padding: 96px 20px 56px; }
+    .hero-headline { font-size: clamp(34px, 11vw, 60px); letter-spacing: -1px; }
+    .hero-sub { font-size: 16px; }
+    section { padding: 60px 20px; }
+    .section-title { font-size: clamp(26px, 7vw, 40px); }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; gap: 36px; }
+    .proof-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-stats { gap: 18px; }
+  }
 
   /* ─── ANIMATIONS ─── */
   @keyframes fadein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
@@ -621,10 +643,12 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">Phorethought</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
+      <li><a href="quote/index.html">Get a Quote</a></li>
       <li><a href="#contact" class="nav-cta">Let's talk</a></li>
     </ul>
   </div>
@@ -640,7 +664,7 @@
     Websites, tools, and automations — built and handed off. You never have to touch the tech.
   </p>
   <div class="hero-actions fadein fadein-d3">
-    <a href="#contact" class="btn-primary">Book a scope session</a>
+    <a href="quote/index.html" class="btn-primary">Get an instant quote</a>
     <a href="#work" class="btn-ghost">See the work →</a>
   </div>
   <div class="hero-scroll fadein fadein-d4">
@@ -808,59 +832,55 @@
 <section id="portfolio">
   <div class="section-inner">
     <div class="section-label">Selected Work</div>
-    <h2 class="section-title">Things I've built.</h2>
-    <p class="section-body">A few sample builds — different industries, different styles, the same standard. Click any to open the live site.</p>
-    <div class="work-grid">
+    <h2 class="section-title">I build more than websites.</h2>
+    <p class="work-intro">Games, tools, apps, and interactive experiences — and yes, sites too. Click any to open it live.</p>
 
-      <a class="work-card" href="portfolio/01-fitness-coach/index.html" target="_blank" rel="noopener">
-        <div class="work-thumb">
-          <iframe src="portfolio/01-fitness-coach/index.html" loading="lazy" title="FORGE — fitness coaching landing page"></iframe>
-          <div class="view"><span>View live ↗</span></div>
-        </div>
-        <div class="work-meta">
-          <div class="work-tag">Landing Page</div>
-          <div class="wt">FORGE</div>
-          <div class="wd">Online fitness coaching — bold, high-converting landing page.</div>
-        </div>
-      </a>
-
-      <a class="work-card" href="portfolio/02-course-creator/index.html" target="_blank" rel="noopener">
-        <div class="work-thumb">
-          <iframe src="portfolio/02-course-creator/index.html" loading="lazy" title="STILL — course creator sales page"></iframe>
-          <div class="view"><span>View live ↗</span></div>
-        </div>
-        <div class="work-meta">
-          <div class="work-tag">Course / Creator</div>
-          <div class="wt">STILL</div>
-          <div class="wd">A 6-week focus course — warm, editorial sales page.</div>
-        </div>
-      </a>
-
-      <a class="work-card" href="portfolio/03-saas-waitlist/index.html" target="_blank" rel="noopener">
-        <div class="work-thumb">
-          <iframe src="portfolio/03-saas-waitlist/index.html" loading="lazy" title="Nimbus — SaaS waitlist page"></iframe>
-          <div class="view"><span>View live ↗</span></div>
-        </div>
-        <div class="work-meta">
-          <div class="work-tag">SaaS / Product</div>
-          <div class="wt">Nimbus</div>
-          <div class="wd">AI notebook — product launch page with email capture.</div>
-        </div>
-      </a>
-
-      <a class="work-card" href="portfolio/04-photographer/index.html" target="_blank" rel="noopener">
-        <div class="work-thumb">
-          <iframe src="portfolio/04-photographer/index.html" loading="lazy" title="Elena Cross — photographer portfolio"></iframe>
-          <div class="view"><span>View live ↗</span></div>
-        </div>
-        <div class="work-meta">
-          <div class="work-tag">Portfolio</div>
-          <div class="wt">Elena Cross</div>
-          <div class="wd">Photographer portfolio — minimal, image-forward.</div>
-        </div>
-      </a>
-
+    <div class="work-group">
+      <div class="gh">Games</div>
+      <div class="work-grid">
+        <a class="work-card" href="portfolio/12-dash-runner/index.html" target="_blank" rel="noopener">
+          <span class="tag">Game · Reflex</span><div class="wt">Pulse Dash</div><div class="wd">A one-tap neon runner — real game loop, physics, and mobile controls.</div><span class="view">Play it ↗</span></a>
+        <a class="work-card" href="portfolio/05-game-breakout/index.html" target="_blank" rel="noopener">
+          <span class="tag">Game · Arcade</span><div class="wt">Neon Break</div><div class="wd">A playable brick-breaker with ball physics, levels, and scoring.</div><span class="view">Play it ↗</span></a>
+      </div>
     </div>
+
+    <div class="work-group">
+      <div class="gh">Interactive Experiences</div>
+      <div class="work-grid">
+        <a class="work-card" href="portfolio/07-interactive-art/index.html" target="_blank" rel="noopener">
+          <span class="tag">Interactive Art</span><div class="wt">Flow</div><div class="wd">A cursor-reactive generative art field — creative coding in motion.</div><span class="view">Try it ↗</span></a>
+        <a class="work-card" href="portfolio/11-scroll-story/index.html" target="_blank" rel="noopener">
+          <span class="tag">Immersive Story</span><div class="wt">You Think It</div><div class="wd">A scroll-driven, animated brand experience (also this site's intro).</div><span class="view">Experience it ↗</span></a>
+      </div>
+    </div>
+
+    <div class="work-group">
+      <div class="gh">Tools &amp; Apps</div>
+      <div class="work-grid">
+        <a class="work-card" href="portfolio/08-quote-calculator/index.html" target="_blank" rel="noopener">
+          <span class="tag">Tool · Booking</span><div class="wt">Booking Estimator</div><div class="wd">A photo/video booking calculator with live pricing — session, add-ons, instant quote.</div><span class="view">Use it ↗</span></a>
+        <a class="work-card" href="portfolio/01-course-portal/index.html" target="_blank" rel="noopener">
+          <span class="tag">App · Membership</span><div class="wt">Launch Lab</div><div class="wd">A gated course platform — lessons, progress tracking, and unlocks. Saves your progress.</div><span class="view">Open it ↗</span></a>
+        <a class="work-card" href="portfolio/10-event-invite/index.html" target="_blank" rel="noopener">
+          <span class="tag">System · RSVP</span><div class="wt">Afterglow</div><div class="wd">An event invite with a live countdown and a working RSVP form.</div><span class="view">Open it ↗</span></a>
+      </div>
+    </div>
+
+    <div class="work-group">
+      <div class="gh">Sites &amp; Launches</div>
+      <div class="work-grid">
+        <a class="work-card" href="portfolio/09-app-landing/index.html" target="_blank" rel="noopener">
+          <span class="tag">App Launch</span><div class="wt">Drift</div><div class="wd">A mobile-app landing with a phone mockup and App Store badges.</div><span class="view">View live ↗</span></a>
+        <a class="work-card" href="portfolio/03-saas-waitlist/index.html" target="_blank" rel="noopener">
+          <span class="tag">Product Launch</span><div class="wt">Nimbus</div><div class="wd">A SaaS launch page with an interactive demo and live waitlist.</div><span class="view">View live ↗</span></a>
+        <a class="work-card" href="portfolio/02-course-creator/index.html" target="_blank" rel="noopener">
+          <span class="tag">Course Funnel</span><div class="wt">Still</div><div class="wd">A course sales page with a tap-to-explore curriculum.</div><span class="view">View live ↗</span></a>
+        <a class="work-card" href="portfolio/04-photographer/index.html" target="_blank" rel="noopener">
+          <span class="tag">Portfolio Site</span><div class="wt">Elena Cross</div><div class="wd">A photographer's site with a click-to-open lightbox gallery.</div><span class="view">View live ↗</span></a>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -901,9 +921,8 @@
       <h2 class="cta-title">Have something<br><em>worth building?</em></h2>
       <p class="cta-body">Start with a scope session. 60 minutes. We'll figure out if this is the right fit and what it'll actually take to build it.</p>
       <div class="cta-actions">
-        <!-- TODO: Replace href with Calendly link once set up — e.g. https://calendly.com/phorethought/scope -->
-        <a href="mailto:nickion1000@gmail.com" class="btn-primary">Book a scope session</a>
-        <a href="https://instagram.com/phorethought" class="btn-ghost">Follow the work →</a>
+        <a href="quote/index.html" class="btn-primary">Get an instant quote</a>
+        <a href="mailto:nickion1000@gmail.com" class="btn-ghost">Or book a scope session →</a>
       </div>
       <p class="cta-note">No commitment. No proposal deck. Just a real conversation.</p>
     </div>
@@ -919,10 +938,17 @@
       <li><a href="#services">Services</a></li>
       <li><a href="https://myopsgrade.com" target="_blank">OpsGrade</a></li>
       <li><a href="mailto:nickion1000@gmail.com">Contact</a></li>
+      <li><a href="privacy/index.html">Privacy</a></li>
+      <li><a href="terms/index.html">Terms</a></li>
     </ul>
     <div class="footer-copy">© 2026 Phorethought</div>
   </div>
 </footer>
 
+<script>
+  (function(){var t=document.getElementById('navToggle'),n=document.getElementById('navLinks');
+   if(t&&n){t.onclick=function(){n.classList.toggle('open')};
+   n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
+</script>
 </body>
 </html>

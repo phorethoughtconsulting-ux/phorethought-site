@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NOVA — Flight Mode · interactive demo by Phorethought</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<meta name="description" content="NOVA — a playable cockpit-view space shooter that runs entirely in your browser. An interactive demo by Phorethought.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NOVA — Flight Mode · by Phorethought">
+<meta property="og:description" content="Take the controls of a browser-built space shooter — steer, boost, fire. An interactive demo by Phorethought.">
+<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/portfolio/15-mission-control/assets/og.png">
+<meta property="og:url" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/portfolio/15-mission-control/">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -85,9 +94,9 @@
   .boot{position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 50% 42%,#071427,#03060f 75%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .8s,visibility .8s;padding:24px}
   .boot.gone{opacity:0;visibility:hidden}
   .boot .nm{font-family:'Orbitron';font-weight:900;font-size:clamp(48px,11vw,116px);letter-spacing:10px;color:#fff;text-shadow:0 0 40px rgba(72,224,255,.6)}
-  .boot .tag{font-family:'DM Mono';font-size:13px;letter-spacing:5px;color:var(--cy);margin-top:10px}
-  .boot .ctrls{font-family:'DM Mono';font-size:12px;letter-spacing:1px;color:#7ea6cb;margin-top:26px;line-height:2}.boot .ctrls b{color:#fff}
-  .boot .enter{margin-top:26px;font-family:'Orbitron';font-weight:700;font-size:14px;letter-spacing:4px;color:#03060f;background:var(--cy);border:none;border-radius:40px;padding:15px 40px;cursor:pointer;box-shadow:0 0 30px rgba(72,224,255,.5)}
+  .boot .tag{font-family:'DM Mono';font-size:clamp(10px,3vw,13px);letter-spacing:clamp(2px,1.2vw,5px);color:var(--cy);margin-top:10px;max-width:94%}
+  .boot .ctrls{font-family:'DM Mono';font-size:clamp(11px,3vw,12px);letter-spacing:.5px;color:#7ea6cb;margin:26px auto 0;line-height:2;max-width:340px}.boot .ctrls b{color:#fff}
+  .boot .enter{margin-top:26px;font-family:'Orbitron';font-weight:700;font-size:clamp(12px,3.4vw,14px);letter-spacing:clamp(2px,1vw,4px);color:#03060f;background:var(--cy);border:none;border-radius:40px;padding:14px clamp(24px,7vw,40px);max-width:90%;cursor:pointer;box-shadow:0 0 30px rgba(72,224,255,.5)}
   .boot .enter:hover{background:#fff}
 
   .next{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 50% 45%,#0a1f3e,#03060f 72%);padding:24px}

@@ -95,7 +95,7 @@ function renderMain(){
     '<div class="navrow"><button class="btn btn-ghost" id="prev"'+(l.id===0?' disabled':'')+'>← Previous</button>'+
     (isDone?'<span class="done-badge">✓ Completed</span>':'')+
     '<button class="btn btn-fill" id="next">'+(l.id===LESSONS.length-1?(isDone?'Finished 🎉':'Mark complete ✓'):'Mark complete & continue →')+'</button></div>'+
-    '<div class="credit">Launch Lab · Sample build by Phorethought — phorethought.com</div>';
+    '<div class="credit">Launch Lab · Sample build by Phorethought — <a href="../../index.html" style="color:inherit;text-decoration:none">phorethought.com</a></div>';
   const prev=document.getElementById('prev');if(prev&&l.id>0)prev.onclick=()=>{cur=l.id-1;renderAll();};
   document.getElementById('next').onclick=()=>{done.add(l.id);localStorage.setItem(KEY,JSON.stringify([...done]));
     if(l.id<LESSONS.length-1)cur=l.id+1;renderAll();};

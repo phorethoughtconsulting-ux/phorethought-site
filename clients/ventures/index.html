@@ -111,6 +111,24 @@
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{transition:none}.scrollcue i{animation:none}}
+  /* concept preview overlay */
+  .poc{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(6,9,14,.88);backdrop-filter:blur(10px);transition:opacity .5s,visibility .5s}
+  .poc.gone{opacity:0;visibility:hidden}
+  .poc-card{max-width:480px;text-align:center;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line2);border-radius:18px;padding:44px 36px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .poc-card .poc-k{font-family:var(--disp);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:16px}
+  .poc-card h2{font-family:var(--disp);font-weight:700;font-size:clamp(23px,3.4vw,30px);letter-spacing:-.5px;line-height:1.14;margin-bottom:14px}
+  .poc-card p{color:var(--soft);font-weight:300;font-size:15px;margin-bottom:28px}
+  .poc-card button{font-family:var(--disp);font-weight:600;font-size:14px;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:14px 28px;cursor:pointer;transition:.2s}
+  .poc-card button:hover{background:#2f6fe0;transform:translateY(-1px)}
+  /* contact form */
+  .cform{max-width:540px;margin:34px auto 0;display:flex;flex-direction:column;gap:12px;text-align:left}
+  .cform .frow{display:flex;gap:12px}
+  .cform input,.cform textarea{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 16px;color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;resize:vertical}
+  .cform input:focus,.cform textarea:focus{border-color:var(--blue)}
+  .cform button{align-self:center;margin-top:4px}
+  .cdone{display:none;max-width:540px;margin:24px auto 0;color:var(--blue2);font-family:var(--disp);font-weight:500}
+  .cdone.show{display:block}
+  @media(max-width:560px){.cform .frow{flex-direction:column}}
 
   @media(max-width:880px){
     .nlinks{display:none}.navtog{display:block}
@@ -123,6 +141,13 @@
 </style>
 </head>
 <body>
+
+<div class="poc" id="poc"><div class="poc-card">
+  <div class="poc-k">Concept Preview · Built by Phorethought</div>
+  <h2>Vincent — a concept for your ventures.</h2>
+  <p>A first look at how your site could feel. The copy, stats, and contact details are samples for now — explore it, then tell us what to change.</p>
+  <button id="pocgo">Explore the concept →</button>
+</div></div>
 
 <nav>
   <div class="nav">
@@ -232,21 +257,36 @@
     <div class="eyebrow slabel reveal" style="justify-content:center">Get in touch</div>
     <h2 class="stitle reveal">Which lane do you need?</h2>
     <p class="ssub reveal">Tell me what you're after and I'll point you the right way. One message gets it started.</p>
-    <div class="cbtns reveal">
-      <a href="mailto:hello@example.com" class="btn solid">Email me</a>
-      <a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" class="btn ghost">First Call Handyman ↗</a>
-    </div>
+    <form class="cform reveal" id="cform">
+      <div class="frow"><input id="cf-name" placeholder="Your name" required><input id="cf-email" type="email" placeholder="Email" required></div>
+      <textarea id="cf-msg" rows="4" placeholder="What do you need help with?"></textarea>
+      <button class="btn solid" type="submit">Send message</button>
+    </form>
+    <div class="cdone" id="cdone">✓ Thanks — your message is on its way. I'll be in touch shortly.</div>
+    <div class="reveal" style="margin-top:20px"><a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" style="color:var(--soft);font-size:14px;border-bottom:1px solid var(--line2)">Looking for contracting? Visit First Call Handyman ↗</a></div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot">
     <a href="#top" class="logo">V <b>Barnes</b></a>
-    <small>© 2026 V Barnes · Financial · Fitness · Business · Contracting</small>
+    <small>© 2026 V Barnes · A concept by Phorethought</small>
   </div>
 </footer>
 
 <script>
+  // concept preview overlay (frames it for the owner)
+  (function(){var p=document.getElementById('poc'),b=document.getElementById('pocgo');if(!p)return;
+   try{if(sessionStorage.getItem('vbpoc'))p.classList.add('gone');}catch(e){}
+   if(b)b.onclick=function(){p.classList.add('gone');try{sessionStorage.setItem('vbpoc','1')}catch(e){}};})();
+  // contact form (POC — wire a Formspree endpoint before real launch)
+  (function(){var f=document.getElementById('cform');if(!f)return;
+   f.addEventListener('submit',function(e){e.preventDefault();
+     var n=(document.getElementById('cf-name').value||'').trim(),em=(document.getElementById('cf-email').value||'').trim();
+     if(!n||em.indexOf('@')<0){return;}
+     f.style.display='none';document.getElementById('cdone').classList.add('show');
+   });})();
+
   // mobile nav
   (function(){var t=document.getElementById('navtog'),n=document.getElementById('nlinks');
    if(t&&n){t.onclick=()=>n.classList.toggle('open');n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>n.classList.remove('open')));}})();

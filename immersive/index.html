@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phorethought — the signature · immersive</title>
+<meta name="description" content="The studio signature, in real time: a system that spells Phorethought, falls like glass, and rebuilds. By Phorethought.">
+<meta name="theme-color" content="#06080f">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--gold:#e7ad55;--soft:rgba(255,255,255,.62);--ghost:rgba(255,255,255,.34);
+    --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;}
+  html,body{height:100%}
+  body{background:#05060c;color:#fff;font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #app{position:fixed;inset:0}canvas{display:block;cursor:grab;touch-action:none}canvas:active{cursor:grabbing}
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:5;background:radial-gradient(72% 64% at 50% 46%,transparent 40%,rgba(2,3,7,.8) 100%)}
+  .grain{position:fixed;inset:-50%;pointer-events:none;z-index:6;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1.2s steps(3) infinite}
+  @keyframes gr{0%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}100%{transform:translate(2%,-2%)}}
+  .ui{position:fixed;inset:0;z-index:10;pointer-events:none}
+  .eyebrow{position:absolute;top:28px;left:32px;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ghost);display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);opacity:.7}
+  .switch{position:absolute;top:24px;right:28px;pointer-events:auto;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--soft);text-decoration:none;border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:9px 16px;transition:.2s}
+  .switch:hover{color:#fff;border-color:var(--gold)}
+  /* editorial type beat */
+  .beat{position:absolute;left:0;right:0;bottom:84px;text-align:center;opacity:0;pointer-events:none;padding:0 24px}
+  .beat .k{font-family:var(--mono);font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .beat .l{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(20px,3vw,34px);line-height:1.1;color:#f2ebdd}
+  .hint{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ghost);text-align:center;transition:opacity .6s}
+  .hint.gone{opacity:0}
+  .enter{position:absolute;right:32px;bottom:46px;pointer-events:auto;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#06080f;background:var(--gold);border-radius:40px;padding:13px 24px;text-decoration:none;opacity:0;transition:opacity 1s 2s}
+  .enter.on{opacity:1}
+  .ctl{position:absolute;left:32px;bottom:44px;display:flex;gap:8px}
+  .btn{pointer-events:auto;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--soft);background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:11px 15px;cursor:pointer;transition:.2s}
+  .btn:hover{color:#fff;border-color:var(--gold)}
+  .boot{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:#05060c;transition:opacity 1s}.boot.gone{opacity:0;visibility:hidden}
+  .boot .b{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--ghost);animation:pulse 1.6s infinite}@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.9}}
+  .fallback{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;background:radial-gradient(60% 50% at 50% 40%,#141a30,#05060c)}.fallback.show{display:flex}.fallback h2{font-family:var(--serif);font-size:30px;margin-bottom:10px}.fallback p{color:var(--soft);font-weight:300;max-width:400px}
+  @media(max-width:600px){.ctl{bottom:74px}}
+  @media(prefers-reduced-motion:reduce){.grain{animation:none}}
+</style>
+</head>
+<body>
+<div id="app"></div><div class="vignette"></div><div class="grain"></div>
+<div class="ui">
+  <div class="eyebrow">Phorethought // Immersive</div>
+  <a class="switch" href="../index.html">◑ Switch vibe</a>
+  <div class="beat" id="beat"><div class="k">The studio, in motion</div><div class="l">you think it, we create it.</div></div>
+  <div class="hint" id="hint">drag to spin · it builds · falls · rebuilds</div>
+  <a class="enter" id="enter" href="../portfolio/14-studio/index.html">Step inside →</a>
+  <div class="ctl"><button class="btn" id="reset">⟲ Reset</button><button class="btn" id="mute">♪ Sound</button></div>
+</div>
+<div class="boot" id="boot"><div class="b">Composing…</div></div>
+<div class="fallback" id="fallback"><div><h2>Real-time 3D unavailable</h2><p>Open in Chrome, Edge, or Safari to see it build.</p></div></div>
+
+<script type="importmap">
+{ "imports": { "three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+(async function(){
+ try{
+  await (document.fonts?document.fonts.ready:Promise.resolve());
+  const $=id=>document.getElementById(id);
+  const app=$('app');
+  const renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);
+  renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
+  app.appendChild(renderer.domElement);
+
+  const scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x06080f,0.021);
+  const bgc=document.createElement('canvas');bgc.width=512;bgc.height=512;const bx=bgc.getContext('2d');
+  const bgg=bx.createRadialGradient(256,300,20,256,300,400);bgg.addColorStop(0,'#241a0e');bgg.addColorStop(0.42,'#101322');bgg.addColorStop(1,'#05060c');
+  bx.fillStyle=bgg;bx.fillRect(0,0,512,512);const bgt=new THREE.CanvasTexture(bgc);bgt.colorSpace=THREE.SRGBColorSpace;scene.background=bgt;
+
+  const camera=new THREE.PerspectiveCamera(46,innerWidth/innerHeight,0.1,100);
+  camera.position.set(0,1.4,16.5);camera.lookAt(0,-0.5,0);
+
+  // sample wordmark -> TXT
+  const tc=document.createElement('canvas');tc.width=1600;tc.height=760;const tx=tc.getContext('2d');
+  tx.fillStyle='#fff';tx.textAlign='center';tx.textBaseline='middle';tx.font='230px "DM Serif Display", Georgia, serif';
+  tx.fillText('PHORE',800,250);tx.fillText('THOUGHT',800,530);
+  const idd=tx.getImageData(0,0,1600,760).data, tp=[];
+  const ST=innerWidth<700?7:5;
+  for(let y=0;y<760;y+=ST){for(let x=0;x<1600;x+=ST){ if(idd[(y*1600+x)*4+3]>130){ tp.push((x-800)/112,-(y-380)/112,(Math.random()-0.5)*0.6); }}}
+  const P=tp.length/3|0;
+  const TXT=new Float32Array(tp), WEB=new Float32Array(P*3), FAL=new Float32Array(P*3), FD=new Float32Array(P), cur=new Float32Array(P*3);
+  const GA=Math.PI*(3-Math.sqrt(5)); // golden angle -> composed, even shell (reduction)
+  for(let i=0;i<P;i++){
+    const yy=1-(i/(P-1))*2, rad=Math.sqrt(Math.max(0,1-yy*yy)), th=i*GA, R=6.2+((i%7)-3)*0.13;
+    WEB[i*3]=Math.cos(th)*rad*R; WEB[i*3+1]=yy*R*0.86; WEB[i*3+2]=Math.sin(th)*rad*R;
+    FAL[i*3]=(Math.random()-0.5)*18; FAL[i*3+1]=-4.1+Math.random()*0.45; FAL[i*3+2]=(Math.random()-0.5)*10;
+    FD[i]=Math.random()*0.35;
+    cur[i*3]=WEB[i*3];cur[i*3+1]=WEB[i*3+1];cur[i*3+2]=WEB[i*3+2];
+  }
+
+  // dust sprite
+  const dot=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const rg=g.createRadialGradient(32,32,0,32,32,32);rg.addColorStop(0,'#fff');rg.addColorStop(0.3,'#ffd9a0');rg.addColorStop(1,'rgba(231,173,85,0)');g.fillStyle=rg;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);})();
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(cur,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:0.13,map:dot,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:0xffe6b8}));
+  const group=new THREE.Group();group.add(pts);scene.add(group);
+
+  // sparser, composed edges (geodesic-like on the shell)
+  const step=Math.max(1,Math.floor(P/90)), nodeIdx=[];
+  for(let i=0;i<P;i+=step)nodeIdx.push(i);
+  const EE=[];
+  for(let a=0;a<nodeIdx.length;a++)for(let b=a+1;b<nodeIdx.length;b++){
+    const i=nodeIdx[a],j=nodeIdx[b],dx=WEB[i*3]-WEB[j*3],dy=WEB[i*3+1]-WEB[j*3+1],dz=WEB[i*3+2]-WEB[j*3+2];
+    if(dx*dx+dy*dy+dz*dz<6.8)EE.push(i,j);
+  }
+  const epos=new Float32Array(EE.length*3);
+  const egeo=new THREE.BufferGeometry();egeo.setAttribute('position',new THREE.BufferAttribute(epos,3));
+  const edges=new THREE.LineSegments(egeo,new THREE.LineBasicMaterial({color:0xe7ad55,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));
+  group.add(edges);
+
+  // glass shards (real glints that catch light as it falls)
+  const glint=(()=>{const c=document.createElement('canvas');c.width=c.height=96;const g=c.getContext('2d');g.translate(48,48);
+    const core=g.createRadialGradient(0,0,0,0,0,18);core.addColorStop(0,'rgba(255,255,255,.95)');core.addColorStop(1,'rgba(255,240,210,0)');g.fillStyle=core;g.beginPath();g.arc(0,0,18,0,7);g.fill();
+    for(let k=0;k<2;k++){g.rotate(Math.PI/2);const lg=g.createLinearGradient(-46,0,46,0);lg.addColorStop(0,'rgba(255,236,200,0)');lg.addColorStop(.5,'rgba(255,240,210,.9)');lg.addColorStop(1,'rgba(255,236,200,0)');g.fillStyle=lg;g.fillRect(-46,-2,92,4);}
+    return new THREE.CanvasTexture(c);})();
+  const shards=[];
+  for(let i=0;i<14;i++){
+    const m=new THREE.SpriteMaterial({map:glint,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0,color:0xfff0d2});
+    const s=new THREE.Sprite(m);s.scale.set(0.9,0.9,1);group.add(s);
+    const ti=(Math.random()*P|0)*3;
+    shards.push({s, ox:TXT[ti],oy:TXT[ti+1],oz:TXT[ti+2], fx:(Math.random()-0.5)*16, fy:-3.9+Math.random()*0.4, fz:(Math.random()-0.5)*9, d:Math.random()*0.3, rot:Math.random()*6.28, rs:(Math.random()-0.5)*4});
+  }
+
+  // moving warm key-light (rake) behind, during the wordmark beat
+  const rake=new THREE.Sprite(new THREE.SpriteMaterial({map:dot,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0,color:0xffdca0}));
+  rake.scale.set(13,13,1);rake.position.z=-4;group.add(rake);
+
+  const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,camera));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.6,0.62,0.62));composer.addPass(new OutputPass());
+
+  // ---- audio (drone + glass chime), lazy on first interaction ----
+  let AC=null,outG=null,muted=false,audioReady=false;
+  function initAudio(){
+    if(audioReady) return; const C=window.AudioContext||window.webkitAudioContext; if(!C) return; audioReady=true;
+    AC=new C(); outG=AC.createGain(); outG.gain.value=muted?0:0.9; outG.connect(AC.destination);
+    const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=240;lp.connect(outG);
+    [55,55.4,82.4].forEach((f,i)=>{const o=AC.createOscillator();o.type=i<2?'sine':'triangle';o.frequency.value=f;const g=AC.createGain();g.gain.value=i<2?0.05:0.02;o.connect(g);g.connect(lp);o.start();});
+  }
+  function chime(){ if(!AC||muted)return; const now=AC.currentTime; [1318,1568,1976,2349].forEach((f,i)=>{const o=AC.createOscillator();o.type='sine';o.frequency.value=f;const g=AC.createGain();const t0=now+i*0.06;g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(0.09,t0+0.01);g.gain.exponentialRampToValueAtTime(0.0008,t0+1.3);o.connect(g);g.connect(outG);o.start(t0);o.stop(t0+1.4);}); }
+  $('mute').onclick=()=>{ muted=!muted; $('mute').textContent=muted?'♪ Muted':'♪ Sound'; if(outG)outG.gain.setTargetAtTime(muted?0:0.9,AC.currentTime,0.05); };
+
+  // ---- spin + controls ----
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let ry=0,rx=0,try_=0,trx=0,dragging=false,lx=0,ly=0,auto=!reduce;
+  addEventListener('pointerdown',e=>{initAudio();dragging=true;auto=false;lx=e.clientX;ly=e.clientY;$('hint').classList.add('gone');});
+  addEventListener('pointerup',()=>dragging=false);
+  addEventListener('pointermove',e=>{ if(dragging){ try_+=(e.clientX-lx)*0.01; trx+=(e.clientY-ly)*0.008; trx=Math.max(-1.1,Math.min(1.1,trx)); lx=e.clientX;ly=e.clientY; } });
+  addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);composer.setSize(innerWidth,innerHeight);});
+  $('reset').onclick=()=>{ try_=0;trx=0;auto=!reduce;$('hint').classList.remove('gone'); };
+
+  // ---- morph cycle ----
+  const LOOP=21.0;
+  const eIO=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2, eIn=x=>x*x, eOut=x=>1-Math.pow(1-x,2), cl=x=>Math.max(0,Math.min(1,x));
+  const clk=new THREE.Clock();let started=false,prevSeg=-1;
+  function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    const t=clk.getElapsedTime(), cy=t%LOOP;
+    let seg,f,webness,typeR;
+    if(cy<4.0){seg=0;f=0;webness=1;typeR=0;}
+    else if(cy<8.0){seg=1;f=(cy-4.0)/4.0;webness=1-eIO(f);typeR=cl((f-0.55)*2.2);}
+    else if(cy<11.0){seg=2;f=0;webness=0;typeR=1;}
+    else if(cy<14.0){seg=3;f=(cy-11.0)/3.0;webness=0;typeR=1-eIO(f);}
+    else if(cy<15.5){seg=4;f=0;webness=0;typeR=0;}
+    else{seg=5;f=(cy-15.5)/5.5;webness=eIO(f);typeR=0;}
+
+    if(seg===3&&prevSeg!==3) chime();
+    prevSeg=seg;
+
+    for(let i=0;i<P;i++){
+      const k=i*3; let ax,ay,az,bxp,byp,bzp,e;
+      if(seg===0){ax=WEB[k];ay=WEB[k+1];az=WEB[k+2];bxp=ax;byp=ay;bzp=az;e=0;}
+      else if(seg===1){ax=WEB[k];ay=WEB[k+1];az=WEB[k+2];bxp=TXT[k];byp=TXT[k+1];bzp=TXT[k+2];e=eIO(f);}
+      else if(seg===2){ax=TXT[k];ay=TXT[k+1];az=TXT[k+2];bxp=ax;byp=ay;bzp=az;e=0;}
+      else if(seg===3){ax=TXT[k];ay=TXT[k+1];az=TXT[k+2];bxp=FAL[k];byp=FAL[k+1];bzp=FAL[k+2];e=eIn(cl((f-FD[i])/0.65));}
+      else if(seg===4){ax=FAL[k];ay=FAL[k+1];az=FAL[k+2];bxp=ax;byp=ay;bzp=az;e=0;}
+      else{ax=FAL[k];ay=FAL[k+1];az=FAL[k+2];bxp=WEB[k];byp=WEB[k+1];bzp=WEB[k+2];e=eOut(f);}
+      cur[k]=ax+(bxp-ax)*e; cur[k+1]=ay+(byp-ay)*e; cur[k+2]=az+(bzp-az)*e;
+    }
+    geo.attributes.position.needsUpdate=true;
+
+    if(webness>0.01){ for(let e2=0;e2<EE.length;e2++){const idx=EE[e2]*3;epos[e2*3]=cur[idx];epos[e2*3+1]=cur[idx+1];epos[e2*3+2]=cur[idx+2];} egeo.attributes.position.needsUpdate=true; }
+    edges.material.opacity=webness*0.28;
+
+    // editorial beat + light rake
+    $('beat').style.opacity=typeR.toFixed(3);
+    rake.material.opacity=typeR*0.32; rake.position.x=Math.sin(t*0.35)*5;
+
+    // glass shards (visible only as it falls + settles)
+    let shOp=0, shE=0;
+    if(seg===3){shOp=eOut(f);} else if(seg===4){shOp=1;} else if(seg===5){shOp=1-eOut(f);}
+    for(const sh of shards){
+      sh.s.material.opacity=shOp*0.9;
+      if(shOp>0.001){
+        let pe = seg===3? eIn(cl((f-sh.d)/0.7)) : 1; // fall progress
+        sh.s.position.set(sh.ox+(sh.fx-sh.ox)*pe, sh.oy+(sh.fy-sh.oy)*pe, sh.oz+(sh.fz-sh.oz)*pe);
+        sh.s.material.rotation = sh.rot + t*sh.rs*0.25;
+        const sc=0.9+pe*0.5; sh.s.scale.set(sc,sc,1);
+      }
+    }
+
+    if(auto)try_+=0.0015;
+    ry+=(try_-ry)*0.06; rx+=(trx-rx)*0.06;
+    group.rotation.y=ry; group.rotation.x=rx;
+    composer.render();
+    if(!started){started=true;$('boot').classList.add('gone');$('enter').classList.add('on');}
+  }
+  loop();
+ }catch(e){document.getElementById('boot').classList.add('gone');document.getElementById('fallback').classList.add('show');console.error(e);}
+})();
+</script>
+</body>
+</html>

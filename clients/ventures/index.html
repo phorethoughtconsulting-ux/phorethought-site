@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vincent Barnes — Ventures</title>
-<meta name="description" content="Vincent Barnes — financial advising, personal training, business coaching, and general contracting. One operator, four ventures.">
+<title>Vincent Barnes — Builder · Investor · Veteran · Educator</title>
+<meta name="description" content="Vincent Barnes — Navy veteran, builder, real estate investor, and educator. His story, his businesses including First Call Handyman, and the resources he shares on business, money, and leadership.">
 <meta name="theme-color" content="#0a0d14">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0d14'/%3E%3Cpath d='M9 9l7 14 7-14' fill='none' stroke='%233b82f6' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vincent Barnes — Ventures">
-<meta property="og:description" content="Financial advising, personal training, business coaching, and general contracting. One operator, four ventures.">
+<meta property="og:title" content="Vincent Barnes — Builder · Investor · Veteran · Educator">
+<meta property="og:description" content="Navy veteran, builder, real estate investor, and educator. His story, his businesses, and the resources he shares.">
 <meta property="og:image" content="assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
   :root{
     --bg:#0a0d14; --bg2:#0e131d; --surface:#141a26; --surface2:#19202e;
     --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-    --ink:#eaeef5; --soft:#9aa4b6; --ghost:#5d6679;
+    --ink:#eaeef5; --soft:#a6b0c2; --ghost:#7d889c;
     --blue:#3b82f6; --blue2:#60a5fa; --bluedeep:#1e3a8a;
     --disp:'Space Grotesk',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif;
   }
@@ -26,7 +26,7 @@
   body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
-  .eyebrow{font-family:var(--disp);font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--blue2);display:flex;align-items:center;gap:10px}
+  .eyebrow{font-family:var(--disp);font-size:12.5px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--blue2);display:flex;align-items:center;gap:10px}
   .eyebrow::before{content:'';width:26px;height:1px;background:var(--blue)}
 
   /* NAV */
@@ -34,23 +34,25 @@
   .nav{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:1180px;margin:0 auto;padding:0 28px}
   .logo{font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:.5px}
   .logo b{color:var(--blue2)}
-  .nlinks{display:flex;align-items:center;gap:30px;list-style:none}
-  .nlinks a{font-size:14px;color:var(--soft);transition:color .2s}.nlinks a:hover{color:var(--ink)}
+  .nlinks{display:flex;align-items:center;gap:28px;list-style:none}
+  .nlinks a{font-size:14.5px;color:var(--soft);transition:color .2s}.nlinks a:hover{color:var(--ink)}
   .nbtn{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.5px;background:var(--blue);color:#fff;padding:9px 18px;border-radius:8px;transition:background .2s}.nbtn:hover{background:#2f6fe0}
   .navtog{display:none;background:none;border:none;color:var(--ink);font-size:24px;cursor:pointer}
 
   /* HERO */
-  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:90px 0 60px}
   #fx{position:absolute;inset:0;z-index:0;opacity:.7}
   .hero::after{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(46% 56% at 32% 42%,rgba(59,130,246,.12),transparent 70%),radial-gradient(70% 90% at 20% 30%,transparent,rgba(10,13,20,.5)),linear-gradient(180deg,transparent 60%,var(--bg))}
   .hero .wrap{position:relative;z-index:2;width:100%}
-  .hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:1.02;letter-spacing:-2px;margin:22px 0 18px}
-  .hero h1 .blue{color:var(--blue2);text-shadow:0 0 44px rgba(59,130,246,.4)}
-  .hero .lead{font-size:clamp(16px,2.4vw,20px);font-weight:300;color:var(--soft);max-width:560px}
-  .hero .roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+  .hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(46px,9vw,104px);line-height:1;letter-spacing:-2.5px;margin:20px 0 14px}
+  .hero h1 b{color:var(--blue2);text-shadow:0 0 44px rgba(59,130,246,.4)}
+  .tagline{font-family:var(--disp);font-weight:500;font-size:clamp(19px,3vw,30px);letter-spacing:-.5px;color:var(--ink);margin-bottom:20px}
+  .tagline .dot{color:var(--blue2)}
+  .hero .lead{font-size:clamp(16px,2.4vw,20px);font-weight:300;color:var(--soft);max-width:580px}
+  .hero .roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
   .role{font-family:var(--disp);font-size:13px;font-weight:500;letter-spacing:.5px;color:var(--ink);border:1px solid var(--line2);border-radius:30px;padding:8px 16px;background:rgba(255,255,255,.02)}
-  .hero .cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
-  .btn{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.4px;padding:14px 26px;border-radius:9px;transition:.2s;cursor:pointer;border:none}
+  .hero .cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .btn{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.4px;padding:14px 26px;border-radius:9px;transition:.2s;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:8px}
   .btn.solid{background:var(--blue);color:#fff}.btn.solid:hover{background:#2f6fe0;transform:translateY(-1px)}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}.btn.ghost:hover{border-color:var(--blue);color:var(--blue2)}
   .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--disp);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ghost);display:flex;align-items:center;gap:8px}
@@ -58,105 +60,130 @@
   @keyframes cue{0%,100%{opacity:.3}50%{opacity:1}}
 
   /* SECTION */
-  section{padding:110px 0}
+  section{padding:104px 0}
   .slabel{margin-bottom:18px}
-  .stitle{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,48px);letter-spacing:-1px;line-height:1.08}
-  .ssub{color:var(--soft);font-weight:300;max-width:560px;margin-top:14px}
-
-  /* VENTURES — interactive selector */
-  #ventures{background:linear-gradient(180deg,var(--bg),var(--bg2))}
-  .vgrid{display:grid;grid-template-columns:340px 1fr;gap:28px;margin-top:48px}
-  .vlist{display:flex;flex-direction:column;gap:10px}
-  .vtab{display:flex;align-items:center;gap:16px;padding:18px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;transition:.22s;text-align:left}
-  .vtab:hover{border-color:var(--line2)}
-  .vtab.on{border-color:var(--blue);background:var(--surface2);box-shadow:0 0 0 1px var(--blue) inset}
-  .vtab .ic{width:38px;height:38px;flex-shrink:0;color:var(--blue2);display:flex;align-items:center;justify-content:center}
-  .vtab .ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .vtab .tt{font-family:var(--disp);font-weight:600;font-size:16px}
-  .vtab .tn{font-size:12px;color:var(--ghost);font-family:var(--disp);letter-spacing:1px}
-  .vpanel{position:relative;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:40px;min-height:380px;overflow:hidden}
-  .vpanel::before{content:'';position:absolute;top:0;right:0;width:340px;height:340px;background:radial-gradient(circle at 70% 0%,rgba(59,130,246,.16),transparent 60%);pointer-events:none}
-  .vcontent{position:relative;display:none;animation:fade .5s ease}
-  .vcontent.on{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  .vcontent .vnum{font-family:var(--disp);font-size:13px;letter-spacing:2px;color:var(--blue2)}
-  .vcontent h3{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3vw,34px);letter-spacing:-.5px;margin:8px 0 14px}
-  .vcontent p{color:var(--soft);font-weight:300;max-width:520px}
-  .vcontent ul{list-style:none;margin:24px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;max-width:560px}
-  .vcontent li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink)}
-  .vcontent li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:8px;flex-shrink:0}
-  .vcontent .vcta{display:inline-flex;align-items:center;gap:8px;margin-top:30px;font-family:var(--disp);font-weight:600;font-size:14px;color:#fff;background:var(--blue);padding:13px 22px;border-radius:9px;transition:.2s}
-  .vcontent .vcta:hover{background:#2f6fe0;transform:translateY(-1px)}
-  .vcontent .vcta.out{background:transparent;border:1px solid var(--line2);color:var(--blue2)}.vcontent .vcta.out:hover{border-color:var(--blue)}
+  .stitle{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,46px);letter-spacing:-1px;line-height:1.08}
+  .ssub{color:var(--soft);font-weight:300;font-size:17px;max-width:580px;margin-top:14px}
 
   /* ABOUT */
-  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center;margin-top:40px}
-  .about p{color:var(--soft);font-weight:300;font-size:17px;margin-bottom:16px}.about p strong{color:var(--ink);font-weight:600}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-  .stat{border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--surface)}
-  .stat .n{font-family:var(--disp);font-weight:700;font-size:38px;color:var(--blue2);line-height:1}
-  .stat .l{font-size:13px;color:var(--soft);margin-top:6px}
+  #about{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+  .about-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start;margin-top:40px}
+  .about p{color:var(--soft);font-size:17px;margin-bottom:16px}.about p strong{color:var(--ink);font-weight:600}
+  .idcards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .idcard{border:1px solid var(--line);border-radius:14px;padding:22px 20px;background:var(--surface)}
+  .idcard .ic{width:34px;height:34px;color:var(--blue2);margin-bottom:12px}
+  .idcard .ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .idcard h4{font-family:var(--disp);font-weight:600;font-size:15.5px}
 
-  /* CONTACT */
-  #contact{background:linear-gradient(180deg,var(--bg2),var(--bg));text-align:center}
-  #contact .stitle{margin-top:18px}
-  #contact .ssub{margin:14px auto 0}
-  .cbtns{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+  /* WHAT I DO */
+  .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+  .dcard{border:1px solid var(--line);border-radius:16px;padding:28px 24px;background:var(--surface);transition:.22s}
+  .dcard:hover{border-color:var(--line2);transform:translateY(-3px);background:var(--surface2)}
+  .dcard .ic{width:42px;height:42px;color:var(--blue2);margin-bottom:16px;display:flex;align-items:center}
+  .dcard .ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .dcard h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:8px}
+  .dcard p{color:var(--soft);font-size:14.5px}
+
+  /* TOPICS */
+  .topicwrap{margin-top:58px;border-top:1px solid var(--line);padding-top:42px}
+  .topicwrap .th{font-family:var(--disp);font-weight:600;font-size:15px;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .topicwrap .th::before{content:'';width:18px;height:1px;background:var(--blue)}
+  .topics{display:flex;flex-wrap:wrap;gap:11px}
+  .topic{font-family:var(--disp);font-size:14px;font-weight:500;color:var(--ink);border:1px solid var(--line2);border-radius:30px;padding:10px 18px;background:rgba(59,130,246,.06);transition:.2s}
+  .topic:hover{border-color:var(--blue);color:var(--blue2)}
+
+  /* BUSINESSES */
+  #businesses{background:linear-gradient(180deg,var(--bg2),var(--bg))}
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:46px}
+  .bcard{position:relative;border:1px solid var(--line);border-radius:16px;padding:30px 28px;background:var(--surface);transition:.22s;display:block}
+  .bcard:hover{border-color:var(--line2);transform:translateY(-3px)}
+  .bcard.live{border-color:rgba(59,130,246,.5)}
+  .badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--disp);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:30px;margin-bottom:16px}
+  .badge.on{color:#bfe0ff;background:rgba(59,130,246,.16)}
+  .badge.on::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue2);box-shadow:0 0 8px var(--blue2)}
+  .badge.dev{color:var(--ghost);background:rgba(255,255,255,.04);border:1px solid var(--line)}
+  .bcard h3{font-family:var(--disp);font-weight:600;font-size:21px;margin-bottom:8px}
+  .bcard p{color:var(--soft);font-size:15px;max-width:440px}
+  .bcard .blink{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-family:var(--disp);font-weight:600;font-size:13.5px;color:var(--blue2)}
+  .bcard.live:hover .blink{gap:11px}
+
+  /* RESOURCES */
+  .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:46px}
+  .rcard{border:1px solid var(--line);border-radius:14px;padding:26px 22px;background:var(--surface);transition:.22s}
+  .rcard:hover{border-color:var(--line2)}
+  .rcard .ic{width:34px;height:34px;color:var(--blue2);margin-bottom:14px}
+  .rcard .ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .rcard h4{font-family:var(--disp);font-weight:600;font-size:16px;margin-bottom:7px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .rcard p{color:var(--soft);font-size:14px}
+  .soon{font-family:var(--disp);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ghost);border:1px solid var(--line);border-radius:20px;padding:3px 9px;flex-shrink:0}
+
+  /* CONNECT */
+  #connect{background:linear-gradient(180deg,var(--bg),var(--bg2));text-align:center}
+  #connect .stitle{margin-top:18px}
+  #connect .ssub{margin:14px auto 0}
+  .cform{max-width:560px;margin:38px auto 0;display:flex;flex-direction:column;gap:16px;text-align:left}
+  .cform .frow{display:flex;gap:16px}
+  .fld{display:flex;flex-direction:column;gap:7px;width:100%}
+  .cform label{font-family:var(--disp);font-size:13.5px;font-weight:500;color:var(--soft);letter-spacing:.3px}
+  .cform input,.cform textarea{width:100%;background:var(--surface);border:1px solid var(--line2);border-radius:10px;padding:14px 16px;color:var(--ink);font-family:var(--sans);font-size:15.5px;outline:none;resize:vertical}
+  .cform input::placeholder,.cform textarea::placeholder{color:var(--ghost)}
+  .cform input:focus,.cform textarea:focus{border-color:var(--blue)}
+  .cform button{align-self:center;margin-top:6px}
+  .cdone{display:none;max-width:560px;margin:24px auto 0;color:var(--blue2);font-family:var(--disp);font-weight:500;font-size:16px}
+  .cdone.show{display:block}
+  .calt{margin-top:24px;color:var(--soft);font-size:14.5px}
+  .calt a{color:var(--blue2);border-bottom:1px solid var(--line2);padding-bottom:1px}
 
   footer{border-top:1px solid var(--line);padding:30px 0}
   .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
   .foot .logo{font-size:16px}
-  .foot small{color:var(--ghost);font-size:13px}
+  .foot small{color:var(--soft);font-size:13px}
 
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.reveal{transition:none}.scrollcue i{animation:none}}
+
   /* concept preview overlay */
   .poc{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(6,9,14,.88);backdrop-filter:blur(10px);transition:opacity .5s,visibility .5s}
   .poc.gone{opacity:0;visibility:hidden}
-  .poc-card{max-width:480px;text-align:center;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line2);border-radius:18px;padding:44px 36px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .poc-card{max-width:490px;text-align:center;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line2);border-radius:18px;padding:44px 36px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
   .poc-card .poc-k{font-family:var(--disp);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:16px}
   .poc-card h2{font-family:var(--disp);font-weight:700;font-size:clamp(23px,3.4vw,30px);letter-spacing:-.5px;line-height:1.14;margin-bottom:14px}
-  .poc-card p{color:var(--soft);font-weight:300;font-size:15px;margin-bottom:28px}
+  .poc-card p{color:var(--soft);font-size:15px;margin-bottom:28px}
   .poc-card button{font-family:var(--disp);font-weight:600;font-size:14px;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:14px 28px;cursor:pointer;transition:.2s}
   .poc-card button:hover{background:#2f6fe0;transform:translateY(-1px)}
-  /* contact form */
-  .cform{max-width:540px;margin:34px auto 0;display:flex;flex-direction:column;gap:12px;text-align:left}
-  .cform .frow{display:flex;gap:12px}
-  .cform input,.cform textarea{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 16px;color:var(--ink);font-family:var(--sans);font-size:15px;outline:none;resize:vertical}
-  .cform input:focus,.cform textarea:focus{border-color:var(--blue)}
-  .cform button{align-self:center;margin-top:4px}
-  .cdone{display:none;max-width:540px;margin:24px auto 0;color:var(--blue2);font-family:var(--disp);font-weight:500}
-  .cdone.show{display:block}
-  @media(max-width:560px){.cform .frow{flex-direction:column}}
 
+  @media(max-width:980px){.dgrid{grid-template-columns:1fr 1fr}.rgrid{grid-template-columns:1fr 1fr}}
   @media(max-width:880px){
     .nlinks{display:none}.navtog{display:block}
     .nlinks.open{display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;gap:0;background:rgba(10,13,20,.97);border-bottom:1px solid var(--line);padding:8px 0}
     .nlinks.open li{width:100%}.nlinks.open a{display:block;padding:14px 28px}.nlinks.open .nbtn{margin:10px 28px}
-    .vgrid{grid-template-columns:1fr}.about-grid{grid-template-columns:1fr;gap:36px}
-    .vcontent ul{grid-template-columns:1fr}
-    section{padding:80px 0}
+    .about-grid{grid-template-columns:1fr;gap:36px}
+    .bgrid{grid-template-columns:1fr}
+    section{padding:78px 0}
   }
+  @media(max-width:560px){.cform .frow{flex-direction:column}.dgrid,.rgrid{grid-template-columns:1fr}.idcards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <div class="poc" id="poc"><div class="poc-card">
   <div class="poc-k">Concept Preview · Built by Phorethought</div>
-  <h2>Vincent — a concept for your ventures.</h2>
-  <p>A first look at how your site could feel. The copy, stats, and contact details are samples for now — explore it, then tell us what to change.</p>
+  <h2>Vincent — a first look at your site.</h2>
+  <p>Built from what you sent over. The wording and resources are starting points, not final — take a look around, then tell us what to change.</p>
   <button id="pocgo">Explore the concept →</button>
 </div></div>
 
 <nav>
   <div class="nav">
     <a href="#top" class="logo">Vincent <b>Barnes</b></a>
-    <button class="navtog" id="navtog">☰</button>
+    <button class="navtog" id="navtog" aria-label="Menu">☰</button>
     <ul class="nlinks" id="nlinks">
-      <li><a href="#ventures">Ventures</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact" class="nbtn">Get in touch</a></li>
+      <li><a href="#work">What I Do</a></li>
+      <li><a href="#businesses">Businesses</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#connect" class="nbtn">Connect</a></li>
     </ul>
   </div>
 </nav>
@@ -165,105 +192,142 @@
 <header class="hero" id="top">
   <canvas id="fx" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="eyebrow reveal">Louisville, KY · Operator & Advisor</div>
-    <h1 class="reveal">One operator.<br><span class="blue">Four ventures.</span></h1>
-    <p class="lead reveal">I help people build what matters — their wealth, their bodies, their businesses, and their homes. Pick a lane below and let's get to work.</p>
+    <div class="eyebrow reveal">Louisville, Kentucky · Navy Veteran</div>
+    <h1 class="reveal">Vincent <b>Barnes</b></h1>
+    <div class="tagline reveal">Builder<span class="dot">.</span> Investor<span class="dot">.</span> Veteran<span class="dot">.</span> Educator<span class="dot">.</span></div>
+    <p class="lead reveal">Navy veteran building businesses, real estate, and people — rooted in faith and the long game, and sharing the playbook along the way.</p>
     <div class="roles reveal">
-      <span class="role">Financial Advising</span>
-      <span class="role">Personal Training</span>
-      <span class="role">Business Coaching</span>
-      <span class="role">General Contracting</span>
+      <span class="role">Navy Veteran</span>
+      <span class="role">Entrepreneur</span>
+      <span class="role">Husband &amp; Father</span>
+      <span class="role">Faith-Driven Leader</span>
     </div>
     <div class="cta reveal">
-      <a href="#ventures" class="btn solid">Explore the ventures</a>
-      <a href="#contact" class="btn ghost">Get in touch</a>
+      <a href="#work" class="btn solid">What I do →</a>
+      <a href="#connect" class="btn ghost">Get in touch</a>
     </div>
   </div>
   <div class="scrollcue"><i></i> Scroll</div>
 </header>
 
-<!-- VENTURES -->
-<section id="ventures">
-  <div class="wrap">
-    <div class="eyebrow slabel reveal">The Ventures</div>
-    <h2 class="stitle reveal">Four ways I can help.</h2>
-    <p class="ssub reveal">Each one is its own practice — click to see how it works.</p>
-
-    <div class="vgrid reveal">
-      <div class="vlist" id="vlist">
-        <button class="vtab on" data-v="0"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></span><span><span class="tt">Financial Advising</span><br><span class="tn">PLAN · PROTECT · GROW</span></span></button>
-        <button class="vtab" data-v="1"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8v8M20 8v8M7 6v12M17 6v12M7 12h10"/></svg></span><span><span class="tt">Personal Training</span><br><span class="tn">TRAIN · FUEL · TRANSFORM</span></span></button>
-        <button class="vtab" data-v="2"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21V9l6-5 6 5v12"/><path d="M10 21v-5h4v5"/></svg></span><span><span class="tt">Business Coaching</span><br><span class="tn">STRATEGY · SYSTEMS · SCALE</span></span></button>
-        <button class="vtab" data-v="3"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 13a10 10 0 0 1 20 0"/><path d="M12 3v2M6 17h12l1 4H5z"/></svg></span><span><span class="tt">General Contracting</span><br><span class="tn">FIRST CALL HANDYMAN</span></span></button>
-      </div>
-
-      <div class="vpanel" id="vpanel">
-        <div class="vcontent on" data-v="0">
-          <div class="vnum">01 — FINANCIAL ADVISING</div>
-          <h3>Plan, protect, and grow your wealth.</h3>
-          <p>Straight-talking financial guidance — no jargon, no pressure. We build a plan around where you actually want to go.</p>
-          <ul><li>Retirement & investment planning</li><li>Budgeting & debt strategy</li><li>Tax-smart money moves</li><li>Insurance & protection review</li></ul>
-          <a href="#contact" class="vcta">Book a consult →</a>
-        </div>
-        <div class="vcontent" data-v="1">
-          <div class="vnum">02 — PERSONAL TRAINING</div>
-          <h3>Train with intention. Eat with a plan.</h3>
-          <p>Custom training and nutrition built around your life and your goals — with the accountability to actually stick to it.</p>
-          <ul><li>Personalized training programs</li><li>Custom meal plans</li><li>Accountability & check-ins</li><li>In-person or remote</li></ul>
-          <a href="#contact" class="vcta">Start training →</a>
-        </div>
-        <div class="vcontent" data-v="2">
-          <div class="vnum">03 — BUSINESS COACHING</div>
-          <h3>Build a business that runs without you.</h3>
-          <p>From first idea to real systems — practical coaching for owners who want to grow without burning out.</p>
-          <ul><li>Strategy & positioning</li><li>Systems & operations</li><li>Sales & scaling</li><li>Owner accountability</li></ul>
-          <a href="#contact" class="vcta">Work with me →</a>
-        </div>
-        <div class="vcontent" data-v="3">
-          <div class="vnum">04 — GENERAL CONTRACTING</div>
-          <h3>Done right, the first time.</h3>
-          <p>First Call Handyman — repairs, renovations, and the to-do list you keep putting off. Reliable, clean, on time.</p>
-          <ul><li>Repairs & maintenance</li><li>Renovations & remodels</li><li>Handyman services</li><li>Free estimates</li></ul>
-          <a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" class="vcta out">Visit First Call Handyman ↗</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ABOUT -->
 <section id="about">
   <div class="wrap">
     <div class="eyebrow slabel reveal">About</div>
-    <h2 class="stitle reveal">Built across four worlds.</h2>
+    <h2 class="stitle reveal">Faith, family, and the long game.</h2>
     <div class="about-grid">
       <div class="about reveal">
-        <p>I'm <strong>Vincent Barnes</strong> — an operator who's spent years in finance, fitness, business, and construction. The thread through all of it: <strong>help people build something that lasts</strong> and do the work to back it up.</p>
-        <p>Whether you're planning your future, getting in shape, growing a company, or fixing up your home — you get one person who actually cares how it turns out.</p>
+        <p>I'm <strong>Vincent Barnes</strong> — a Navy veteran, entrepreneur, husband, and father. I'm building a life and a portfolio of businesses on the same things the Navy taught me: discipline, ownership, and showing up when it's hard.</p>
+        <p>Today I put that to work <strong>building companies, investing in real estate, and mentoring people</strong> who want to build something that lasts. My faith and my family come first — everything else is in service of leaving them, and the people around me, better than I found them.</p>
+        <p>And I share the journey openly — the wins, the lessons, and the systems — so the next person doesn't have to start from zero.</p>
       </div>
-      <div class="stats reveal">
-        <div class="stat"><div class="n">4</div><div class="l">Active ventures</div></div>
-        <div class="stat"><div class="n">10+</div><div class="l">Years operating</div></div>
-        <div class="stat"><div class="n">1:1</div><div class="l">Always personal</div></div>
-        <div class="stat"><div class="n">KY</div><div class="l">Louisville based</div></div>
+      <div class="idcards reveal">
+        <div class="idcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></div><h4>Navy Veteran</h4></div>
+        <div class="idcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div><h4>Entrepreneur</h4></div>
+        <div class="idcard"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M17 11l2 2 4-4"/></svg></div><h4>Husband &amp; Father</h4></div>
+        <div class="idcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M7 8c0 8 10 8 10 0"/></svg></div><h4>Faith-Driven Leader</h4></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
+<!-- WHAT I DO -->
+<section id="work">
   <div class="wrap">
-    <div class="eyebrow slabel reveal" style="justify-content:center">Get in touch</div>
-    <h2 class="stitle reveal">Which lane do you need?</h2>
-    <p class="ssub reveal">Tell me what you're after and I'll point you the right way. One message gets it started.</p>
+    <div class="eyebrow slabel reveal">What I Do</div>
+    <h2 class="stitle reveal">A builder, in every sense.</h2>
+    <p class="ssub reveal">From job sites to balance sheets to stages — here's where I spend my time.</p>
+
+    <div class="dgrid reveal">
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 7l-1.5-1.5a2 2 0 0 0-3 0L3 12l4 4 6.5-6.5a2 2 0 0 0 0-3z"/><path d="M14 10l7 7-2 2-7-7"/></svg></div><h3>General Contracting</h3><p>Hands-on renovation, repair, and build work — run through First Call Handyman.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4"/><path d="M9 3v4h6V3"/><path d="M8 12h8M8 16h5"/></svg></div><h3>Renovation &amp; Project Management</h3><p>Managing remodels and builds from first estimate to final walkthrough — on time and on budget.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-5h6v5"/><path d="M9 11h.01M15 11h.01"/></svg></div><h3>Real Estate Investing</h3><p>Acquiring and improving property to build long-term wealth and cash flow.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></div><h3>Business Owner</h3><p>Founding and running companies — and building the systems that let them run without me.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M8 21h8"/></svg></div><h3>Speaker &amp; Content Creator</h3><p>Sharing real lessons on business, money, and leadership — online and on stage.</p></div>
+      <div class="dcard"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/><path d="M12 11v3"/></svg></div><h3>Mentor</h3><p>Helping driven people build discipline, real businesses, and a life of purpose.</p></div>
+    </div>
+
+    <div class="topicwrap reveal">
+      <div class="th">Topics I share</div>
+      <div class="topics">
+        <span class="topic">Entrepreneurship</span>
+        <span class="topic">Real Estate</span>
+        <span class="topic">Personal Finance</span>
+        <span class="topic">Business Systems</span>
+        <span class="topic">Leadership</span>
+        <span class="topic">Faith</span>
+        <span class="topic">Personal Growth</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESSES -->
+<section id="businesses">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal">Businesses</div>
+    <h2 class="stitle reveal">What I'm building.</h2>
+    <p class="ssub reveal">One live today, three in the works — all built on the same standard.</p>
+
+    <div class="bgrid reveal">
+      <a class="bcard live" href="https://firstcallhandymanky.com/" target="_blank" rel="noopener">
+        <span class="badge on">Live now</span>
+        <h3>First Call Handyman</h3>
+        <p>Repairs, renovations, and the to-do list you keep putting off — reliable, clean, and done right the first time. Serving the Louisville area.</p>
+        <span class="blink">Visit the site ↗</span>
+      </a>
+      <div class="bcard">
+        <span class="badge dev">In development</span>
+        <h3>Real Estate Company</h3>
+        <p>Acquiring, improving, and managing investment property across Kentucky.</p>
+      </div>
+      <div class="bcard">
+        <span class="badge dev">In development</span>
+        <h3>Construction Company</h3>
+        <p>Full-scale builds and renovations, raised to the First Call standard.</p>
+      </div>
+      <div class="bcard">
+        <span class="badge dev">In development</span>
+        <h3>Investment Company</h3>
+        <p>Putting capital to work in real estate and small business ventures.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal">Resources</div>
+    <h2 class="stitle reveal">What I'm sharing.</h2>
+    <p class="ssub reveal">The books, tools, and templates I lean on — gathered here so you can use them too.</p>
+
+    <div class="rgrid reveal">
+      <div class="rcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 0 2 2h13"/></svg></div><h4>Books I'm Reading <span class="soon">Soon</span></h4><p>The titles shaping how I build, invest, and lead.</p></div>
+      <div class="rcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 7l-1.5-1.5a2 2 0 0 0-3 0L3 12l4 4 6.5-6.5a2 2 0 0 0 0-3z"/><path d="M14 10l7 7-2 2-7-7"/></svg></div><h4>Tools I Recommend <span class="soon">Soon</span></h4><p>The software and gear I actually use to run the businesses.</p></div>
+      <div class="rcard"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg></div><h4>Budget Templates <span class="soon">Soon</span></h4><p>Simple spreadsheets to get your money organized and working.</p></div>
+      <div class="rcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></div><h4>Business Checklists <span class="soon">Soon</span></h4><p>Step-by-step lists for starting and running a business.</p></div>
+      <div class="rcard"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/></svg></div><h4>Real Estate Resources <span class="soon">Soon</span></h4><p>What I wish I'd had when I started investing in property.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section id="connect">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal" style="justify-content:center">Connect</div>
+    <h2 class="stitle reveal">Let's build something.</h2>
+    <p class="ssub reveal">A project, a partnership, mentorship, or just a conversation — send a note and I'll get back to you.</p>
     <form class="cform reveal" id="cform">
-      <div class="frow"><input id="cf-name" placeholder="Your name" required><input id="cf-email" type="email" placeholder="Email" required></div>
-      <textarea id="cf-msg" rows="4" placeholder="What do you need help with?"></textarea>
+      <div class="frow">
+        <div class="fld"><label for="cf-name">Your name</label><input id="cf-name" placeholder="Jane Smith" required></div>
+        <div class="fld"><label for="cf-email">Email</label><input id="cf-email" type="email" placeholder="you@email.com" required></div>
+      </div>
+      <div class="fld"><label for="cf-msg">Message</label><textarea id="cf-msg" rows="4" placeholder="What's on your mind?"></textarea></div>
       <button class="btn solid" type="submit">Send message</button>
     </form>
     <div class="cdone" id="cdone">✓ Thanks — your message is on its way. I'll be in touch shortly.</div>
-    <div class="reveal" style="margin-top:20px"><a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" style="color:var(--soft);font-size:14px;border-bottom:1px solid var(--line2)">Looking for contracting? Visit First Call Handyman ↗</a></div>
+    <p class="calt reveal">Need handyman work right now? Go straight to <a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener">First Call Handyman ↗</a></p>
   </div>
 </section>
 
@@ -279,6 +343,7 @@
   (function(){var p=document.getElementById('poc'),b=document.getElementById('pocgo');if(!p)return;
    try{if(sessionStorage.getItem('vbpoc'))p.classList.add('gone');}catch(e){}
    if(b)b.onclick=function(){p.classList.add('gone');try{sessionStorage.setItem('vbpoc','1')}catch(e){}};})();
+
   // contact form (POC — wire a Formspree endpoint before real launch)
   (function(){var f=document.getElementById('cform');if(!f)return;
    f.addEventListener('submit',function(e){e.preventDefault();
@@ -290,16 +355,6 @@
   // mobile nav
   (function(){var t=document.getElementById('navtog'),n=document.getElementById('nlinks');
    if(t&&n){t.onclick=()=>n.classList.toggle('open');n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>n.classList.remove('open')));}})();
-
-  // ventures selector
-  (function(){
-    const tabs=[...document.querySelectorAll('.vtab')], panes=[...document.querySelectorAll('.vcontent')];
-    tabs.forEach(tab=>tab.addEventListener('click',()=>{
-      const v=tab.dataset.v;
-      tabs.forEach(t=>t.classList.toggle('on',t===tab));
-      panes.forEach(p=>p.classList.toggle('on',p.dataset.v===v));
-    }));
-  })();
 
   // scroll reveal
   (function(){

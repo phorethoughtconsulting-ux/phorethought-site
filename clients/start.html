@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Your Free Portfolio — Phorethought</title>
+<meta name="description" content="Claim your free portfolio. Tell Phorethought who you are and what you do, and we'll build you a one-of-a-kind site. You think it, we create it.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23fff' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Start Your Free Portfolio — Phorethought">
+<meta property="og:description" content="Tell us who you are and what you do, and we'll build you a one-of-a-kind site.">
+<meta property="og:image" content="../assets/camo-grey.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0a0f1e;--ink-soft:#444;--ink-muted:#888;--ink-ghost:#bbb;
+    --paper:#fff;--paper-warm:#f9f8f6;--blue:#1a56db;--rule:#e8e8e8;
+    --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono','Courier New',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:780px;margin:0 auto;padding:0 32px}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{font-family:var(--serif);font-size:20px;color:var(--ink);letter-spacing:-.3px}
+  .nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+  .nav-links a{font-size:14px;font-weight:500;color:var(--ink-soft);transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+
+  .head{padding:140px 0 40px;background:var(--paper-warm);border-bottom:1px solid var(--rule)}
+  .label{font-family:var(--mono);font-size:12px;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+  .label::before{content:'';width:24px;height:1px;background:var(--ink-ghost)}
+  .head h1{font-family:var(--serif);font-size:clamp(38px,5.5vw,64px);line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px}
+  .head h1 em{font-style:italic;color:var(--ink-soft)}
+  .head p{font-size:18px;font-weight:300;color:var(--ink-soft);max-width:600px}
+  .rules{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+  .rule-chip{font-family:var(--mono);font-size:11px;letter-spacing:.5px;color:var(--ink-soft);background:var(--paper);border:1px solid var(--rule);border-radius:30px;padding:7px 14px}
+
+  form{padding:54px 0 90px}
+  .fgroup{margin-bottom:30px}
+  .fgroup>label,.glabel{display:block;font-family:var(--sans);font-weight:600;font-size:15.5px;margin-bottom:4px}
+  .hint{font-size:13.5px;color:var(--ink-muted);margin-bottom:10px}
+  input[type=text],input[type=email],input[type=tel],textarea,select{
+    width:100%;font-family:var(--sans);font-size:15.5px;color:var(--ink);background:var(--paper);
+    border:1px solid var(--ink-ghost);border-radius:9px;padding:13px 15px;outline:none;transition:border-color .2s;resize:vertical}
+  input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+  ::placeholder{color:var(--ink-ghost)}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .check{display:flex;align-items:center;gap:10px;border:1px solid var(--rule);border-radius:9px;padding:12px 14px;cursor:pointer;font-size:14.5px;transition:border-color .2s,background .2s}
+  .check:hover{border-color:var(--ink-ghost)}
+  .check input{width:17px;height:17px;accent-color:var(--blue);cursor:pointer}
+  .radios{display:flex;flex-direction:column;gap:9px}
+  .radio{display:flex;align-items:center;gap:11px;border:1px solid var(--rule);border-radius:9px;padding:13px 15px;cursor:pointer;font-size:14.5px;transition:border-color .2s}
+  .radio:hover{border-color:var(--ink-ghost)}
+  .radio input{accent-color:var(--blue);width:17px;height:17px;cursor:pointer}
+  .submit{background:var(--ink);color:#fff;font-family:var(--sans);font-weight:600;font-size:16px;border:none;border-radius:9px;padding:16px 34px;cursor:pointer;transition:background .2s,transform .2s}
+  .submit:hover{background:#1a2744;transform:translateY(-2px)}
+  .note{font-size:13px;color:var(--ink-muted);margin-top:16px}
+  .done{display:none;text-align:center;padding:60px 0 90px}
+  .done.show{display:block}
+  .done .big{font-family:var(--serif);font-size:40px;margin-bottom:14px}
+  .done p{color:var(--ink-soft);max-width:520px;margin:0 auto 8px}
+
+  footer{border-top:1px solid var(--rule);padding:34px 0}
+  .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1100px;margin:0 auto;padding:0 32px}
+  .foot small{color:var(--ink-muted);font-size:13px}
+
+  @media(max-width:560px){.checks{grid-template-columns:1fr}.head{padding:115px 0 36px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">Phorethought</a>
+    <ul class="nav-links">
+      <li><a href="index.html">← Client work</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="head">
+  <div class="wrap">
+    <div class="label">Start your free portfolio</div>
+    <h1>Tell me <em>who you are.</em></h1>
+    <p>The more I know about you, the more your site will feel like nobody else's. Takes about 5 minutes — no design experience needed.</p>
+    <div class="rules">
+      <span class="rule-chip">Free for the first 10</span>
+      <span class="rule-chip">One build + one revision</span>
+      <span class="rule-chip">Send content within 7 days</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- TODO: set action to your real Formspree endpoint before launch (https://formspree.io/f/XXXX) -->
+  <form id="intake" action="https://formspree.io/f/your-endpoint" method="POST">
+
+    <div class="fgroup">
+      <label for="name">Your name *</label>
+      <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+    </div>
+
+    <div class="fgroup">
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" placeholder="you@email.com" required>
+    </div>
+
+    <div class="fgroup">
+      <label for="phone">Phone <span style="font-weight:400;color:var(--ink-muted)">(optional)</span></label>
+      <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+    </div>
+
+    <div class="fgroup">
+      <span class="glabel">What are you? *</span>
+      <div class="hint">So I know what kind of site fits you.</div>
+      <div class="radios">
+        <label class="radio"><input type="radio" name="who" value="Creator" required> Creator / content creator</label>
+        <label class="radio"><input type="radio" name="who" value="Business owner"> Business owner</label>
+        <label class="radio"><input type="radio" name="who" value="Personal brand / professional"> Building my personal brand</label>
+        <label class="radio"><input type="radio" name="who" value="Other"> Something else</label>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label for="tagline">In one line, what do you do? *</label>
+      <div class="hint">The first thing people should know about you.</div>
+      <input type="text" id="tagline" name="tagline" placeholder="e.g. Navy veteran, builder, and real estate investor" required>
+    </div>
+
+    <div class="fgroup">
+      <label for="about">Tell me about you *</label>
+      <div class="hint">Your story, in your own words — background, what you're building, what matters to you. A few sentences is plenty.</div>
+      <textarea id="about" name="about" rows="5" placeholder="Don't overthink it — I'll shape it." required></textarea>
+    </div>
+
+    <div class="fgroup">
+      <span class="glabel">Which sections do you want?</span>
+      <div class="hint">Pick anything that fits — I'll recommend the rest.</div>
+      <div class="checks">
+        <label class="check"><input type="checkbox" name="sections" value="About"> About / my story</label>
+        <label class="check"><input type="checkbox" name="sections" value="What I do / Services"> What I do / services</label>
+        <label class="check"><input type="checkbox" name="sections" value="Work / Portfolio"> Work / portfolio</label>
+        <label class="check"><input type="checkbox" name="sections" value="Businesses"> My businesses</label>
+        <label class="check"><input type="checkbox" name="sections" value="Resources"> Resources / links</label>
+        <label class="check"><input type="checkbox" name="sections" value="Testimonials"> Testimonials</label>
+        <label class="check"><input type="checkbox" name="sections" value="Booking / Contact"> Booking / contact</label>
+        <label class="check"><input type="checkbox" name="sections" value="Content / Blog"> Content / blog</label>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label for="links">Your links</label>
+      <div class="hint">Existing site, Instagram, LinkedIn, YouTube, business pages — anything you've got.</div>
+      <textarea id="links" name="links" rows="3" placeholder="instagram.com/...&#10;mybusiness.com"></textarea>
+    </div>
+
+    <div class="fgroup">
+      <span class="glabel">What feel are you going for? *</span>
+      <div class="hint">This is what makes your site yours — don't worry about getting it perfect.</div>
+      <div class="radios">
+        <label class="radio"><input type="radio" name="vibe" value="Cinematic & dark" required> Cinematic &amp; dark</label>
+        <label class="radio"><input type="radio" name="vibe" value="Clean & light"> Clean &amp; light</label>
+        <label class="radio"><input type="radio" name="vibe" value="Bold & colorful"> Bold &amp; colorful</label>
+        <label class="radio"><input type="radio" name="vibe" value="Minimal & quiet"> Minimal &amp; quiet</label>
+        <label class="radio"><input type="radio" name="vibe" value="Warm & editorial"> Warm &amp; editorial</label>
+        <label class="radio"><input type="radio" name="vibe" value="Not sure — you pick"> Not sure — you pick for me</label>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label for="colors">Colors you love</label>
+      <input type="text" id="colors" name="colors" placeholder="e.g. deep blue, charcoal, a touch of gold">
+    </div>
+
+    <div class="fgroup">
+      <label for="admire">A website you admire</label>
+      <div class="hint">Paste a link to any site whose look you like — helps me read your taste.</div>
+      <input type="text" id="admire" name="admire" placeholder="https://...">
+    </div>
+
+    <div class="fgroup">
+      <label for="signature">One thing that should feel uniquely YOU</label>
+      <div class="hint">A detail, a vibe, a moment — anything that should set your site apart. Optional, but gold.</div>
+      <textarea id="signature" name="signature" rows="3" placeholder="e.g. I want it to feel like walking onto a job site at sunrise."></textarea>
+    </div>
+
+    <div class="fgroup">
+      <span class="glabel">Domain</span>
+      <div class="radios">
+        <label class="radio"><input type="radio" name="domain" value="Free hosting for now"> Just host it free for now</label>
+        <label class="radio"><input type="radio" name="domain" value="I have a domain"> I already have my own domain</label>
+        <label class="radio"><input type="radio" name="domain" value="Get one for me"> I want you to get me one</label>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label for="extra">Anything else?</label>
+      <textarea id="extra" name="extra" rows="3" placeholder="Photos, logos, specific pages, deadlines — whatever you want me to know."></textarea>
+    </div>
+
+    <button type="submit" class="submit">Claim my free portfolio →</button>
+    <p class="note">After you submit, I'll reply with next steps — and you can send your photos and logo straight back to that email.</p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="big">You're in. 🎉</div>
+    <p>Thanks — I've got your info. I'll reach out shortly with next steps, and you can reply to that email with your photos and logo.</p>
+    <p style="margin-top:18px"><a href="index.html" style="color:var(--blue);font-weight:600">← Back to client work</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="foot">
+    <a href="../index.html" class="nav-logo">Phorethought</a>
+    <small>© 2026 Phorethought · You think it, we create it.</small>
+  </div>
+</footer>
+
+<script>
+  // POC: graceful success without a wired endpoint. When Formspree is set,
+  // this still works — it posts in the background then shows the thank-you.
+  (function(){
+    var f=document.getElementById('intake'); if(!f) return;
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(!f.checkValidity()){f.reportValidity();return;}
+      var ok=function(){f.style.display='none';document.getElementById('done').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});};
+      var action=f.getAttribute('action')||'';
+      if(action.indexOf('your-endpoint')>-1){ ok(); return; } // endpoint not wired yet
+      fetch(action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+        .then(ok).catch(ok);
+    });
+  })();
+</script>
+</body>
+</html>

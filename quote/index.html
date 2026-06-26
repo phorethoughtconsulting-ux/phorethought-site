@@ -69,16 +69,18 @@
       <div class="total"><span class="l">Project total</span><span class="v" id="total">$0</span></div>
       <div class="mo" id="mo"></div>
       <button class="cta" id="cta">Get my full quote →</button>
-      <div class="reqform" id="reqform"><input type="email" placeholder="your@email.com"><button class="cta" style="margin:0;width:auto;padding:11px 16px" id="send">Send</button></div>
+      <div class="reqform" id="reqform"><input type="email" id="qemail" placeholder="your@email.com"><button class="cta" style="margin:0;width:auto;padding:11px 16px" id="send">Send</button></div>
       <div class="ok" id="ok">✓ Got it — your full quote is on its way within 24 hours.</div>
       <div style="font-size:11px;color:var(--ghost);text-align:center;margin-top:12px">Your info is only used to send your quote. <a href="../privacy/index.html" style="color:var(--blue)">Privacy</a></div>
     </div>
   </div>
   <div class="note">PHORETHOUGHT · estimate is a starting point — final quote confirmed after a quick scope chat.</div>
 <script>
-const TYPES=[{n:'Landing Page',p:300},{n:'Full Website',p:600},{n:'Web App / AI Tool',p:1500},{n:'Online Store',p:1200}];
-const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:150,mo:true}];
-let type=0,rush=1;const sel=new Set();const $=id=>document.getElementById(id);
+const TYPES=[{n:'Landing Page',p:500},{n:'Full Website',p:1500},{n:'Web App / AI Tool',p:3000},{n:'Online Store',p:2000}];
+const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:29,mo:true}];
+let type=0,rush=1,lastTotal=0,lastMonthly=0;const sel=new Set();const $=id=>document.getElementById(id);
+/* ▼ PASTE YOUR FORMSPREE FORM ID BELOW (from formspree.io). Until then, the form falls back to "email us". */
+const FORMSPREE='https://formspree.io/f/REPLACE_WITH_YOUR_ID';
 $('types').innerHTML=TYPES.map((t,i)=>'<div class="opt'+(i===0?' on':'')+'" data-i="'+i+'"><div class="n">'+t.n+'</div><div class="p">from $'+t.p.toLocaleString()+'</div></div>').join('');
 $('types').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{type=+o.dataset.i;$('types').querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');calc();});
 $('addons').innerHTML=ADDONS.map((a,i)=>'<div class="add" data-i="'+i+'"><div class="box">✓</div><div class="n">'+a.n+'</div><div class="p">+$'+a.p.toLocaleString()+(a.mo?'/mo':'')+'</div></div>').join('');
@@ -91,9 +93,27 @@ function calc(){const lines=[];let one=TYPES[type].p,monthly=0;lines.push([TYPES
   sel.forEach(i=>{const a=ADDONS[i];if(a.mo)monthly+=a.p;else one+=a.p;lines.push([a.n,'+$'+a.p.toLocaleString()+(a.mo?'/mo':'')]);});
   if(rush>1){const add=Math.round(one*(rush-1));lines.push(['Rush delivery','+$'+add.toLocaleString()]);one=Math.round(one*rush);}
   $('lines').innerHTML=lines.map(l=>'<div class="line"><span>'+l[0]+'</span><span>'+l[1]+'</span></div>').join('');
-  animateTo(one);$('mo').textContent=monthly?('+ $'+monthly.toLocaleString()+'/mo ongoing'):'';}
+  animateTo(one);$('mo').textContent=monthly?('+ $'+monthly.toLocaleString()+'/mo ongoing'):'';lastTotal=one;lastMonthly=monthly;}
 $('cta').onclick=()=>{$('reqform').classList.add('show');$('cta').style.display='none';};
-$('send').onclick=()=>{$('reqform').classList.remove('show');$('ok').classList.add('show');};
+$('send').onclick=async()=>{
+  const email=($('qemail').value||'').trim();
+  if(!email.includes('@')){$('qemail').style.borderColor='#e0792b';$('qemail').focus();return;}
+  const btn=$('send');btn.disabled=true;btn.textContent='…';
+  const data={email,service:TYPES[type].n,pages:$('pages').value,timeline:rush>1?'Rush (+30%)':'Standard',
+    addons:[...sel].map(i=>ADDONS[i].n).join(', ')||'none',
+    estimate:'$'+lastTotal.toLocaleString()+(lastMonthly?(' + $'+lastMonthly.toLocaleString()+'/mo'):''),
+    _subject:'New quote request — Phorethought'};
+  try{
+    const r=await fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});
+    if(!r.ok)throw new Error('bad');
+    $('reqform').classList.remove('show');$('ok').classList.add('show');
+  }catch(e){
+    btn.disabled=false;btn.textContent='Send';
+    $('ok').textContent='Couldn\'t send right now — please email phorethoughtconsulting@gmail.com directly.';
+    $('reqform').classList.remove('show');$('ok').classList.add('show');
+  }
+};
+$('qemail')&&$('qemail').addEventListener('input',()=>{$('qemail').style.borderColor='';});
 calc();
 </script>
 </body>

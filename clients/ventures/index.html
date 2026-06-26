@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V Barnes — Ventures</title>
+<meta name="description" content="V Barnes — financial advising, personal training, business coaching, and general contracting. One operator, four ventures.">
+<meta name="theme-color" content="#0a0d14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0d14'/%3E%3Cpath d='M9 9l7 14 7-14' fill='none' stroke='%233b82f6' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="V Barnes — Ventures">
+<meta property="og:description" content="Financial advising, personal training, business coaching, and general contracting. One operator, four ventures.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#0a0d14; --bg2:#0e131d; --surface:#141a26; --surface2:#19202e;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --ink:#eaeef5; --soft:#9aa4b6; --ghost:#5d6679;
+    --blue:#3b82f6; --blue2:#60a5fa; --bluedeep:#1e3a8a;
+    --disp:'Space Grotesk',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:var(--disp);font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--blue2);display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:'';width:26px;height:1px;background:var(--blue)}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,13,20,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:1180px;margin:0 auto;padding:0 28px}
+  .logo{font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:.5px}
+  .logo b{color:var(--blue2)}
+  .nlinks{display:flex;align-items:center;gap:30px;list-style:none}
+  .nlinks a{font-size:14px;color:var(--soft);transition:color .2s}.nlinks a:hover{color:var(--ink)}
+  .nbtn{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.5px;background:var(--blue);color:#fff;padding:9px 18px;border-radius:8px;transition:background .2s}.nbtn:hover{background:#2f6fe0}
+  .navtog{display:none;background:none;border:none;color:var(--ink);font-size:24px;cursor:pointer}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+  #fx{position:absolute;inset:0;z-index:0;opacity:.7}
+  .hero::after{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(46% 56% at 32% 42%,rgba(59,130,246,.12),transparent 70%),radial-gradient(70% 90% at 20% 30%,transparent,rgba(10,13,20,.5)),linear-gradient(180deg,transparent 60%,var(--bg))}
+  .hero .wrap{position:relative;z-index:2;width:100%}
+  .hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:1.02;letter-spacing:-2px;margin:22px 0 18px}
+  .hero h1 .blue{color:var(--blue2);text-shadow:0 0 44px rgba(59,130,246,.4)}
+  .hero .lead{font-size:clamp(16px,2.4vw,20px);font-weight:300;color:var(--soft);max-width:560px}
+  .hero .roles{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+  .role{font-family:var(--disp);font-size:13px;font-weight:500;letter-spacing:.5px;color:var(--ink);border:1px solid var(--line2);border-radius:30px;padding:8px 16px;background:rgba(255,255,255,.02)}
+  .hero .cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+  .btn{font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.4px;padding:14px 26px;border-radius:9px;transition:.2s;cursor:pointer;border:none}
+  .btn.solid{background:var(--blue);color:#fff}.btn.solid:hover{background:#2f6fe0;transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}.btn.ghost:hover{border-color:var(--blue);color:var(--blue2)}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;font-family:var(--disp);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ghost);display:flex;align-items:center;gap:8px}
+  .scrollcue i{display:block;width:30px;height:1px;background:var(--ghost);animation:cue 2s infinite}
+  @keyframes cue{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* SECTION */
+  section{padding:110px 0}
+  .slabel{margin-bottom:18px}
+  .stitle{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,48px);letter-spacing:-1px;line-height:1.08}
+  .ssub{color:var(--soft);font-weight:300;max-width:560px;margin-top:14px}
+
+  /* VENTURES — interactive selector */
+  #ventures{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+  .vgrid{display:grid;grid-template-columns:340px 1fr;gap:28px;margin-top:48px}
+  .vlist{display:flex;flex-direction:column;gap:10px}
+  .vtab{display:flex;align-items:center;gap:16px;padding:18px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;transition:.22s;text-align:left}
+  .vtab:hover{border-color:var(--line2)}
+  .vtab.on{border-color:var(--blue);background:var(--surface2);box-shadow:0 0 0 1px var(--blue) inset}
+  .vtab .ic{width:38px;height:38px;flex-shrink:0;color:var(--blue2);display:flex;align-items:center;justify-content:center}
+  .vtab .ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .vtab .tt{font-family:var(--disp);font-weight:600;font-size:16px}
+  .vtab .tn{font-size:12px;color:var(--ghost);font-family:var(--disp);letter-spacing:1px}
+  .vpanel{position:relative;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:40px;min-height:380px;overflow:hidden}
+  .vpanel::before{content:'';position:absolute;top:0;right:0;width:340px;height:340px;background:radial-gradient(circle at 70% 0%,rgba(59,130,246,.16),transparent 60%);pointer-events:none}
+  .vcontent{position:relative;display:none;animation:fade .5s ease}
+  .vcontent.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .vcontent .vnum{font-family:var(--disp);font-size:13px;letter-spacing:2px;color:var(--blue2)}
+  .vcontent h3{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3vw,34px);letter-spacing:-.5px;margin:8px 0 14px}
+  .vcontent p{color:var(--soft);font-weight:300;max-width:520px}
+  .vcontent ul{list-style:none;margin:24px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;max-width:560px}
+  .vcontent li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink)}
+  .vcontent li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:8px;flex-shrink:0}
+  .vcontent .vcta{display:inline-flex;align-items:center;gap:8px;margin-top:30px;font-family:var(--disp);font-weight:600;font-size:14px;color:#fff;background:var(--blue);padding:13px 22px;border-radius:9px;transition:.2s}
+  .vcontent .vcta:hover{background:#2f6fe0;transform:translateY(-1px)}
+  .vcontent .vcta.out{background:transparent;border:1px solid var(--line2);color:var(--blue2)}.vcontent .vcta.out:hover{border-color:var(--blue)}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center;margin-top:40px}
+  .about p{color:var(--soft);font-weight:300;font-size:17px;margin-bottom:16px}.about p strong{color:var(--ink);font-weight:600}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .stat{border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--surface)}
+  .stat .n{font-family:var(--disp);font-weight:700;font-size:38px;color:var(--blue2);line-height:1}
+  .stat .l{font-size:13px;color:var(--soft);margin-top:6px}
+
+  /* CONTACT */
+  #contact{background:linear-gradient(180deg,var(--bg2),var(--bg));text-align:center}
+  #contact .stitle{margin-top:18px}
+  #contact .ssub{margin:14px auto 0}
+  .cbtns{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+
+  footer{border-top:1px solid var(--line);padding:30px 0}
+  .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .foot .logo{font-size:16px}
+  .foot small{color:var(--ghost);font-size:13px}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{transition:none}.scrollcue i{animation:none}}
+
+  @media(max-width:880px){
+    .nlinks{display:none}.navtog{display:block}
+    .nlinks.open{display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;gap:0;background:rgba(10,13,20,.97);border-bottom:1px solid var(--line);padding:8px 0}
+    .nlinks.open li{width:100%}.nlinks.open a{display:block;padding:14px 28px}.nlinks.open .nbtn{margin:10px 28px}
+    .vgrid{grid-template-columns:1fr}.about-grid{grid-template-columns:1fr;gap:36px}
+    .vcontent ul{grid-template-columns:1fr}
+    section{padding:80px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav">
+    <a href="#top" class="logo">V <b>Barnes</b></a>
+    <button class="navtog" id="navtog">☰</button>
+    <ul class="nlinks" id="nlinks">
+      <li><a href="#ventures">Ventures</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nbtn">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow reveal">Louisville, KY · Operator & Advisor</div>
+    <h1 class="reveal">One operator.<br><span class="blue">Four ventures.</span></h1>
+    <p class="lead reveal">I help people build what matters — their wealth, their bodies, their businesses, and their homes. Pick a lane below and let's get to work.</p>
+    <div class="roles reveal">
+      <span class="role">Financial Advising</span>
+      <span class="role">Personal Training</span>
+      <span class="role">Business Coaching</span>
+      <span class="role">General Contracting</span>
+    </div>
+    <div class="cta reveal">
+      <a href="#ventures" class="btn solid">Explore the ventures</a>
+      <a href="#contact" class="btn ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="scrollcue"><i></i> Scroll</div>
+</header>
+
+<!-- VENTURES -->
+<section id="ventures">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal">The Ventures</div>
+    <h2 class="stitle reveal">Four ways I can help.</h2>
+    <p class="ssub reveal">Each one is its own practice — click to see how it works.</p>
+
+    <div class="vgrid reveal">
+      <div class="vlist" id="vlist">
+        <button class="vtab on" data-v="0"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></span><span><span class="tt">Financial Advising</span><br><span class="tn">PLAN · PROTECT · GROW</span></span></button>
+        <button class="vtab" data-v="1"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8v8M20 8v8M7 6v12M17 6v12M7 12h10"/></svg></span><span><span class="tt">Personal Training</span><br><span class="tn">TRAIN · FUEL · TRANSFORM</span></span></button>
+        <button class="vtab" data-v="2"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21V9l6-5 6 5v12"/><path d="M10 21v-5h4v5"/></svg></span><span><span class="tt">Business Coaching</span><br><span class="tn">STRATEGY · SYSTEMS · SCALE</span></span></button>
+        <button class="vtab" data-v="3"><span class="ic"><svg viewBox="0 0 24 24"><path d="M2 13a10 10 0 0 1 20 0"/><path d="M12 3v2M6 17h12l1 4H5z"/></svg></span><span><span class="tt">General Contracting</span><br><span class="tn">FIRST CALL HANDYMAN</span></span></button>
+      </div>
+
+      <div class="vpanel" id="vpanel">
+        <div class="vcontent on" data-v="0">
+          <div class="vnum">01 — FINANCIAL ADVISING</div>
+          <h3>Plan, protect, and grow your wealth.</h3>
+          <p>Straight-talking financial guidance — no jargon, no pressure. We build a plan around where you actually want to go.</p>
+          <ul><li>Retirement & investment planning</li><li>Budgeting & debt strategy</li><li>Tax-smart money moves</li><li>Insurance & protection review</li></ul>
+          <a href="#contact" class="vcta">Book a consult →</a>
+        </div>
+        <div class="vcontent" data-v="1">
+          <div class="vnum">02 — PERSONAL TRAINING</div>
+          <h3>Train with intention. Eat with a plan.</h3>
+          <p>Custom training and nutrition built around your life and your goals — with the accountability to actually stick to it.</p>
+          <ul><li>Personalized training programs</li><li>Custom meal plans</li><li>Accountability & check-ins</li><li>In-person or remote</li></ul>
+          <a href="#contact" class="vcta">Start training →</a>
+        </div>
+        <div class="vcontent" data-v="2">
+          <div class="vnum">03 — BUSINESS COACHING</div>
+          <h3>Build a business that runs without you.</h3>
+          <p>From first idea to real systems — practical coaching for owners who want to grow without burning out.</p>
+          <ul><li>Strategy & positioning</li><li>Systems & operations</li><li>Sales & scaling</li><li>Owner accountability</li></ul>
+          <a href="#contact" class="vcta">Work with me →</a>
+        </div>
+        <div class="vcontent" data-v="3">
+          <div class="vnum">04 — GENERAL CONTRACTING</div>
+          <h3>Done right, the first time.</h3>
+          <p>First Call Handyman — repairs, renovations, and the to-do list you keep putting off. Reliable, clean, on time.</p>
+          <ul><li>Repairs & maintenance</li><li>Renovations & remodels</li><li>Handyman services</li><li>Free estimates</li></ul>
+          <a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" class="vcta out">Visit First Call Handyman ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal">About</div>
+    <h2 class="stitle reveal">Built across four worlds.</h2>
+    <div class="about-grid">
+      <div class="about reveal">
+        <p>I'm <strong>V Barnes</strong> — an operator who's spent years in finance, fitness, business, and construction. The thread through all of it: <strong>help people build something that lasts</strong> and do the work to back it up.</p>
+        <p>Whether you're planning your future, getting in shape, growing a company, or fixing up your home — you get one person who actually cares how it turns out.</p>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><div class="n">4</div><div class="l">Active ventures</div></div>
+        <div class="stat"><div class="n">10+</div><div class="l">Years operating</div></div>
+        <div class="stat"><div class="n">1:1</div><div class="l">Always personal</div></div>
+        <div class="stat"><div class="n">KY</div><div class="l">Louisville based</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow slabel reveal" style="justify-content:center">Get in touch</div>
+    <h2 class="stitle reveal">Which lane do you need?</h2>
+    <p class="ssub reveal">Tell me what you're after and I'll point you the right way. One message gets it started.</p>
+    <div class="cbtns reveal">
+      <a href="mailto:hello@example.com" class="btn solid">Email me</a>
+      <a href="https://firstcallhandymanky.com/" target="_blank" rel="noopener" class="btn ghost">First Call Handyman ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#top" class="logo">V <b>Barnes</b></a>
+    <small>© 2026 V Barnes · Financial · Fitness · Business · Contracting</small>
+  </div>
+</footer>
+
+<script>
+  // mobile nav
+  (function(){var t=document.getElementById('navtog'),n=document.getElementById('nlinks');
+   if(t&&n){t.onclick=()=>n.classList.toggle('open');n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>n.classList.remove('open')));}})();
+
+  // ventures selector
+  (function(){
+    const tabs=[...document.querySelectorAll('.vtab')], panes=[...document.querySelectorAll('.vcontent')];
+    tabs.forEach(tab=>tab.addEventListener('click',()=>{
+      const v=tab.dataset.v;
+      tabs.forEach(t=>t.classList.toggle('on',t===tab));
+      panes.forEach(p=>p.classList.toggle('on',p.dataset.v===v));
+    }));
+  })();
+
+  // scroll reveal
+  (function(){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.16});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  })();
+
+  // hero canvas — professional node network, cursor-reactive
+  (function(){
+    const c=document.getElementById('fx'); if(!c) return; const x=c.getContext('2d');
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    let W,H,DPR,nodes=[],mx=-999,my=-999;
+    function size(){W=innerWidth;H=Math.max(innerHeight,560);DPR=Math.min(2,devicePixelRatio||1);c.width=W*DPR;c.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
+      const n=Math.min(70,Math.floor(W/22)); nodes=[]; for(let i=0;i<n;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25});}
+    addEventListener('resize',size); size();
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    addEventListener('mouseleave',()=>{mx=-999;my=-999;});
+    function loop(){
+      if(!reduce) requestAnimationFrame(loop);
+      if(document.hidden) return;
+      x.clearRect(0,0,W,H);
+      for(const p of nodes){
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+        const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
+        if(d<140){const f=(140-d)/140*0.6;p.x+=dx/d*f;p.y+=dy/d*f;}
+      }
+      for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j],dd=Math.hypot(a.x-b.x,a.y-b.y);
+        if(dd<130){x.strokeStyle='rgba(96,165,250,'+(0.12*(1-dd/130))+')';x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}
+      }
+      for(const p of nodes){x.fillStyle='rgba(96,165,250,.55)';x.beginPath();x.arc(p.x,p.y,1.7,0,7);x.fill();}
+    }
+    loop();
+  })();
+</script>
+</body>
+</html>

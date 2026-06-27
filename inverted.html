@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phorethought — Systems Strategist & Builder</title>
+<title>Phorethought — Inverted Vibe</title>
 <meta name="description" content="Phorethought builds websites, tools, AI, and cinematic experiences — then hands them off clean. You think it, we create it.">
 <meta name="theme-color" content="#0a0f1e">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23fff' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
@@ -699,7 +699,7 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="clients/index.html">Client Work</a></li>
-      <li><a href="inverted.html">◑ Switch vibe</a></li>
+      <li><a href="index.html">◑ Switch vibe</a></li>
       <li><a href="quote/index.html">Get a Quote</a></li>
       <li><a href="#contact" class="nav-cta">Let's talk</a></li>
     </ul>
@@ -1067,6 +1067,109 @@
   (function(){var t=document.getElementById('navToggle'),n=document.getElementById('navLinks');
    if(t&&n){t.onclick=function(){n.classList.toggle('open')};
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
+</script>
+<!-- ===== INVERTED VIBE LAYER ===== -->
+<div id="inv-overlay" aria-hidden="true"></div>
+<div id="vcursor" aria-hidden="true"></div>
+<div id="brain-wrap" aria-hidden="true">
+  <svg id="brain" viewBox="0 0 220 200">
+    <g fill="none" stroke="#cfe9ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M110 24 C70 16 40 40 44 74 C26 84 24 116 44 128 C44 156 76 176 110 168"/>
+      <path d="M110 24 C150 16 180 40 176 74 C194 84 196 116 176 128 C176 156 144 176 110 168"/>
+      <path d="M110 24 L110 168" stroke-opacity="0.45"/>
+      <path d="M70 50 C84 60 80 76 66 82" stroke-opacity="0.7"/>
+      <path d="M150 50 C136 60 140 76 154 82" stroke-opacity="0.7"/>
+      <path d="M58 102 C78 96 86 110 72 122" stroke-opacity="0.6"/>
+      <path d="M162 102 C142 96 134 110 148 122" stroke-opacity="0.6"/>
+      <path d="M92 58 C100 78 88 96 96 116 C102 132 92 146 100 158" stroke-opacity="0.5"/>
+      <path d="M128 58 C120 78 132 96 124 116 C118 132 128 146 120 158" stroke-opacity="0.5"/>
+    </g>
+    <g id="synapses" fill="#eaf6ff">
+      <circle cx="70" cy="50" r="3"/><circle cx="150" cy="50" r="3"/><circle cx="58" cy="102" r="3"/><circle cx="162" cy="102" r="3"/>
+      <circle cx="92" cy="116" r="3"/><circle cx="128" cy="116" r="3"/><circle cx="110" cy="70" r="3"/><circle cx="110" cy="140" r="3"/>
+    </g>
+  </svg>
+</div>
+
+<style id="inv-style">
+  #inv-overlay{position:fixed;inset:0;background:#fff;mix-blend-mode:difference;pointer-events:none;z-index:9998}
+  #vcursor{position:fixed;top:0;left:0;width:24px;height:24px;margin:-12px 0 0 -12px;border:1.6px solid #fff;border-radius:50%;pointer-events:none;z-index:100000;mix-blend-mode:difference;transition:width .18s ease,height .18s ease,margin .18s ease,background .18s ease;will-change:transform}
+  #vcursor.big{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(255,255,255,.18)}
+  #brain-wrap{position:fixed;top:74px;right:30px;width:120px;height:110px;z-index:9999;pointer-events:none;filter:drop-shadow(0 0 16px rgba(120,200,255,.55));opacity:.94;will-change:transform}
+  #brain{width:100%;height:100%;transform-origin:50% 50%}
+  #brain.tw{animation:braintwitch 2.6s steps(1) both}
+  #brain.sp{animation:brainspin 7s linear}
+  #brain.pu{animation:brainpulse 3s ease-in-out}
+  @keyframes braintwitch{0%{transform:translate(0,0) rotate(0)}7%{transform:translate(-2px,1px) rotate(-2.5deg)}11%{transform:translate(2px,-1px) rotate(2.5deg)}15%{transform:translate(0,0) rotate(0)}68%{transform:translate(0,0)}72%{transform:translate(1px,1px) rotate(1.5deg)}76%{transform:translate(0,0)}100%{transform:none}}
+  @keyframes brainspin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+  @keyframes brainpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  #synapses circle{animation:synap 2.4s ease-in-out infinite}
+  #synapses circle:nth-child(2n){animation-delay:.5s}#synapses circle:nth-child(3n){animation-delay:1s}#synapses circle:nth-child(4n){animation-delay:1.6s}
+  @keyframes synap{0%,100%{opacity:.25}50%{opacity:1}}
+  .inv-reveal{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+  .inv-reveal.in{opacity:1;transform:none}
+  .inv-mag{transition:transform .18s ease-out}
+  .inv-tilt{transition:transform .16s ease-out;will-change:transform}
+  @media (hover:hover){ html.inv, html.inv a, html.inv button, html.inv .service-card, html.inv .work-card { cursor:none } }
+  @media (prefers-reduced-motion:reduce){ #vcursor{display:none} html.inv,html.inv *{cursor:auto !important} .inv-reveal{transition:none;opacity:1;transform:none} #brain{animation:none !important} }
+  @media (hover:none){ #vcursor{display:none} }
+</style>
+
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches, touch=matchMedia('(hover:none)').matches;
+  document.documentElement.classList.add('inv');
+
+  var cur=document.getElementById('vcursor');
+  if(cur && !touch && !reduce){
+    var cx=innerWidth/2,cy=innerHeight/2,tx=cx,ty=cy;
+    addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;});
+    (function loop(){cx+=(tx-cx)*0.25;cy+=(ty-cy)*0.25;cur.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(loop);})();
+    document.querySelectorAll('a,button,.service-card,.work-card,.reel-vid,.sb-btn').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cur.classList.add('big')});
+      el.addEventListener('mouseleave',function(){cur.classList.remove('big')});
+    });
+  } else if(cur){ cur.style.display='none'; }
+
+  if(!touch && !reduce){
+    document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta,.sb-btn,.reel-cta,.service-cta').forEach(function(b){
+      b.classList.add('inv-mag');
+      b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();var mx=e.clientX-(r.left+r.width/2),my=e.clientY-(r.top+r.height/2);b.style.transform='translate('+(mx*0.3)+'px,'+(my*0.4)+'px)';});
+      b.addEventListener('mouseleave',function(){b.style.transform='translate(0,0)';});
+    });
+    document.querySelectorAll('.service-card,.work-card').forEach(function(c){
+      c.classList.add('inv-tilt');
+      c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width-0.5,py=(e.clientY-r.top)/r.height-0.5;c.style.transform='perspective(750px) rotateY('+(px*8)+'deg) rotateX('+(-py*8)+'deg) translateZ(6px)';});
+      c.addEventListener('mouseleave',function(){c.style.transform='';});
+    });
+  }
+
+  if(!reduce){
+    var rt=document.querySelectorAll('section');
+    rt.forEach(function(el){el.classList.add('inv-reveal');});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+    rt.forEach(function(el){io.observe(el);});
+  }
+
+  var heroParallax=false; setTimeout(function(){heroParallax=true;},1300);
+  if(!touch && !reduce){
+    var hero=document.querySelector('.hero'), bw=document.getElementById('brain-wrap');
+    addEventListener('mousemove',function(e){
+      var dx=(e.clientX/innerWidth-0.5),dy=(e.clientY/innerHeight-0.5);
+      if(bw) bw.style.transform='translate('+(dx*-26)+'px,'+(dy*-18)+'px)';
+      if(heroParallax && hero){ var hh=hero.querySelector('.hero-headline'),hs=hero.querySelector('.hero-sub');
+        if(hh) hh.style.transform='translate('+(dx*16)+'px,'+(dy*10)+'px)';
+        if(hs) hs.style.transform='translate('+(dx*9)+'px,'+(dy*6)+'px)'; }
+    });
+  }
+
+  var brain=document.getElementById('brain');
+  if(brain && !reduce){
+    var st=['tw','sp','pu'],i=0;
+    function cyc(){brain.classList.remove('tw','sp','pu');void brain.offsetWidth;brain.classList.add(st[i]);i=(i+1)%st.length;}
+    cyc(); setInterval(cyc,4200);
+  }
+})();
 </script>
 </body>
 </html>

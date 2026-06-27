@@ -108,7 +108,13 @@
   .sec-sub{font-size:18px;font-weight:300;color:var(--ink-soft);max-width:660px}
 
   /* FEATURED CLIENT */
-  .featured{margin-top:48px;display:grid;grid-template-columns:1.05fr .95fr;background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+  .featured{position:relative;margin-top:48px;display:grid;grid-template-columns:1.05fr .95fr;background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+  /* gold sheen sweeps across every 10s */
+  .featured::after{content:'';position:absolute;top:0;left:0;width:55%;height:100%;z-index:3;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(231,173,85,.13),rgba(255,255,255,.10),transparent);
+    transform:translateX(-200%) skewX(-12deg);animation:sheen 10s ease-in-out infinite}
+  @keyframes sheen{0%{transform:translateX(-200%) skewX(-12deg)}12%{transform:translateX(230%) skewX(-12deg)}100%{transform:translateX(230%) skewX(-12deg)}}
+  @media(prefers-reduced-motion:reduce){.featured::after{animation:none;display:none}}
   .featured:hover{transform:translateY(-5px);border-color:rgba(231,173,85,.45);box-shadow:0 34px 80px rgba(0,0,0,.45)}
   .featured .shot{position:relative;min-height:380px;background:#0b0e15;overflow:hidden}
   .featured .shot img{width:100%;height:100%;object-fit:cover;object-position:top left}

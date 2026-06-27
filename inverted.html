@@ -73,6 +73,7 @@
   .nav-links {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 36px;
     list-style: none;
   }
@@ -659,7 +660,7 @@
 
   /* ─── MOBILE ─── */
   .nav-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--ink); cursor: pointer; line-height: 1; padding: 4px; }
-  @media (max-width: 680px) {
+  @media (max-width: 1140px) {
     .nav-toggle { display: block; }
     .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 6px 0; display: none; }
     .nav-links.open { display: flex; }
@@ -1055,5 +1056,40 @@
   })();
 })();
 </script>
+<!-- PH-SMOOTH · Lenis smooth scroll (desktop only; keeps the twin's own cursor/tilt/parallax intact) -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function(){
+  if(!window.Lenis) return;                                   // fail-safe: no lib -> native scroll
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  if(matchMedia('(pointer:coarse)').matches || window.innerWidth<=1024) return; // desktop only
+  document.documentElement.style.scrollBehavior='auto';
+  var lenis=new Lenis({duration:1.2,smoothWheel:true});
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+})();
+</script>
+<!-- PH-ANALYTICS -->
+<script data-goatcounter="https://phorethought.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  function evt(name){try{if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'evt-'+name,title:'click: '+name,event:true});}}catch(e){}}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a,button');if(!a)return;
+    var label=a.getAttribute('data-evt');
+    if(!label){
+      var h=(a.getAttribute('href')||'').toLowerCase();
+      if(h.indexOf('instagram')>-1)label='instagram';
+      else if(h.indexOf('docs.google.com/forms')>-1||h.indexOf('forms.gle')>-1)label='google-form';
+      else if(h.indexOf('mailto:')>-1)label='email';
+      else if(h.indexOf('inverted')>-1)label='switch-vibe';
+      else if(h.indexOf('clients')>-1)label='clients-gallery';
+      else return;
+    }
+    evt(label);
+  },true);
+})();
+</script>
+<!-- /PH-ANALYTICS -->
 </body>
 </html>

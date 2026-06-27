@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phorethought — Particle Wordmark</title>
+<meta name="description" content="A WebGL particle wordmark — a few thousand points form the word in real 3D space. Move your cursor, click to morph. By Phorethought.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23e7ad55' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Phorethought — Particle Wordmark">
+<meta property="og:description" content="A few thousand particles form the brand in real 3D space. Move your cursor, click to morph.">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#070a12;--gold:#e7ad55;--mono:'DM Mono',monospace;--serif:'DM Serif Display',Georgia,serif}
+  html,body{height:100%}
+  body{background:radial-gradient(120% 90% at 50% 40%,#0e1424,#070a12 78%);color:#e8e6df;font-family:var(--mono);overflow:hidden}
+  #c{position:fixed;inset:0;display:block;width:100%;height:100%}
+  /* fail-safe wordmark: visible by default; hidden once WebGL inits. If the script fails, this stays. */
+  #fallback{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:1}
+  #fallback .wm{font-family:var(--serif);font-size:clamp(34px,8vw,92px);letter-spacing:1px;color:var(--gold);line-height:1}
+  #fallback .sub{font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#9fb6d6;margin-top:18px}
+  /* UI overlay */
+  .ui{position:fixed;left:0;right:0;pointer-events:none;z-index:3}
+  .ui.top{top:26px;display:flex;justify-content:center}
+  .ui.bottom{bottom:24px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#9fb6d6;opacity:.8}
+  .hint{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6f7d97;opacity:0;transition:opacity 1s ease 1s}
+  .hint.show{opacity:.85}
+  .credit{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:#6f7d97}
+  .credit a{color:#9fb6d6;text-decoration:none;border-bottom:1px solid rgba(159,182,214,.3);pointer-events:auto}
+  .credit a:hover{color:var(--gold);border-color:var(--gold)}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="fallback"><div class="wm">Phorethought</div><div class="sub">You think it, we create it</div></div>
+<div class="ui top"><div class="eyebrow">Phorethought · Cinematic Experiences</div></div>
+<div class="ui bottom">
+  <div class="hint" id="hint">Move your cursor · click to morph</div>
+  <div class="credit">Runs entirely in your browser · <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Built by Phorethought ↗</a></div>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const isMobile = matchMedia('(pointer:coarse)').matches || innerWidth < 760;
+const COUNT = isMobile ? 2200 : 5200;          // particle cap (reduced on mobile)
+const WORD = 'Phorethought';
+
+(async function init(){
+  try{
+    // make sure the display font is ready before sampling, so the shape is crisp
+    if(document.fonts && document.fonts.load){ try{ await document.fonts.load('400 180px "DM Serif Display"'); await document.fonts.ready; }catch(e){} }
+
+    // ---- sample the word into target points from an offscreen canvas ----
+    const tc = document.createElement('canvas'), tx = tc.getContext('2d');
+    const FS = 200; tx.font = '400 ' + FS + 'px "DM Serif Display", Georgia, serif';
+    const tw = Math.ceil(tx.measureText(WORD).width);
+    tc.width = tw + 40; tc.height = Math.ceil(FS * 1.4);
+    tx.font = '400 ' + FS + 'px "DM Serif Display", Georgia, serif';
+    tx.fillStyle = '#fff'; tx.textBaseline = 'middle'; tx.textAlign = 'center';
+    tx.fillText(WORD, tc.width/2, tc.height/2);
+    const img = tx.getImageData(0,0,tc.width,tc.height).data;
+
+    const pts = [];
+    const step = 2;
+    for(let y=0; y<tc.height; y+=step){
+      for(let x=0; x<tc.width; x+=step){
+        if(img[(y*tc.width + x)*4 + 3] > 130) pts.push([x, y]);
+      }
+    }
+    if(!pts.length) throw new Error('no glyph pixels');
+    // scale sampled pixels to world units (~440 wide)
+    const worldW = 440, s = worldW / tc.width;
+    // pick COUNT target points (shuffle then take/loop)
+    for(let i=pts.length-1;i>0;i--){ const j=(i*1103515245+12345)%(i+1); const t=pts[i]; pts[i]=pts[j]; pts[j]=t; }
+    const wordTargets = new Float32Array(COUNT*3);
+    for(let i=0;i<COUNT;i++){
+      const p = pts[i % pts.length];
+      wordTargets[i*3]   = (p[0] - tc.width/2)  * s + (Math.random()-0.5)*1.2;
+      wordTargets[i*3+1] = -(p[1] - tc.height/2) * s + (Math.random()-0.5)*1.2;
+      wordTargets[i*3+2] = (Math.random()-0.5)*16;
+    }
+    // sphere targets (for the morph)
+    const sphereTargets = new Float32Array(COUNT*3);
+    for(let i=0;i<COUNT;i++){
+      const u=Math.random(), v=Math.random(), th=2*Math.PI*u, ph=Math.acos(2*v-1), r=150+Math.random()*16;
+      sphereTargets[i*3]   = r*Math.sin(ph)*Math.cos(th);
+      sphereTargets[i*3+1] = r*Math.sin(ph)*Math.sin(th);
+      sphereTargets[i*3+2] = r*Math.cos(ph);
+    }
+
+    // ---- three.js scene ----
+    const canvas = document.getElementById('c');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 1, 2000);
+    camera.position.z = 470;
+
+    // positions start scattered (fly-in); colors vary within gold
+    const pos = new Float32Array(COUNT*3), col = new Float32Array(COUNT*3);
+    const c1 = new THREE.Color('#8a5e1f'), c2 = new THREE.Color('#e7ad55'), c3 = new THREE.Color('#fff3d6'), tmp = new THREE.Color();
+    for(let i=0;i<COUNT;i++){
+      const a=Math.random()*Math.PI*2, b=Math.acos(2*Math.random()-1), r=420+Math.random()*260;
+      pos[i*3]=r*Math.sin(b)*Math.cos(a); pos[i*3+1]=r*Math.sin(b)*Math.sin(a); pos[i*3+2]=r*Math.cos(b);
+      const m=Math.random(); tmp.copy(m<0.5?c1.clone().lerp(c2,m*2):c2.clone().lerp(c3,(m-0.5)*2));
+      col[i*3]=tmp.r; col[i*3+1]=tmp.g; col[i*3+2]=tmp.b;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+
+    // soft round sprite
+    const sc=document.createElement('canvas'); sc.width=sc.height=64; const sx=sc.getContext('2d');
+    const g=sx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.35,'rgba(255,255,255,.7)'); g.addColorStop(1,'rgba(255,255,255,0)');
+    sx.fillStyle=g; sx.fillRect(0,0,64,64);
+    const sprite=new THREE.CanvasTexture(sc);
+
+    const mat = new THREE.PointsMaterial({ size: isMobile?2.6:2.2, map:sprite, vertexColors:true, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, opacity:.95 });
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    // reveal: hide fallback now that WebGL is up
+    document.getElementById('fallback').style.display='none';
+    window.__demo4ready = true;
+
+    let targets = wordTargets, morphed = false;
+    const posAttr = geo.attributes.position;
+
+    // ---- reduced motion: snap to the word, render once, no loop, no interaction ----
+    if(reduce){
+      for(let i=0;i<COUNT*3;i++) pos[i]=wordTargets[i];
+      posAttr.needsUpdate = true;
+      renderer.render(scene, camera);
+      addEventListener('resize', onResize);
+      return;
+    }
+
+    // ---- interaction ----
+    const mouse = new THREE.Vector2(-10,-10), mouseWorld = new THREE.Vector3(), tilt = {x:0,y:0};
+    const raycaster = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0,0,1),0), hit = new THREE.Vector3();
+    function pointer(e){
+      const t = e.touches ? e.touches[0] : e;
+      mouse.x = (t.clientX/innerWidth)*2-1; mouse.y = -(t.clientY/innerHeight)*2+1;
+      raycaster.setFromCamera(mouse, camera);
+      if(raycaster.ray.intersectPlane(plane, hit)) mouseWorld.copy(hit);
+    }
+    addEventListener('mousemove', pointer); addEventListener('touchmove', pointer, {passive:true});
+    addEventListener('click', () => { morphed=!morphed; targets = morphed?sphereTargets:wordTargets; });
+    setTimeout(()=>document.getElementById('hint').classList.add('show'), 1600);
+
+    function onResize(){ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); }
+    addEventListener('resize', onResize);
+
+    const REP = 46, REP2 = REP*REP;
+    function frame(){
+      const p = posAttr.array;
+      for(let i=0;i<COUNT;i++){
+        const ix=i*3, iy=ix+1, iz=ix+2;
+        // ease toward target
+        p[ix] += (targets[ix]-p[ix])*0.06;
+        p[iy] += (targets[iy]-p[iy])*0.06;
+        p[iz] += (targets[iz]-p[iz])*0.06;
+        // pointer repel (xy)
+        const dx=p[ix]-mouseWorld.x, dy=p[iy]-mouseWorld.y, d2=dx*dx+dy*dy;
+        if(d2<REP2){ const f=(1-d2/REP2)*8; const inv=1/Math.sqrt(d2)||0; p[ix]+=dx*inv*f; p[iy]+=dy*inv*f; }
+      }
+      posAttr.needsUpdate = true;
+      // gentle tilt toward cursor
+      tilt.x += ((-mouse.y*0.18)-tilt.x)*0.05; tilt.y += ((mouse.x*0.28)-tilt.y)*0.05;
+      points.rotation.x = tilt.x; points.rotation.y = tilt.y;
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+    frame();
+  }catch(err){
+    // leave the fallback wordmark visible; never trap content
+    if(window.console) console.warn('Particle wordmark unavailable:', err);
+  }
+})();
+</script>
+</body>
+</html>

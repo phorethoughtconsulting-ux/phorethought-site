@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kindred — Project Estimate</title>
+<meta name="description" content="Kindred Studio's live project estimator. Pick what you need and see your quote instantly — runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ED5A36'/%3E%3Ctext x='16' y='23' font-family='Arial,sans-serif' font-weight='700' font-size='19' fill='white' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kindred — Project Estimate">
+<meta property="og:description" content="Pick what you need and see your quote instantly. A live estimator by Kindred Studio.">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#17130f;--soft:#6b6258;--muted:#9a9186;--ghost:#cfc7ba;
+    --paper:#fff;--warm:#faf5ec;--accent:#ed5a36;--accent-soft:rgba(237,90,54,.10);--good:#2f9e6b;--rule:#ece4d6;
+    --display:'Space Grotesk',system-ui,sans-serif;--sans:'Inter',system-ui,sans-serif;
+  }
+  body{font-family:var(--sans);background:var(--warm);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;padding:38px 20px 60px}
+  .wrap{max-width:920px;margin:0 auto}
+  .brandbar{display:flex;align-items:baseline;gap:14px;margin-bottom:30px}
+  .logo{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.5px}
+  .logo .dot{color:var(--accent)}
+  .studiotag{font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,4.6vw,48px);letter-spacing:-1.2px;line-height:1.05;margin-bottom:10px}
+  .lead{color:var(--soft);max-width:560px;font-size:16px}
+  .lead b{color:var(--ink);font-weight:600}
+  /* mode toggle */
+  .modebar{display:inline-flex;background:var(--paper);border:1px solid var(--rule);border-radius:40px;padding:5px;margin:26px 0 20px;gap:4px}
+  .modebar button{font-family:var(--sans);font-weight:600;font-size:14px;border:none;background:none;color:var(--muted);padding:9px 24px;border-radius:30px;cursor:pointer;transition:.2s}
+  .modebar button.on{background:var(--accent);color:#fff}
+  .hint{font-size:13px;color:var(--muted);margin-bottom:18px}
+  .view[hidden]{display:none}
+  /* builder */
+  .additem{display:flex;gap:10px;margin-bottom:20px}
+  .additem input{flex:1;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:13px 16px;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s}
+  .additem input:focus{border-color:var(--accent)}
+  .additem button{background:var(--ink);color:#fff;border:none;border-radius:12px;padding:0 20px;font-family:var(--sans);font-weight:600;font-size:14px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .additem button:hover{background:#000}
+  .item{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:22px 22px 24px;margin-bottom:14px;position:relative}
+  .item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px;padding-right:34px}
+  .item-name{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.2}
+  .item-price{font-family:var(--display);font-weight:600;font-size:30px;white-space:nowrap;letter-spacing:-.5px}
+  .item-price .mo{font-family:var(--sans);font-size:14px;color:var(--muted);font-weight:400}
+  .remove{position:absolute;top:15px;right:15px;width:27px;height:27px;border:none;background:var(--warm);color:var(--muted);border-radius:8px;font-size:15px;cursor:pointer;line-height:1;transition:.2s}
+  .remove:hover{background:#fbe3dd;color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 16px}
+  .chip{font-family:var(--sans);font-size:13px;font-weight:500;border:1px solid var(--rule);background:var(--warm);color:var(--soft);border-radius:30px;padding:7px 15px;cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--ghost)}
+  .chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+  .rangerow{display:flex;align-items:center;gap:14px}
+  .rangerow .rv{font-family:var(--sans);font-size:12px;color:var(--muted);width:66px;text-align:right}
+  /* customer */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{text-align:left;background:var(--paper);border:1.5px solid var(--rule);border-radius:16px;padding:18px;cursor:pointer;transition:.18s;position:relative;font-family:inherit}
+  .card:hover{border-color:var(--ghost);transform:translateY(-2px)}
+  .card.on{border-color:var(--accent);background:var(--accent-soft)}
+  .card .cn{font-family:var(--display);font-weight:600;font-size:17px;margin-bottom:4px;padding-right:30px}
+  .card .cp{font-family:var(--sans);font-size:14px;color:var(--soft)}
+  .card .tick{position:absolute;top:15px;right:15px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ghost);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;transition:.18s}
+  .card.on .tick{background:var(--accent);border-color:var(--accent)}
+  .totalbar{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;border-radius:16px;padding:22px 26px;margin-top:16px;flex-wrap:wrap;gap:14px}
+  .totalbar .tl{font-family:var(--sans);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .totalbar .tv{font-family:var(--display);font-weight:600;font-size:38px;letter-spacing:-1px}
+  .totalbar .tv .mo{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,.6);font-weight:400}
+  .checkout{background:var(--accent);color:#fff;border:none;border-radius:12px;padding:15px 32px;font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;transition:.18s}
+  .checkout:hover:not(:disabled){background:#d84220;transform:translateY(-2px)}
+  .checkout:disabled{background:rgba(255,255,255,.18);cursor:not-allowed}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(23,19,15,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .modal.show{display:flex}
+  .modal-card{background:var(--paper);border-radius:20px;max-width:440px;width:100%;padding:38px 32px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.28)}
+  .check{width:64px;height:64px;border-radius:50%;background:rgba(47,158,107,.12);color:var(--good);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px}
+  .modal-card h2{font-family:var(--display);font-weight:600;font-size:25px;margin-bottom:6px}
+  .modal-card .mtotal{font-family:var(--display);font-weight:600;font-size:34px;margin:8px 0;letter-spacing:-1px}
+  .modal-card p{color:var(--soft);font-size:14px;margin-bottom:8px}
+  .disclaimer{background:var(--warm);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--muted);margin:16px 0 22px;line-height:1.5}
+  .continue{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;transition:.2s}
+  .continue:hover{background:#d8421f}
+  footer{text-align:center;margin-top:42px;font-size:12px;color:var(--muted)}
+  footer a{color:var(--soft);text-decoration:none;border-bottom:1px solid var(--ghost)}
+  footer a:hover{color:var(--accent);border-color:var(--accent)}
+  @media(max-width:600px){.cards{grid-template-columns:1fr}.item-price{font-size:25px}}
+  @media(max-width:460px){.additem{flex-direction:column}.additem button{padding:14px;width:100%}.item-top{flex-wrap:wrap;padding-right:34px}.item-price{font-size:24px}}
+  @media(prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar"><span class="logo">Kindred<span class="dot">.</span></span><span class="studiotag">Brand &amp; Web Studio</span></div>
+  <h1>Let's price your project.</h1>
+  <p class="lead">Set your services in <b>Builder</b>, then switch to <b>Customer</b> to put a quote together. A live estimate, no calls.</p>
+
+  <div class="modebar" role="tablist">
+    <button id="mBuilder" class="on" role="tab">Builder</button>
+    <button id="mCustomer" role="tab">Customer</button>
+  </div>
+
+  <div id="builder" class="view">
+    <div class="hint">Studio side — set your line items and prices. These become the client's options.</div>
+    <div class="additem">
+      <input id="addInput" type="text" placeholder="Add a service (e.g. Packaging Design)" maxlength="48">
+      <button id="addBtn">+ Add service</button>
+    </div>
+    <div id="items">This estimator needs JavaScript enabled.</div>
+  </div>
+
+  <div id="customer" class="view" hidden>
+    <div class="hint">Client side — select what you need; your total updates live.</div>
+    <div id="cards" class="cards"></div>
+    <div class="totalbar">
+      <div><div class="tl">Project total</div><div class="tv" id="custTotal">$0</div></div>
+      <button class="checkout" id="checkoutBtn" disabled>Checkout</button>
+    </div>
+  </div>
+
+  <footer>Runs entirely in your browser — nothing is stored or sent. · <a id="creditLink" href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Built by Phorethought ↗</a></footer>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="check">✓</div>
+    <h2>Estimate confirmed</h2>
+    <div class="mtotal" id="modalTotal">$0</div>
+    <p>This is a free demo checkout — a preview of how the tool would close a project.</p>
+    <div class="disclaimer">No payment information was requested or collected. Nothing was stored, charged, or sent anywhere. This runs entirely in your browser.</div>
+    <button class="continue" id="continueBtn">Continue →</button>
+  </div>
+</div>
+
+<script>
+/* ===== EDIT THESE ===== */
+const REDIRECT_URL = 'https://www.instagram.com/phorethought/';        // where "Continue" sends people
+const PRESET_PRICES = [250, 650, 1200, 2400, 5000];                  // the 5 preset chips
+const DEFAULT_SERVICES = [
+  { name: 'Brand Identity',   price: 1200, monthly: false },
+  { name: 'Logo & Wordmark',  price: 650,  monthly: false },
+  { name: 'Website Design',   price: 2400, monthly: false },
+  { name: 'Social Templates', price: 400,  monthly: false },
+  { name: 'Care Retainer',    price: 300,  monthly: true  }
+];
+/* ====================== */
+
+const $ = id => document.getElementById(id);
+let uid = 1, services = [], mode = 'builder';
+const selected = new Set();
+
+function loadDefaults(){ services = DEFAULT_SERVICES.map(s => ({ id: uid++, name: s.name, price: s.price, monthly: !!s.monthly })); selected.clear(); }
+const money = n => '$' + Math.round(n).toLocaleString();
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderBuilder(){
+  const box = $('items');
+  if(!services.length){ box.innerHTML = '<div class="hint">No services yet — add one above.</div>'; return; }
+  box.innerHTML = services.map(s => {
+    const chips = PRESET_PRICES.map(p => '<button class="chip'+(p===s.price?' on':'')+'" data-id="'+s.id+'" data-price="'+p+'">'+money(p)+'</button>').join('');
+    const max = Math.max(6000, s.price);
+    return '<div class="item">'+
+      '<button class="remove" data-remove="'+s.id+'" title="Remove" aria-label="Remove">×</button>'+
+      '<div class="item-top"><div class="item-name">'+escapeHtml(s.name)+'</div>'+
+      '<div class="item-price">'+money(s.price)+(s.monthly?'<span class="mo">/mo</span>':'')+'</div></div>'+
+      '<div class="chips">'+chips+'</div>'+
+      '<div class="rangerow"><input type="range" min="0" max="'+max+'" step="10" value="'+s.price+'" data-slider="'+s.id+'"><span class="rv">'+money(s.price)+'</span></div>'+
+    '</div>';
+  }).join('');
+}
+function setPrice(id, price){ const s = services.find(x => x.id === id); if(!s) return; s.price = Math.max(0, Math.round(price)); renderBuilder(); if(mode==='customer') renderCustomer(); }
+
+function renderCustomer(){
+  $('cards').innerHTML = services.map(s =>
+    '<button class="card'+(selected.has(s.id)?' on':'')+'" data-select="'+s.id+'"><div class="tick">✓</div>'+
+    '<div class="cn">'+escapeHtml(s.name)+'</div><div class="cp">'+money(s.price)+(s.monthly?' /mo':'')+'</div></button>'
+  ).join('');
+  updateTotal();
+}
+function totals(){ let once=0,mo=0; services.forEach(s => { if(selected.has(s.id)){ s.monthly?(mo+=s.price):(once+=s.price); } }); return {once,mo}; }
+function totalLabel(){ const t=totals(); let h=money(t.once); if(t.mo) h+=' <span class="mo">+ '+money(t.mo)+'/mo</span>'; return h; }
+function updateTotal(){ $('custTotal').innerHTML = totalLabel(); $('checkoutBtn').disabled = selected.size===0; }
+
+function setMode(m){ mode=m; $('mBuilder').classList.toggle('on',m==='builder'); $('mCustomer').classList.toggle('on',m==='customer'); $('mBuilder').setAttribute('aria-pressed',m==='builder'); $('mCustomer').setAttribute('aria-pressed',m==='customer'); $('builder').hidden=m!=='builder'; $('customer').hidden=m!=='customer'; m==='builder'?renderBuilder():renderCustomer(); }
+function openModal(){ $('modalTotal').innerHTML=totalLabel(); $('modal').classList.add('show'); $('modal').setAttribute('aria-hidden','false'); }
+function closeModal(){ $('modal').classList.remove('show'); $('modal').setAttribute('aria-hidden','true'); }
+function resetAll(){ uid=1; loadDefaults(); setMode('builder'); }
+
+$('mBuilder').onclick = () => setMode('builder');
+$('mCustomer').onclick = () => setMode('customer');
+$('addBtn').onclick = () => { const v=$('addInput').value.trim(); if(!v) return; services.push({id:uid++,name:v,price:PRESET_PRICES[1],monthly:false}); $('addInput').value=''; renderBuilder(); };
+$('addInput').addEventListener('keydown', e => { if(e.key==='Enter') $('addBtn').click(); });
+$('items').addEventListener('click', e => {
+  const chip=e.target.closest('.chip'); if(chip){ setPrice(+chip.dataset.id,+chip.dataset.price); return; }
+  const rm=e.target.closest('[data-remove]'); if(rm){ const id=+rm.dataset.remove; services=services.filter(s=>s.id!==id); selected.delete(id); renderBuilder(); }
+});
+$('items').addEventListener('input', e => { const sl=e.target.closest('[data-slider]'); if(sl) setPrice(+sl.dataset.slider,+sl.value); });
+$('cards').addEventListener('click', e => { const c=e.target.closest('[data-select]'); if(!c) return; const id=+c.dataset.select; selected.has(id)?selected.delete(id):selected.add(id); renderCustomer(); });
+$('checkoutBtn').onclick = () => { if(selected.size) openModal(); };
+$('continueBtn').onclick = () => { closeModal(); resetAll(); window.open(REDIRECT_URL,'_blank','noopener'); };
+$('modal').addEventListener('click', e => { if(e.target===$('modal')) closeModal(); });
+
+loadDefaults();
+setMode('builder');
+</script>
+</body>
+</html>

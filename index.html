@@ -73,6 +73,7 @@
   .nav-links {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
     gap: 36px;
     list-style: none;
   }
@@ -103,7 +104,24 @@
     padding: 120px 32px 80px;
     max-width: 1100px;
     margin: 0 auto;
+    position: relative;
+    overflow: hidden;
   }
+  /* #8 hero atmosphere — ultra-faint ambient depth (ink-only, desktop-only, removable) */
+  .hero > *:not(.hero-atmos){ position: relative; z-index: 1; }
+  .hero-atmos{
+    position: absolute; inset: -25%; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(38% 48% at 28% 32%, rgba(10,15,30,0.045), transparent 62%),
+      radial-gradient(34% 44% at 72% 58%, rgba(10,15,30,0.038), transparent 62%),
+      radial-gradient(30% 40% at 52% 82%, rgba(10,15,30,0.030), transparent 62%);
+    filter: blur(26px);
+    animation: heroDrift 80s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes heroDrift{ from{ transform: translate3d(-1.5%,-1%,0) scale(1.06); } to{ transform: translate3d(1.5%,1.2%,0) scale(1.14); } }
+  @media (max-width:900px){ .hero-atmos{ display:none; } }
+  @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -335,10 +353,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    transition: background 0.2s;
+    transition: background 0.3s, box-shadow 0.3s;
     position: relative;
   }
-  .service-card:hover { background: linear-gradient(rgba(10,15,30,0.84), rgba(10,15,30,0.90)), url('assets/camo-grey.jpg'); background-size: cover; background-position: center; }
+  .service-card:hover { background: linear-gradient(rgba(10,15,30,0.84), rgba(10,15,30,0.90)), url('assets/camo-grey.jpg'); background-size: cover; background-position: center; box-shadow: inset 0 0 0 1px rgba(231,173,85,0.30); }
   .service-card:hover .service-num,
   .service-card:hover .service-name,
   .service-card:hover .service-desc,
@@ -599,7 +617,8 @@
   }
   .footer-links {
     display: flex;
-    gap: 28px;
+    flex-wrap: wrap;
+    gap: 12px 28px;
     list-style: none;
   }
   .footer-links a {
@@ -623,6 +642,7 @@
   .work-group .gh { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .work-group .gh::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
   .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tools-grid { grid-template-columns: repeat(2, 1fr); }
   /* Step inside the studio — featured banner */
   .studio-banner { position: relative; min-height: clamp(360px, 60vh, 540px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 64px 24px; color: #fff; overflow: hidden; background: linear-gradient(rgba(6,8,14,0.6), rgba(6,8,14,0.8)), url('portfolio/14-studio/assets/og.jpg') center / cover no-repeat; }
   .studio-banner .sb-k { font-family: var(--mono); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #e7ad55; margin-bottom: 14px; }
@@ -645,7 +665,7 @@
   .reel-cta { display: inline-block; font-family: var(--mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: #e7ad55; color: #0a0f1e; padding: 15px 28px; border-radius: 40px; text-decoration: none; font-weight: 600; transition: transform 0.2s, background 0.2s; }
   .reel-cta:hover { transform: translateY(-2px); background: #f0bd6e; }
   @media(max-width:760px){ .reel-inner { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 30px; } .reel-copy p { margin-left:auto; margin-right:auto; } }
-  .work-card { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 24px; box-shadow: 0 6px 20px rgba(10,15,30,0.05); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s; }
+  .work-card { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 24px; box-shadow: 0 6px 20px rgba(10,15,30,0.05); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s; text-decoration: none; color: inherit; }
   .work-card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(10,15,30,0.22); border-color: var(--ink); background: linear-gradient(rgba(10,15,30,0.86), rgba(10,15,30,0.90)), url('assets/camo-grey.jpg'); background-size: cover; background-position: center; }
   .work-card:hover .wt, .work-card:hover .wd { color: #fff; }
   .work-card:hover .tag { color: #fff; border-color: rgba(255,255,255,0.45); }
@@ -659,7 +679,7 @@
 
   /* ─── MOBILE ─── */
   .nav-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--ink); cursor: pointer; line-height: 1; padding: 4px; }
-  @media (max-width: 680px) {
+  @media (max-width: 1140px) {
     .nav-toggle { display: block; }
     .nav-links { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 6px 0; display: none; }
     .nav-links.open { display: flex; }
@@ -709,18 +729,19 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-tag fadein">Systems Strategist &amp; Builder</div>
-  <h1 class="hero-headline fadein fadein-d1">
+  <div class="hero-atmos" aria-hidden="true"></div>
+  <div class="hero-tag">Systems Strategist &amp; Builder</div>
+  <h1 class="hero-headline">
     We build things<br><em>that work.</em>
   </h1>
-  <p class="hero-sub fadein fadein-d2">
+  <p class="hero-sub">
     Websites, tools, and automations — built and handed off. You never have to touch the tech.
   </p>
-  <div class="hero-actions fadein fadein-d3">
+  <div class="hero-actions">
     <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener" class="btn-primary">Get a quote</a>
     <a href="#work" class="btn-ghost">See the work →</a>
   </div>
-  <div class="hero-scroll fadein fadein-d4">
+  <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     Scroll
   </div>
@@ -925,22 +946,27 @@
     <p class="work-intro">Cinematic, built-for-you experiences — the kind of thing you can't get off a shelf. Click any to open it live.</p>
 
     <div class="work-group">
-      <div class="gh">Built for Creators</div>
-      <div class="work-grid">
-        <a class="work-card" href="portfolio/16-fieldshow/index.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · Interactive</span><div class="wt">Field Show</div><div class="wd">An aerial night halftime show — a marching band drills the words into formation. Type your own and watch them spell it out.</div><span class="view">Take the field ↗</span></a>
-        <a class="work-card" href="portfolio/14-studio/index.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · Explorable</span><div class="wt">The Studio</div><div class="wd">Step inside a cinematic studio space — zoom into each corner to explore, view the graffiti up close, and find the screen that takes you through.</div><span class="view">Step inside ↗</span></a>
-        <a class="work-card" href="portfolio/11-scroll-story/index.html" target="_blank" rel="noopener">
-          <span class="tag">Immersive Story</span><div class="wt">You Think It</div><div class="wd">A scroll-driven, animated brand experience (also this site's intro).</div><span class="view">Experience it ↗</span></a>
+      <div class="gh">Tools &amp; Automations</div>
+      <p class="work-intro" style="margin:-8px 0 22px;font-size:15.5px">Not just pages — working tools and automations, each built around a real business. These were built for different brands; open any to use it live, right in your browser.</p>
+      <div class="work-grid tools-grid">
+        <a class="work-card" href="demos/quote-builder.html" target="_blank" rel="noopener">
+          <span class="tag">Pricing Tool · for Kindred</span><div class="wt">Quote Builder</div><div class="wd">A two-mode estimator — the studio sets its services, a client builds a quote and checks out. Runs entirely in the browser.</div><span class="view">Open the tool ↗</span></a>
+        <a class="work-card" href="demos/roi-calculator.html" target="_blank" rel="noopener">
+          <span class="tag">Automation Tool · for Lever</span><div class="wt">ROI Calculator</div><div class="wd">Shows what a repetitive task really costs per year — then suggests the real tools that could take it off your plate.</div><span class="view">Run the numbers ↗</span></a>
+        <a class="work-card" href="demos/automation-simulator.html" target="_blank" rel="noopener">
+          <span class="tag">Experience · for Conduit</span><div class="wt">Automation, Visualized</div><div class="wd">Watch a workflow fire step by step — a cinematic walkthrough of an automation running, node by node.</div><span class="view">Watch it run ↗</span></a>
+        <a class="work-card" href="demos/particle-wordmark.html" target="_blank" rel="noopener">
+          <span class="tag">Cinematic · WebGL</span><div class="wt">Particle Wordmark</div><div class="wd">A few thousand particles form the brand in real 3D — move your cursor, click to morph. This one's ours.</div><span class="view">Enter ↗</span></a>
       </div>
     </div>
 
     <div class="work-group">
-      <div class="gh">Interactive &amp; Atmospheric</div>
+      <div class="gh">Cinematic &amp; Interactive</div>
       <div class="work-grid">
-        <a class="work-card" href="portfolio/07-interactive-art/index.html" target="_blank" rel="noopener">
-          <span class="tag">Interactive Art</span><div class="wt">Flow</div><div class="wd">A cursor-reactive generative art field — creative coding in motion.</div><span class="view">Try it ↗</span></a>
+        <a class="work-card" href="portfolio/14-studio/index.html" target="_blank" rel="noopener">
+          <span class="tag">Experience · Explorable</span><div class="wt">The Studio</div><div class="wd">Step inside a cinematic studio space — zoom into each corner to explore, view the graffiti up close, and find the screen that takes you through.</div><span class="view">Step inside ↗</span></a>
+        <a class="work-card" href="portfolio/11-scroll-story/index.html" target="_blank" rel="noopener">
+          <span class="tag">Immersive Story</span><div class="wt">You Think It</div><div class="wd">A scroll-driven, animated brand experience (also this site's intro).</div><span class="view">Experience it ↗</span></a>
         <a class="work-card" href="portfolio/10-event-invite/index.html" target="_blank" rel="noopener">
           <span class="tag">Experience · RSVP</span><div class="wt">Afterglow</div><div class="wd">A dark, cinematic event invite — live countdown, a working RSVP, gold on black.</div><span class="view">Open it ↗</span></a>
       </div>
@@ -1070,23 +1096,141 @@
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
 </script>
 
-<!-- scroll-reveal: section titles slide up + fade in as they enter view -->
-<style>
-  .ph-reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
-  .ph-reveal.in{opacity:1;transform:none}
-  .ph-reveal.d{transition-delay:.09s}
-  @media (prefers-reduced-motion:reduce){.ph-reveal{transition:none;opacity:1;transform:none}}
-</style>
+<!-- PH-MOTION · GSAP 3.13 + ScrollTrigger + Lenis (Batch 1: foundation, reveals, count-ups). Self-contained; remove this block to revert. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
-  (function(){
-    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-    var labels=document.querySelectorAll('.section-label, .studio-banner .sb-k, .reel-copy .rk');
-    var titles=document.querySelectorAll('.section-title, .studio-banner h2, .reel-copy h2, .cta-title');
-    labels.forEach(function(el){el.classList.add('ph-reveal');});
-    titles.forEach(function(el){el.classList.add('ph-reveal','d');}); // titles a touch behind their label
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.2});
-    document.querySelectorAll('.ph-reveal').forEach(function(el){io.observe(el);});
-  })();
+(function(){
+  // FAIL-SAFE: if the libraries didn't load, do nothing — content stays fully visible (never hide what we can't reveal).
+  if(!window.gsap || !window.ScrollTrigger) return;
+  // REDUCED MOTION: leave everything in its final state, no Lenis, no hides.
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+  var EASE='power2.out';
+  var hidden=[]; // track everything we hide so we can force-reveal on any error
+  function hide(sel){ var els=gsap.utils.toArray(sel); if(els.length){ gsap.set(els,{opacity:0,y:30}); hidden=hidden.concat(els); } return els; }
+
+  try {
+    // ---- Lenis smooth scroll (desktop only; phones keep native scroll), synced to ScrollTrigger ----
+    var desktop = !matchMedia('(pointer:coarse)').matches && window.innerWidth > 1024;
+    if(desktop && window.Lenis){
+      document.documentElement.style.scrollBehavior='auto'; // Lenis owns scrolling
+      var lenis=new Lenis({ duration:1.2, smoothWheel:true });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function(t){ lenis.raf(t*1000); });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // ---- Hero line-mask reveal (on load; cinematic, not per-letter) ----
+    var hero=document.querySelector('.hero-headline');
+    var htag=document.querySelector('.hero-tag'), hsub=document.querySelector('.hero-sub'),
+        hact=document.querySelector('.hero-actions'), hscr=document.querySelector('.hero-scroll');
+    if(hero && window.SplitText){
+      gsap.registerPlugin(SplitText);
+      gsap.set(hero,{opacity:0}); hidden.push(hero);
+      var hChrome=[htag,hsub,hact,hscr].filter(Boolean);
+      gsap.set(hChrome,{opacity:0,y:20}); hidden=hidden.concat(hChrome);
+      var revealHero=function(){
+        try{
+          var split=new SplitText(hero,{type:'lines',mask:'lines',linesClass:'ph-line'});
+          gsap.set(hero,{opacity:1});
+          gsap.timeline()
+            .from(split.lines,{yPercent:115,duration:.85,ease:'power3.out',stagger:.12},0)
+            .to([htag].filter(Boolean),{opacity:1,y:0,duration:.7,ease:EASE},0)
+            .to([hsub,hact].filter(Boolean),{opacity:1,y:0,duration:.8,ease:EASE,stagger:.12},'-=0.30')
+            .to([hscr].filter(Boolean),{opacity:1,y:0,duration:.6,ease:EASE},'-=0.20')
+            .add(function(){ try{ split.revert(); }catch(e){} });
+        }catch(e){ gsap.set([hero].concat(hChrome),{opacity:1,y:0,clearProps:'transform'}); }
+      };
+      (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(revealHero);
+      // fail-safe: if anything stalls, show the hero anyway within 2.6s
+      setTimeout(function(){ if(hero && getComputedStyle(hero).opacity==='0'){ gsap.set([hero].concat(hChrome),{opacity:1,y:0,clearProps:'transform'}); } },2600);
+    }
+
+    // ---- Scroll reveals: titles / labels / bodies (individual, slow fade-up) ----
+    hide('.section-label, .section-title, .section-body, .work-intro, .proof-body, .about-photo-wrap, .studio-banner h2, .reel-copy h2, .cta-title').forEach(function(el){
+      ScrollTrigger.create({ trigger:el, start:'top 85%', once:true,
+        onEnter:function(){ gsap.to(el,{opacity:1,y:0,duration:.9,ease:EASE}); } });
+    });
+
+    // ---- Grouped staggers: service cards (01–07) + work cards ----
+    function group(sel){
+      var els=hide(sel); if(!els.length) return;
+      ScrollTrigger.batch(els,{ start:'top 85%', once:true,
+        onEnter:function(b){ gsap.to(b,{opacity:1,y:0,duration:.9,ease:EASE,stagger:.1}); } });
+    }
+    group('.service-card');
+    group('.work-card');
+
+    // ---- Count-up helper (preserves prefixes/suffixes exactly: $, %, wk) ----
+    function countUp(el, dur){
+      var raw=(el.textContent||'').trim();
+      var m=raw.match(/^([^0-9-]*)(-?[0-9][0-9,]*\.?[0-9]*)(.*)$/);
+      if(!m) return;
+      var pre=m[1], target=parseFloat(m[2].replace(/,/g,'')), suf=m[3], dec=(m[2].split('.')[1]||'').length;
+      if(!isFinite(target)) return;
+      var o={v:0};
+      gsap.to(o,{ v:target, duration:dur||1.5, ease:EASE,
+        onUpdate:function(){ el.textContent=pre+(dec?o.v.toFixed(dec):Math.round(o.v))+suf; },
+        onComplete:function(){ el.textContent=raw; } });
+    }
+
+    // ---- Stats: reveal each block + count its number up together ----
+    var statNums=document.querySelectorAll('.about-stat-num');
+    if(statNums.length){
+      var wraps=[].map.call(statNums,function(n){return n.parentNode;});
+      gsap.set(wraps,{opacity:0,y:30}); hidden=hidden.concat(wraps);
+      ScrollTrigger.create({ trigger:wraps[0], start:'top 85%', once:true,
+        onEnter:function(){ gsap.to(wraps,{opacity:1,y:0,duration:.9,ease:EASE,stagger:.1});
+          statNums.forEach(function(n){ countUp(n,1.5); }); } });
+    }
+
+    // ---- OpsGrade showpiece: score + dimension bars + numbers resolve in sync ----
+    var mock=document.querySelector('.proof-mockup');
+    if(mock){
+      var bars=mock.querySelectorAll('.pm-dim-bar');
+      bars.forEach(function(b){ b.style.transformOrigin='left center'; });
+      gsap.set(bars,{scaleX:0});
+      ScrollTrigger.create({ trigger:mock, start:'top 80%', once:true,
+        onEnter:function(){
+          var sc=mock.querySelector('.pm-score-num'); if(sc) countUp(sc,1.5);
+          mock.querySelectorAll('.pm-dim-val').forEach(function(v){ countUp(v,1.4); });
+          gsap.to(bars,{ scaleX:1, duration:1.4, ease:EASE, stagger:.06 });
+        } });
+    }
+
+    ScrollTrigger.refresh();
+  } catch(err){
+    // Any failure → force-reveal everything we hid, so nothing is ever trapped.
+    if(hidden.length) gsap.set(hidden,{opacity:1,y:0,clearProps:'transform'});
+    if(window.console) console.warn('PH-MOTION disabled:', err);
+  }
+})();
 </script>
+<!-- PH-ANALYTICS -->
+<script data-goatcounter="https://phorethought.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  function evt(name){try{if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'evt-'+name,title:'click: '+name,event:true});}}catch(e){}}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a,button');if(!a)return;
+    var label=a.getAttribute('data-evt');
+    if(!label){
+      var h=(a.getAttribute('href')||'').toLowerCase();
+      if(h.indexOf('instagram')>-1)label='instagram';
+      else if(h.indexOf('docs.google.com/forms')>-1||h.indexOf('forms.gle')>-1)label='google-form';
+      else if(h.indexOf('mailto:')>-1)label='email';
+      else if(h.indexOf('inverted')>-1)label='switch-vibe';
+      else if(h.indexOf('clients')>-1)label='clients-gallery';
+      else return;
+    }
+    evt(label);
+  },true);
+})();
+</script>
+<!-- /PH-ANALYTICS -->
 </body>
 </html>

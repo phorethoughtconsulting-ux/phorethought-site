@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lever — Automation ROI Calculator</title>
+<meta name="description" content="See what a repetitive task is really costing you per year — and which tools could take it off your plate. By Lever. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f1b2d'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%230ea47a' stroke-width='3'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lever — Automation ROI Calculator">
+<meta property="og:description" content="See what a repetitive task is really costing you per year — and which tools could take it off your plate.">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#0f1b2d;--soft:#51617a;--muted:#8a98ab;--ghost:#c3ccd8;
+    --paper:#fff;--cool:#f5f8fb;--accent:#0ea47a;--accent-d:#0b7d5d;--accent-soft:rgba(14,164,122,.10);--rule:#e3e9ef;
+    --sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  body{font-family:var(--sans);background:var(--cool);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.6;padding:38px 20px 60px}
+  .wrap{max-width:920px;margin:0 auto}
+  .brandbar{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+  .mark{width:30px;height:30px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+  .mark span{width:13px;height:13px;border:3px solid var(--accent);border-radius:50%}
+  .logo{font-weight:600;font-size:20px;letter-spacing:-.4px}
+  .studiotag{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  h1{font-size:clamp(28px,4.4vw,44px);font-weight:600;letter-spacing:-1px;line-height:1.06;margin-bottom:10px}
+  .lead{color:var(--soft);max-width:580px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0 6px}
+  .field{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:18px}
+  .field.full{grid-column:1 / -1}
+  label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+  input[type=text],input[type=number]{width:100%;background:var(--cool);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s;color:var(--ink)}
+  input:focus{border-color:var(--accent)}
+  .slidewrap{display:flex;align-items:center;gap:14px}
+  input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer}
+  .slideval{font-family:var(--mono);font-weight:600;font-size:18px;width:54px;text-align:right;color:var(--accent-d)}
+  .calc{margin-top:16px;width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:16px;font-family:var(--sans);font-weight:600;font-size:16px;cursor:pointer;transition:.2s}
+  .calc:hover{background:var(--accent-d);transform:translateY(-1px)}
+  /* results */
+  .results{margin-top:24px;display:none}
+  .results.show{display:block}
+  .rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .rcard{background:var(--ink);color:#fff;border-radius:16px;padding:22px 24px}
+  .rcard.alt{background:var(--paper);color:var(--ink);border:1px solid var(--rule)}
+  .rcard .rk{font-family:var(--mono);font-size:11px;letter-spacing:.8px;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+  .rcard.alt .rk{color:var(--muted);opacity:1}
+  .rcard .rv{font-family:var(--mono);font-weight:600;font-size:34px;letter-spacing:-1px}
+  .rcard .rv .accent{color:var(--accent)}
+  .rnote{font-size:12.5px;color:var(--muted);margin-top:14px}
+  /* suggester */
+  .sugg{margin-top:26px}
+  .sugg h2{font-size:20px;font-weight:600;margin-bottom:4px}
+  .sugg .sub{font-size:13.5px;color:var(--soft);margin-bottom:16px}
+  .catlabel{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--accent-d);margin:18px 0 10px;display:flex;align-items:center;gap:10px}
+  .catlabel::after{content:'';flex:1;height:1px;background:var(--rule)}
+  .tool{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:15px 17px;margin-bottom:9px;text-decoration:none;color:inherit;transition:.16s}
+  .tool:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .tool .tn{font-weight:600;font-size:15px}
+  .tool .td{font-size:13px;color:var(--soft);margin-top:2px}
+  .tool .free{font-family:var(--mono);font-size:11px;color:var(--accent-d);background:var(--accent-soft);padding:4px 9px;border-radius:20px;white-space:nowrap;margin-top:2px}
+  /* CTA */
+  .cta{margin-top:30px;background:var(--ink);color:#fff;border-radius:18px;padding:34px 30px;text-align:center;position:relative;overflow:hidden}
+  .cta h3{font-size:23px;font-weight:600;margin-bottom:8px}
+  .cta p{color:rgba(255,255,255,.72);max-width:460px;margin:0 auto 20px;font-size:14.5px}
+  .cta a{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;transition:.2s}
+  .cta a:hover{background:var(--accent-d);transform:translateY(-2px)}
+  footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted)}
+  footer a{color:var(--soft);text-decoration:none;border-bottom:1px solid var(--ghost)}
+  footer a:hover{color:var(--accent-d);border-color:var(--accent)}
+  @media(max-width:640px){.grid,.rgrid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar"><div class="mark"><span></span></div><span class="logo">Lever</span><span class="studiotag">Operations &amp; Automation</span></div>
+  <h1>What's that task really costing you?</h1>
+  <p class="lead">Describe a repetitive task, and we'll estimate what automating it could give back — plus the tools that could handle it today.</p>
+
+  <div class="grid">
+    <div class="field full">
+      <label for="task">The repetitive task</label>
+      <input type="text" id="task" placeholder="e.g. sending invoices and chasing payments every week" maxlength="120">
+    </div>
+    <div class="field">
+      <label for="hours">Hours spent per week</label>
+      <input type="number" id="hours" min="0" max="80" step="0.5" value="5">
+    </div>
+    <div class="field">
+      <label for="rate">Your time is worth ($/hr)</label>
+      <input type="number" id="rate" min="0" max="1000" step="5" value="50">
+    </div>
+    <div class="field full">
+      <label for="auto">How much of it could be automated?</label>
+      <div class="slidewrap"><input type="range" id="auto" min="0" max="100" step="5" value="75"><span class="slideval" id="autoval">75%</span></div>
+    </div>
+  </div>
+  <button class="calc" id="calcBtn">Calculate what you'd reclaim →</button>
+
+  <div class="results" id="results">
+    <div class="rgrid">
+      <div class="rcard"><div class="rk">Saved per year</div><div class="rv" id="rMoney">$0</div></div>
+      <div class="rcard alt"><div class="rk">Hours reclaimed / year</div><div class="rv" id="rHours">0</div></div>
+      <div class="rcard alt"><div class="rk">Full 40-hr work-weeks back</div><div class="rv" id="rWeeks">0</div></div>
+      <div class="rcard"><div class="rk">3-year total</div><div class="rv" id="r3yr"><span class="accent">$0</span></div></div>
+    </div>
+    <p class="rnote">Illustrative estimates based on the numbers you entered — not a guarantee. Real savings depend on the task and the setup.</p>
+
+    <div class="sugg" id="sugg"></div>
+
+    <div class="cta">
+      <h3>Those tools are the do-it-yourself path.</h3>
+      <p>We're the done-for-you one: one custom automation, built around your exact task and handed off — so you never touch the wiring.</p>
+      <a id="ctaLink" href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Book a scope session →</a>
+    </div>
+  </div>
+
+  <footer>Runs entirely in your browser — nothing is stored or sent. · <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Built by Phorethought ↗</a></footer>
+</div>
+
+<script>
+/* ===== EDIT THESE ===== */
+const SCOPE_URL = 'https://www.instagram.com/phorethought/';
+const DEFAULT_AUTOMATION = 75;
+/* ====================== */
+
+/* ~30 real, mostly-free tools across 10 categories */
+const TOOLS = {
+  email:     { label:'Email & outreach', kw:['email','outreach','newsletter','cold','campaign','mail','follow up','followup','drip'], items:[
+    {n:'Brevo',w:'https://www.brevo.com',d:'Email campaigns + automation',f:'Free up to 300 emails/day'},
+    {n:'Mailchimp',w:'https://mailchimp.com',d:'Newsletters & audiences',f:'Free up to 500 contacts'},
+    {n:'Lemlist',w:'https://www.lemlist.com',d:'Cold outreach sequences',f:'Free trial'} ]},
+  scheduling:{ label:'Scheduling & booking', kw:['book','booking','appointment','schedule','scheduling','calendar','meeting','call'], items:[
+    {n:'Cal.com',w:'https://cal.com',d:'Open-source scheduling',f:'Free plan + self-host'},
+    {n:'Calendly',w:'https://calendly.com',d:'Share a link, get booked',f:'Free for 1 event type'},
+    {n:'SavvyCal',w:'https://savvycal.com',d:'Polished booking pages',f:'Free trial'} ]},
+  invoicing: { label:'Invoicing & payments', kw:['invoice','invoicing','payment','bill','billing','pay','charge','quote','estimate'], items:[
+    {n:'Wave',w:'https://www.waveapps.com',d:'Invoicing + accounting',f:'Free invoicing'},
+    {n:'Stripe',w:'https://stripe.com',d:'Payments & invoices',f:'Pay per transaction'},
+    {n:'Invoice Ninja',w:'https://www.invoiceninja.com',d:'Open-source invoicing',f:'Free plan + self-host'} ]},
+  social:    { label:'Social media', kw:['social','instagram','post','posting','content','tweet','linkedin','tiktok','reels','schedule post'], items:[
+    {n:'Buffer',w:'https://buffer.com',d:'Schedule posts everywhere',f:'Free for 3 channels'},
+    {n:'Metricool',w:'https://metricool.com',d:'Schedule + analytics',f:'Free plan'},
+    {n:'Later',w:'https://later.com',d:'Visual social planner',f:'Free trial'} ]},
+  forms:     { label:'Forms & intake', kw:['form','forms','intake','survey','questionnaire','signup','sign up','application','collect'], items:[
+    {n:'Tally',w:'https://tally.so',d:'Forms that feel like docs',f:'Free, unlimited forms'},
+    {n:'Google Forms',w:'https://forms.google.com',d:'Simple, free forms',f:'Free'},
+    {n:'Typeform',w:'https://www.typeform.com',d:'Conversational forms',f:'Free up to 10/mo'} ]},
+  data:      { label:'Data & spreadsheets', kw:['data','entry','spreadsheet','excel','sheet','copy paste','copy-paste','records','database'], items:[
+    {n:'Airtable',w:'https://airtable.com',d:'Spreadsheet-database hybrid',f:'Free plan'},
+    {n:'Google Sheets',w:'https://sheets.google.com',d:'Cloud spreadsheets + scripts',f:'Free'},
+    {n:'Rows',w:'https://rows.com',d:'Spreadsheet with integrations',f:'Free plan'} ]},
+  leads:     { label:'Leads & CRM', kw:['lead','leads','crm','contact','contacts','sales','pipeline','prospect','deal','customer list'], items:[
+    {n:'HubSpot CRM',w:'https://www.hubspot.com/products/crm',d:'Full CRM, generous free tier',f:'Free'},
+    {n:'Pipedrive',w:'https://www.pipedrive.com',d:'Visual sales pipeline',f:'Free trial'},
+    {n:'Zoho CRM',w:'https://www.zoho.com/crm/',d:'CRM for small teams',f:'Free up to 3 users'} ]},
+  documents: { label:'Documents & contracts', kw:['document','documents','contract','sign','signature','proposal','agreement','pdf','nda'], items:[
+    {n:'PandaDoc',w:'https://www.pandadoc.com',d:'Proposals + e-sign',f:'Free e-sign plan'},
+    {n:'Google Docs',w:'https://docs.google.com',d:'Docs + templates',f:'Free'},
+    {n:'DocuSign',w:'https://www.docusign.com',d:'E-signatures',f:'Free trial'} ]},
+  support:   { label:'Customer support', kw:['support','ticket','tickets','chat','help','customer service','inbox','faq','reply'], items:[
+    {n:'Crisp',w:'https://crisp.chat',d:'Live chat + inbox',f:'Free plan'},
+    {n:'Tidio',w:'https://www.tidio.com',d:'Chat + chatbots',f:'Free plan'},
+    {n:'Freshdesk',w:'https://www.freshworks.com/freshdesk/',d:'Helpdesk tickets',f:'Free up to 2 agents'} ]},
+  tasks:     { label:'Tasks & projects', kw:['task','tasks','project','projects','todo','to-do','manage','workflow','organize','track'], items:[
+    {n:'Notion',w:'https://www.notion.so',d:'Docs, tasks, databases',f:'Free for personal use'},
+    {n:'Trello',w:'https://trello.com',d:'Visual boards',f:'Free plan'},
+    {n:'ClickUp',w:'https://clickup.com',d:'All-in-one work hub',f:'Free Forever plan'} ]}
+};
+const GLUE = [
+  {n:'Zapier',w:'https://zapier.com',d:'Connect 6,000+ apps, no code',f:'Free up to 100 tasks/mo'},
+  {n:'Make',w:'https://www.make.com',d:'Visual multi-step automations',f:'Free up to 1,000 ops/mo'},
+  {n:'n8n',w:'https://n8n.io',d:'Open-source automation',f:'Free + self-host'}
+];
+
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const money = n => '$' + Math.round(n).toLocaleString();
+
+$('auto').addEventListener('input', () => { $('autoval').textContent = $('auto').value + '%'; });
+
+function countUp(el, target, fmt){
+  if(reduce){ el.textContent = fmt(target); return; }
+  const t0 = performance.now(), dur = 1400;
+  function step(now){
+    const k = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - k, 3);
+    el.textContent = fmt(target * e);
+    if(k < 1) requestAnimationFrame(step); else el.textContent = fmt(target);
+  }
+  requestAnimationFrame(step);
+}
+
+function matchCategories(desc){
+  const d = ' ' + desc.toLowerCase() + ' ';
+  const scored = Object.keys(TOOLS).map(key => {
+    let score = 0;
+    TOOLS[key].kw.forEach(k => { if(d.indexOf(k) > -1) score += (k.indexOf(' ') > -1 ? 2 : 1); });
+    return { key, score };
+  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+  return scored.slice(0, 2).map(x => x.key);
+}
+function toolRow(t){
+  return '<a class="tool" href="'+t.w+'" target="_blank" rel="noopener"><div><div class="tn">'+t.n+'</div><div class="td">'+t.d+'</div></div><div class="free">'+t.f+'</div></a>';
+}
+function renderSuggester(desc){
+  const cats = matchCategories(desc);
+  let html = '<h2>Tools that could handle this</h2>';
+  if(!cats.length){
+    html += '<div class="sub">No strong match from your description — here are solid starting points for almost any task.</div>';
+    html += '<div class="catlabel">General starters</div>';
+    html += [TOOLS.tasks.items[0], TOOLS.data.items[0], TOOLS.forms.items[0]].map(toolRow).join('');
+  } else {
+    html += '<div class="sub">Matched to your task. Mostly free tiers — start there before paying for anything.</div>';
+    cats.forEach(key => {
+      html += '<div class="catlabel">'+TOOLS[key].label+'</div>';
+      html += TOOLS[key].items.map(toolRow).join('');
+    });
+  }
+  html += '<div class="catlabel">Glue it together</div>';
+  html += GLUE.map(toolRow).join('');
+  $('sugg').innerHTML = html;
+}
+
+$('calcBtn').onclick = () => {
+  const hours = Math.max(0, parseFloat($('hours').value) || 0);
+  const rate  = Math.max(0, parseFloat($('rate').value) || 0);
+  const auto  = (parseFloat($('auto').value) || 0) / 100;
+  const hoursYr = hours * auto * 52;
+  const moneyYr = hoursYr * rate;
+  countUp($('rMoney'), moneyYr, money);
+  countUp($('rHours'), hoursYr, v => Math.round(v).toLocaleString() + ' hrs');
+  countUp($('rWeeks'), hoursYr / 40, v => (Math.round(v * 10) / 10).toLocaleString() + ' wks');
+  countUp($('r3yr'), moneyYr * 3, money);
+  const set3 = () => { $('r3yr').innerHTML = '<span class="accent">' + money(moneyYr * 3) + '</span>'; };
+  if(reduce) set3(); else setTimeout(set3, 1500);
+  renderSuggester($('task').value.trim());
+  $('results').classList.add('show');
+  $('results').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+};
+</script>
+</body>
+</html>

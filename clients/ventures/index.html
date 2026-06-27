@@ -402,5 +402,27 @@
     loop();
   })();
 </script>
+<!-- PH-ANALYTICS -->
+<script data-goatcounter="https://phorethought.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  function evt(name){try{if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'evt-'+name,title:'click: '+name,event:true});}}catch(e){}}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a,button');if(!a)return;
+    var label=a.getAttribute('data-evt');
+    if(!label){
+      var h=(a.getAttribute('href')||'').toLowerCase();
+      if(h.indexOf('instagram')>-1)label='instagram';
+      else if(h.indexOf('docs.google.com/forms')>-1||h.indexOf('forms.gle')>-1)label='google-form';
+      else if(h.indexOf('mailto:')>-1)label='email';
+      else if(h.indexOf('inverted')>-1)label='switch-vibe';
+      else if(h.indexOf('clients')>-1)label='clients-gallery';
+      else return;
+    }
+    evt(label);
+  },true);
+})();
+</script>
+<!-- /PH-ANALYTICS -->
 </body>
 </html>

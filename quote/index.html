@@ -44,6 +44,16 @@
   .ok{display:none;margin-top:12px;font-size:13px;color:var(--blue);text-align:center}.ok.show{display:block}
   .note{max-width:960px;margin:18px auto 0;text-align:center;font-size:11px;color:var(--ghost);font-family:var(--mono)}
   @media(max-width:780px){.grid{grid-template-columns:1fr}.quote{position:static}.types{grid-template-columns:1fr}}
+  /* owner-only rate-floor check (hidden from clients; ?owner=1 to show) */
+  .ownerbox{display:none;position:fixed;right:18px;bottom:18px;width:264px;background:#0a0f1e;color:#eef1f6;border:1px solid rgba(231,173,85,.45);border-radius:14px;padding:16px 18px;font-family:var(--mono);font-size:12px;z-index:9999;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .ob-h{color:#e7ad55;letter-spacing:1.5px;text-transform:uppercase;font-size:10.5px;margin-bottom:12px}
+  .ob-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .ob-row input{width:72px;background:#11151d;border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:6px 8px;font-family:var(--mono);text-align:right}
+  .ob-eff{margin-bottom:8px}.ob-eff b{color:#e7ad55;font-size:16px}
+  .ob-verdict{padding:8px 10px;border-radius:8px;font-size:11.5px;line-height:1.4;margin-bottom:8px}
+  .ob-verdict.good{background:rgba(95,191,143,.15);color:#7ad6a6}
+  .ob-verdict.bad{background:rgba(224,133,133,.15);color:#efa0a0}
+  .ob-note{color:#828c9e;font-size:10px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -75,10 +85,22 @@
     </div>
   </div>
   <div class="note">PHORETHOUGHT · estimate is a starting point — final quote confirmed after a quick scope chat.</div>
+  <div class="ownerbox" id="ownerbox">
+    <div class="ob-h">Owner · rate-floor check</div>
+    <div class="ob-row"><label>Est. build hours</label><input id="obh" type="number" min="0.5" step="0.5" value="16"></div>
+    <div class="ob-eff">Effective: <b id="obrate">$0/hr</b></div>
+    <div class="ob-verdict" id="obverdict">—</div>
+    <div class="ob-note">Floor $62.50/hr · $500/day. One-time total only (care plan excluded). Never quote hours to the client.</div>
+  </div>
 <script>
 const TYPES=[{n:'Landing Page',p:500},{n:'Full Website',p:1500},{n:'Web App / AI Tool',p:3000},{n:'Online Store',p:2000}];
 const ADDONS=[{n:'Custom design',p:400},{n:'Copywriting',p:350},{n:'SEO setup',p:300},{n:'Animations / interactions',p:500},{n:'CMS (you can edit it)',p:450},{n:'AI feature',p:900},{n:'Email automation',p:350},{n:'Care plan (hosting + updates)',p:29,mo:true}];
 let type=0,rush=1,lastTotal=0,lastMonthly=0;const sel=new Set();const $=id=>document.getElementById(id);
+const FLOOR=62.5;const OWNER=/[?&]owner=1/.test(location.search);
+function renderFloor(){if(!OWNER)return;const h=Math.max(0.5,parseFloat($('obh').value)||0.5);const rate=lastTotal/h;
+  $('obrate').textContent='$'+rate.toFixed(2)+'/hr';const v=$('obverdict'),ok=rate>=FLOOR;
+  v.textContent=ok?('✓ above floor (+$'+(rate-FLOOR).toFixed(2)+'/hr)'):('✗ below floor (−$'+(FLOOR-rate).toFixed(2)+'/hr) — raise price or cut hours');
+  v.className='ob-verdict '+(ok?'good':'bad');}
 /* ▼ PASTE YOUR FORMSPREE FORM ID BELOW (from formspree.io). Until then, the form falls back to "email us". */
 const FORMSPREE='https://formspree.io/f/REPLACE_WITH_YOUR_ID';
 $('types').innerHTML=TYPES.map((t,i)=>'<div class="opt'+(i===0?' on':'')+'" data-i="'+i+'"><div class="n">'+t.n+'</div><div class="p">from $'+t.p.toLocaleString()+'</div></div>').join('');
@@ -93,7 +115,7 @@ function calc(){const lines=[];let one=TYPES[type].p,monthly=0;lines.push([TYPES
   sel.forEach(i=>{const a=ADDONS[i];if(a.mo)monthly+=a.p;else one+=a.p;lines.push([a.n,'+$'+a.p.toLocaleString()+(a.mo?'/mo':'')]);});
   if(rush>1){const add=Math.round(one*(rush-1));lines.push(['Rush delivery','+$'+add.toLocaleString()]);one=Math.round(one*rush);}
   $('lines').innerHTML=lines.map(l=>'<div class="line"><span>'+l[0]+'</span><span>'+l[1]+'</span></div>').join('');
-  animateTo(one);$('mo').textContent=monthly?('+ $'+monthly.toLocaleString()+'/mo ongoing'):'';lastTotal=one;lastMonthly=monthly;}
+  animateTo(one);$('mo').textContent=monthly?('+ $'+monthly.toLocaleString()+'/mo ongoing'):'';lastTotal=one;lastMonthly=monthly;renderFloor();}
 $('cta').onclick=()=>{$('reqform').classList.add('show');$('cta').style.display='none';};
 $('send').onclick=async()=>{
   const email=($('qemail').value||'').trim();
@@ -114,6 +136,7 @@ $('send').onclick=async()=>{
   }
 };
 $('qemail')&&$('qemail').addEventListener('input',()=>{$('qemail').style.borderColor='';});
+if(OWNER){$('ownerbox').style.display='block';$('obh').oninput=renderFloor;}
 calc();
 </script>
 </body>

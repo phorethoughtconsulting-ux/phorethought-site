@@ -918,22 +918,15 @@
 
 <!-- ALT CLOSE: keep scrolling -> scroll story -->
 <section id="alt-close">
-  <div class="alt-top">Keep scrolling<span class="alt-arrow">&darr;</span></div>
-  <div class="alt-close-inner">
-    <h2 class="section-title">We build more than<br><em>websites.</em></h2>
-    <p class="alt-close-p">Experiences, tools, and worlds &mdash; the kind of thing you can&rsquo;t get off a shelf. There&rsquo;s a door here. Step through.</p>
-    <a id="seeMore" class="btn-primary" href="portfolio/11-scroll-story/index.html">See more &rarr;</a>
-  </div>
+  <a id="seeMore" class="alt-keep" href="portfolio/11-scroll-story/index.html">Keep scrolling<span class="alt-arrow">&darr;</span></a>
 </section>
 <div id="alt-fade" aria-hidden="true"></div>
 <style>
-  #alt-close{min-height:165vh;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14vh 24px 90px;background:#fff;position:relative}
-  #alt-close .alt-top{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-muted);display:flex;flex-direction:column;align-items:center;gap:14px}
-  #alt-close .alt-arrow{font-size:24px;color:var(--ink-soft);animation:altbounce 1.8s ease-in-out infinite}
+  #alt-close{min-height:72vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:90px 24px;background:#fff}
+  #alt-close .alt-keep{display:flex;flex-direction:column;align-items:center;gap:16px;font-family:var(--mono);font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;cursor:pointer;transition:color .2s}
+  #alt-close .alt-keep:hover{color:var(--ink)}
+  #alt-close .alt-arrow{font-size:26px;animation:altbounce 1.8s ease-in-out infinite}
   @keyframes altbounce{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(9px);opacity:1}}
-  #alt-close .alt-close-inner{max-width:660px;margin-top:62vh}
-  #alt-close .alt-close-p{color:var(--ink-soft);font-size:18px;line-height:1.6;margin:18px auto 36px;max-width:500px}
-  #alt-close #seeMore{cursor:pointer}
   #alt-fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .6s ease;z-index:100002}
   #alt-fade.on{opacity:1;pointer-events:all}
 </style>

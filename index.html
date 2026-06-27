@@ -4,9 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phorethought — Systems Strategist & Builder</title>
+<meta name="description" content="Phorethought builds websites, tools, AI, and cinematic experiences — then hands them off clean. You think it, we create it.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23fff' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Phorethought — You think it, we create it.">
+<meta property="og:description" content="Websites, tools, AI, and cinematic experiences — built for you, handed off clean.">
+<meta property="og:image" content="assets/camo-grey.jpg">
+<meta property="og:url" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; } }
 
   :root {
     --ink: #0a0f1e;
@@ -1003,7 +1013,7 @@
 <section class="reel-band">
   <div class="reel-inner">
     <div class="reel-vid">
-      <video id="reel" src="assets/studio-reel-v2.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <video id="reel" src="assets/studio-reel-v3.mp4" poster="assets/studio-reel-poster.jpg" autoplay muted loop playsinline preload="metadata" onerror="this.style.background='#11151d'"></video>
       <button class="reel-sound" id="reelSound">🔇 Tap for sound</button>
     </div>
     <div class="reel-copy">
@@ -1016,8 +1026,9 @@
   </div>
 </section>
 <script>
-  (function(){var v=document.getElementById('reel'),b=document.getElementById('reelSound');if(!v||!b)return;
-   b.onclick=function(){v.muted=!v.muted;if(!v.muted){try{v.play();}catch(e){}}b.textContent=v.muted?'🔇 Tap for sound':'🔊 Sound on';};})();
+  (function(){var v=document.getElementById('reel'),b=document.getElementById('reelSound');if(!v)return;
+   if(matchMedia('(prefers-reduced-motion:reduce)').matches){v.removeAttribute('autoplay');try{v.pause();}catch(e){}}
+   if(b)b.onclick=function(){v.muted=!v.muted;if(!v.muted){try{v.play();}catch(e){}}b.textContent=v.muted?'🔇 Tap for sound':'🔊 Sound on';};})();
 </script>
 
 <!-- CTA -->

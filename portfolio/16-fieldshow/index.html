@@ -38,6 +38,14 @@
   .boot{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:#050705;transition:opacity 1s}.boot.gone{opacity:0;visibility:hidden}
   .boot .b{font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--ghost);animation:pulse 1.6s infinite}@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.9}}
   @media(prefers-reduced-motion:reduce){.grain{animation:none}}
+  @media(max-width:560px){
+    .eyebrow{top:16px;left:16px;font-size:10px;letter-spacing:2px}
+    .switch{top:14px;right:14px;padding:7px 12px}
+    .credit{display:none}
+    .typebtn{bottom:20px;font-size:10px;letter-spacing:1.5px;padding:10px 14px}
+    .mute{bottom:20px;right:16px;padding:9px 11px;font-size:10px}
+    .panel{bottom:66px}
+  }
 </style>
 </head>
 <body>
@@ -119,7 +127,7 @@
  // ---- audio: drumline cadence + word swell ----
  let AC=null,outG=null,muted=false,beatT=null,beat=0;
  function initAudio(){ if(AC)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-   AC=new C();outG=AC.createGain();outG.gain.value=muted?0:0.8;outG.connect(AC.destination);cadence();}
+   AC=new C();if(AC.state==='suspended'){try{AC.resume();}catch(e){}}outG=AC.createGain();outG.gain.value=muted?0:0.8;outG.connect(AC.destination);cadence();}
  function noise(dur){const b=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=AC.createBufferSource();s.buffer=b;return s;}
  function snare(t,g0){const s=noise(0.16),f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=1500;const g=AC.createGain();g.gain.setValueAtTime(g0||0.12,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.16);s.connect(f);f.connect(g);g.connect(outG);s.start(t);s.stop(t+0.18);}
  function kick(t){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(45,t+0.12);g.gain.setValueAtTime(0.18,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.16);o.connect(g);g.connect(outG);o.start(t);o.stop(t+0.18);}
@@ -155,8 +163,8 @@
  function frame(now){
    requestAnimationFrame(frame);
    if(document.hidden)return;
-   const total=PER*PHRASES.length, t=(now-t0)/1000, cyt=t%total, pi=Math.floor(cyt/PER), local=cyt-pi*PER;
-   const prev=(pi-1+PHRASES.length)%PHRASES.length, A=forms[prev], B=forms[pi];
+   const total=PER*PHRASES.length, t=Math.max(0,(now-t0)/1000), cyt=((t%total)+total)%total, pi=Math.floor(cyt/PER), local=cyt-pi*PER;
+   const prev=(pi-1+PHRASES.length)%PHRASES.length, A=forms[prev]||forms[0], B=forms[pi]||forms[0];
    const marching=local<MARCH;
    if(pi!==lastPhase){ if(AC&&!muted)brass(AC.currentTime+0.02); lastPhase=pi; }
 

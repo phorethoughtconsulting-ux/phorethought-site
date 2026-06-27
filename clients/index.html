@@ -99,6 +99,36 @@
   .fadein.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.fadein{transition:none}}
 
+  /* SECTION HEADERS — bold, stand out */
+  .sec{padding:94px 0}
+  .sec-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#e7ad55;display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .sec-eyebrow::before{content:'';width:30px;height:1px;background:#e7ad55}
+  .sec-title{font-family:var(--serif);font-size:clamp(38px,5.5vw,62px);line-height:1.02;letter-spacing:-1.5px;margin-bottom:14px}
+  .sec-title em{font-style:italic;color:var(--ink-soft)}
+  .sec-sub{font-size:18px;font-weight:300;color:var(--ink-soft);max-width:660px}
+
+  /* FEATURED CLIENT */
+  .featured{margin-top:48px;display:grid;grid-template-columns:1.05fr .95fr;background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+  .featured:hover{transform:translateY(-5px);border-color:rgba(231,173,85,.45);box-shadow:0 34px 80px rgba(0,0,0,.45)}
+  .featured .shot{position:relative;min-height:380px;background:#0b0e15;overflow:hidden}
+  .featured .shot img{width:100%;height:100%;object-fit:cover;object-position:top left}
+  .featured .live{position:absolute;top:18px;left:18px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#bfe0ff;background:rgba(11,14,20,.72);border:1px solid rgba(110,168,255,.4);border-radius:30px;padding:6px 13px;display:inline-flex;align-items:center;gap:7px}
+  .featured .live::before{content:'';width:7px;height:7px;border-radius:50%;background:#6ea8ff;box-shadow:0 0 8px #6ea8ff}
+  .featured .fbody{padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
+  .featured .ftag{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+  .featured h3{font-family:var(--serif);font-size:clamp(30px,3.4vw,42px);margin-bottom:14px;line-height:1.05}
+  .featured p{color:var(--ink-soft);font-size:16px;line-height:1.6;margin-bottom:30px}
+  .btn-view{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:#e7ad55;color:#1a1205;font-weight:600;font-size:16px;padding:16px 32px;border-radius:10px;transition:.2s}
+  .btn-view:hover{background:#f0bd6e;transform:translateY(-2px)}
+  .work-foot{margin-top:34px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;color:var(--ink-muted);font-size:15px}
+  .work-foot a{color:var(--blue);font-weight:600;border-bottom:1px solid rgba(110,168,255,.4);padding-bottom:1px}
+
+  /* FREE-10 BAND (one dedicated section) */
+  .band{background:linear-gradient(180deg,#121620,#0d1018);border-top:1px solid rgba(231,173,85,.28);border-bottom:1px solid var(--rule)}
+  .band .spots{margin-left:8px;font-family:var(--mono);font-size:14px;letter-spacing:1px;color:#e7ad55}
+  .startwrap{margin-top:34px;text-align:center}
+
+  @media(max-width:820px){.featured{grid-template-columns:1fr}.featured .shot{min-height:240px}}
   @media(max-width:860px){.offer-grid,.grid{grid-template-columns:1fr 1fr}}
   @media(max-width:680px){
     .nav-links{position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:rgba(11,14,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:6px 0;display:none}
@@ -118,7 +148,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="../index.html">← Phorethought</a></li>
       <li><a href="#work">The work</a></li>
-      <li><a href="#how">How it works</a></li>
+      <li><a href="#free10">Free 10</a></li>
       <li><a href="start.html" class="nav-cta">Start yours — free</a></li>
     </ul>
   </div>
@@ -129,71 +159,73 @@
   <div class="wrap">
     <div class="label fadein">Client Work</div>
     <h1 class="fadein">Real people.<br><em>Real sites.</em></h1>
-    <p class="fadein">Every site here was built from scratch for one person — their story, their identity, their own page. No templates, no clones. You think it, we create it.</p>
+    <p class="fadein">A showcase of sites built from scratch for real people — each one its own world, not a template. Built by Phorethought. You think it, we create it.</p>
   </div>
 </header>
 
-<!-- OFFER -->
-<section class="offer" id="how">
+<!-- THE WORK -->
+<section class="sec" id="work">
   <div class="wrap">
-    <div class="offer-grid">
-      <div class="ocard fadein">
+    <div class="sec-eyebrow fadein">Selected client work</div>
+    <h2 class="sec-title fadein">The work.</h2>
+    <p class="sec-sub fadein">Real, living sites — click any to view it. Clients: this is home for yours.</p>
+
+    <a class="featured fadein" href="ventures/index.html" target="_blank" rel="noopener">
+      <div class="shot"><span class="live">Live</span><img src="ventures/assets/og.png" alt="Vincent Barnes — site preview" onerror="this.parentElement.style.background='#11151d'"></div>
+      <div class="fbody">
+        <div class="ftag">Real Client · Personal Portfolio</div>
+        <h3>Vincent Barnes</h3>
+        <p>A personal site for a Navy veteran, builder, investor, and educator — his story, his ventures, and the resources he shares. Dark, cinematic, built entirely to his brand.</p>
+        <span class="btn-view">View the site ↗</span>
+      </div>
+    </a>
+
+    <div class="work-foot fadein">
+      <span>More client builds on the way.</span>
+      <a href="../index.html#portfolio">See everything we build at Phorethought →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FREE 10 — one dedicated band -->
+<section class="sec band" id="free10">
+  <div class="wrap">
+    <div class="sec-eyebrow fadein">The Free 10</div>
+    <h2 class="sec-title fadein">Want one of your own?</h2>
+    <p class="sec-sub fadein">I'm building free sites for the first 10 people — real, original, yours.<span class="spots">9 of 10 spots left</span></p>
+
+    <div class="offer-grid fadein" style="margin-top:42px">
+      <div class="ocard">
         <div class="k">Step one — free</div>
         <h3>A site of your own</h3>
         <div class="price">$0</div>
-        <p>I build you a real, original portfolio and host it right here. One build, one round of edits. Free for the first 10 people.</p>
+        <p>I build you a real, original site and host it right here. One build, one round of edits — free for the first 10.</p>
       </div>
-      <div class="ocard fadein">
+      <div class="ocard">
         <div class="k">Step two — optional</div>
         <h3>Live &amp; maintained</h3>
         <div class="price">$19<small>/mo</small></div>
-        <p>Want it on your own domain with changes whenever you need them? I handle the domain, the hosting, and every update for you.</p>
+        <p>Want it on your own domain with changes whenever you need them? I handle the domain, hosting, and every update.</p>
       </div>
-      <div class="ocard fadein">
+      <div class="ocard">
         <div class="k">Or own it</div>
         <h3>Yours, outright</h3>
         <div class="price">$249<small> once</small></div>
-        <p>Prefer no subscription? Pay once, put it on your domain, and it's yours to keep. I'm here if you need changes later.</p>
+        <p>Prefer no subscription? Pay once, put it on your domain, and it's yours to keep.</p>
       </div>
     </div>
-    <p class="finep fadein">Rates are starting points and may change. The free build is one version plus one round of revisions — further changes are covered by a plan above. Send your content within 7 days to keep your spot.</p>
+    <p class="finep fadein">The free build is one version plus one round of revisions; further changes are covered by a plan above. Send your content within 7 days to keep your spot. Rates are starting points.</p>
+    <div class="startwrap fadein"><a href="start.html" class="btn gold">Start your free site →</a></div>
   </div>
 </section>
 
-<!-- GALLERY -->
-<section class="gallery" id="work">
-  <div class="wrap">
-    <div class="gh fadein">Live now <span class="spots">· 9 of 10 free builds left</span></div>
-    <div class="grid">
-      <a class="card fadein" href="ventures/index.html" target="_blank" rel="noopener">
-        <span class="tag">Real Client · Live</span>
-        <div class="wt">Vincent Barnes</div>
-        <div class="wd">A personal portfolio for a Navy veteran, builder, investor, and educator — his story, his businesses, and the resources he shares.</div>
-        <span class="view">View live ↗</span>
-      </a>
-      <a class="card slot fadein" href="start.html">
-        <span class="tag">Open slot</span>
-        <div class="wt">Your portfolio here</div>
-        <div class="wd">Built around you — your colors, your sections, your voice. Claim one of the free spots.</div>
-        <span class="view">Claim it →</span>
-      </a>
-      <a class="card slot fadein" href="start.html">
-        <span class="tag">Open slot</span>
-        <div class="wt">Your portfolio here</div>
-        <div class="wd">Creator, business owner, or building your personal brand — there's a spot with your name on it.</div>
-        <span class="view">Claim it →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
+<!-- EXPLORE THE STUDIO -->
 <section class="wrap">
   <div class="cta fadein">
-    <div class="label">Get started</div>
-    <h2>Want one of these?</h2>
-    <p>The first ten are free. Tell me who you are and what you do, and I'll build you a site that looks like no one else's.</p>
-    <a href="start.html" class="btn gold">Start your free portfolio →</a>
+    <div class="label">Phorethought</div>
+    <h2>There's a lot more where this came from.</h2>
+    <p>Websites, tools, and cinematic experiences — built for you, handed off clean. See the full studio.</p>
+    <a href="../index.html" class="btn gold">Explore Phorethought →</a>
   </div>
 </section>
 

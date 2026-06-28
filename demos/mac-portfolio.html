@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Maren Cole — Desktop</title>
+<meta name="description" content="An interactive desktop-OS portfolio. Drag the folders, open them, explore the work. A template by Phorethought.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141821'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='%23e9b770' text-anchor='middle'%3EMC%3C/text%3E%3C/svg%3E">
+<meta property="og:title" content="Maren Cole — Desktop Portfolio">
+<meta property="og:description" content="An interactive desktop-OS portfolio you explore like a real computer.">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --sys:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',system-ui,sans-serif;
+    --disp:'Fraunces',Georgia,serif;
+    --accent:#e9b770; --ink:#1b1f29; --soft:#5b6473; --line:#e7e9ee; --glass:rgba(22,26,34,.55);
+  }
+  html,body{height:100%;overflow:hidden;background:#0c0e14;font-family:var(--sys);-webkit-font-smoothing:antialiased;color:var(--ink);}
+  body{user-select:none;}
+  /* fail-safe */
+  #fallback{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:30px;background:#0c0e14;color:#e8e6df;z-index:1}
+  #fallback h1{font-family:var(--disp);font-size:38px;color:var(--accent)}
+  #fallback p{color:#9aa3b4;max-width:340px}
+
+  /* ===== boot ===== */
+  #boot{position:fixed;inset:0;z-index:200;background:radial-gradient(120% 90% at 50% 40%,#1a1f2b,#0a0c11 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .6s ease}
+  #boot.gone{opacity:0;pointer-events:none}
+  .boot-mark{width:64px;height:64px;border-radius:16px;background:#141821;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;font-size:30px;color:var(--accent);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .boot-bar{width:170px;height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+  .boot-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width 1.5s ease}
+  .boot-credit{position:absolute;bottom:30px;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.4)}
+  .boot-credit a{color:rgba(255,255,255,.65);text-decoration:none}
+
+  /* ===== desktop ===== */
+  #desk{position:fixed;inset:0;z-index:1;
+    background:
+      radial-gradient(80% 60% at 75% 15%, rgba(233,183,112,.16), transparent 60%),
+      radial-gradient(90% 70% at 15% 85%, rgba(90,110,210,.20), transparent 60%),
+      linear-gradient(160deg,#222a3a,#11141d 70%);
+    opacity:0;transition:opacity .6s ease}
+  #desk.on{opacity:1}
+  /* menu bar */
+  .menubar{position:absolute;top:0;left:0;right:0;height:28px;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;gap:18px;padding:0 14px;color:#fff;font-size:13px;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
+  .menubar .mb-mark{font-weight:700;color:var(--accent)}
+  .menubar .mb-name{font-weight:600}
+  .menubar .mb-i{opacity:.8;font-weight:400}
+  .menubar .mb-right{margin-left:auto;display:flex;align-items:center;gap:14px;opacity:.9}
+  .menubar .mb-btn{cursor:pointer;opacity:.85}.menubar .mb-btn:hover{opacity:1}
+  .menubar a{color:#fff;text-decoration:none}
+  /* icons */
+  .icon{position:absolute;width:84px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:8px 4px;border-radius:10px;text-align:center}
+  .icon:hover{background:rgba(255,255,255,.08)}
+  .icon.sel{background:rgba(233,183,112,.18)}
+  .icon svg{width:46px;height:46px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+  .icon span{font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);line-height:1.2;max-width:80px}
+  /* dock */
+  .dock{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;padding:8px 12px;background:rgba(30,34,44,.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:20px;z-index:40}
+  .dock button{width:46px;height:46px;border:none;background:transparent;cursor:pointer;border-radius:12px;transition:transform .15s;padding:0}
+  .dock button:hover{transform:translateY(-8px) scale(1.08)}
+  .dock svg{width:46px;height:46px}
+  /* windows */
+  .win{position:absolute;background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;min-width:300px}
+  .win.opening{animation:winin .22s ease}
+  @keyframes winin{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+  .win-bar{height:38px;background:#f3f3f5;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 12px;gap:8px;cursor:grab;flex-shrink:0}
+  .win-lights{display:flex;gap:8px}
+  .win-btn{width:12px;height:12px;border-radius:50%;border:none;cursor:pointer;padding:0}
+  .win-btn.r{background:#ff5f57}.win-btn.y{background:#febc2e}.win-btn.g{background:#28c840}
+  .win-title{flex:1;text-align:center;font-size:13px;font-weight:600;color:#3a3f4a;margin-right:52px}
+  .win-body{padding:26px 28px;overflow-y:auto;max-height:64vh}
+  .win-body h2{font-family:var(--disp);font-size:26px;font-weight:600;margin-bottom:6px;line-height:1.1}
+  .win-body .role{color:var(--soft);font-size:14px;margin-bottom:18px}
+  .win-body p{color:#39414f;font-size:14.5px;line-height:1.6;margin-bottom:12px}
+  .avatar{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#caa24f);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;font-size:30px;color:#1b1f29;margin-bottom:16px}
+  /* work grid */
+  .wgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .wcard{border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;background:#fff}
+  .wcard:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.12)}
+  .wmock{height:96px;position:relative;overflow:hidden}
+  .wmock .bar{position:absolute;top:8px;left:8px;right:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.6)}
+  .wmock .blk{position:absolute;border-radius:4px;background:rgba(255,255,255,.85)}
+  .wcard .wmeta{padding:10px 12px}
+  .wcard .wt{font-weight:600;font-size:14px}
+  .wcard .wtag{font-size:11px;color:var(--soft);margin-top:1px}
+  /* services / contact lists */
+  .srow{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .srow:last-child{border:none}
+  .srow .st{font-weight:600;font-size:14.5px}.srow .sd{color:var(--soft);font-size:13px;text-align:right}
+  .clink{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px;transition:.15s}
+  .clink:hover{border-color:var(--accent);background:#fffaf1}
+  .note{font-size:13px;color:var(--soft);margin-top:6px}
+  .resume h3{font-family:var(--disp);font-size:15px;margin:16px 0 6px}
+  .resume .ritem{font-size:13.5px;color:#39414f;margin-bottom:5px;display:flex;justify-content:space-between;gap:14px}
+  .resume .ritem span:last-child{color:var(--soft);white-space:nowrap}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:13.5px;color:#39414f;line-height:1.7;white-space:pre-wrap}
+
+  /* ===== phone (mobile) ===== */
+  #phone{display:none;position:fixed;inset:0;z-index:2;
+    background:radial-gradient(80% 50% at 70% 12%, rgba(233,183,112,.18), transparent 60%),linear-gradient(170deg,#222a3a,#11141d 75%);
+    flex-direction:column}
+  .ph-status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;color:#fff;font-size:14px;font-weight:600}
+  .ph-hello{padding:30px 24px 6px;color:#fff}
+  .ph-hello .pn{font-family:var(--disp);font-size:30px;font-weight:600}
+  .ph-hello .pr{opacity:.7;font-size:14px;margin-top:2px}
+  .ph-apps{flex:1;align-content:start;display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px;padding:30px 18px}
+  .ph-app{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;background:none;border:none;padding:0}
+  .ph-app svg{width:56px;height:56px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4))}
+  .ph-app span{font-size:11.5px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .ph-dock{margin:0 14px 24px;background:rgba(30,34,44,.5);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:26px;display:flex;justify-content:space-around;padding:12px}
+  .ph-dock button{background:none;border:none;cursor:pointer;padding:0}.ph-dock svg{width:54px;height:54px}
+  /* phone panel (full screen sheet) */
+  .sheet{position:fixed;inset:0;z-index:60;background:#fff;transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+  .sheet.up{transform:none}
+  .sheet-bar{height:52px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--line);flex-shrink:0}
+  .sheet-bar button{background:none;border:none;color:var(--accent);font-size:15px;font-weight:600;cursor:pointer}
+  .sheet-bar .stitle{flex:1;text-align:center;font-weight:600;font-size:15px;margin-right:48px}
+  .sheet-body{flex:1;overflow-y:auto;padding:24px 22px;-webkit-overflow-scrolling:touch}
+
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+<div id="fallback">
+  <h1 id="fbName">Maren Cole</h1>
+  <p>Designer &amp; Art Director — interactive portfolio. Please enable JavaScript to explore the desktop.</p>
+  <p style="font-size:12px;opacity:.6">Built by Phorethought</p>
+</div>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-mark" id="bootMark">MC</div>
+  <div class="boot-bar"><i id="bootFill"></i></div>
+  <div class="boot-credit">Built by <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Phorethought ↗</a></div>
+</div>
+
+<!-- DESKTOP -->
+<div id="desk">
+  <div class="menubar">
+    <span class="mb-mark">◆</span>
+    <span class="mb-name" id="mbName">Maren Cole</span>
+    <span class="mb-i">File</span><span class="mb-i">Edit</span><span class="mb-i">View</span>
+    <div class="mb-right">
+      <span class="mb-btn" id="soundBtn" title="Sound">🔇</span>
+      <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener" title="Built by Phorethought">◆ PT</a>
+      <span id="clock">—</span>
+    </div>
+  </div>
+  <div id="icons"></div>
+  <div class="dock" id="dock"></div>
+</div>
+
+<!-- PHONE -->
+<div id="phone">
+  <div class="ph-status"><span id="phClock">9:41</span><span>● ● ●</span></div>
+  <div class="ph-hello"><div class="pn" id="phName">Maren Cole</div><div class="pr" id="phRole">Designer &amp; Art Director</div></div>
+  <div class="ph-apps" id="phApps"></div>
+  <div class="ph-dock" id="phDock"></div>
+</div>
+
+<script>
+/* ===== CONFIG — swap this object per client ===== */
+const CONTENT = {
+  name:'Maren Cole', role:'Designer & Art Director', initials:'MC',
+  readme:"Hey — welcome to my desktop.\n\nPoke around like it's a real computer: drag the folders, double-click to open them, click into my work. Everything you need is here.\n\n— Maren",
+  about:{
+    headline:'I design brands that feel inevitable.',
+    body:[
+      'Designer and art director with ten years shaping identities, packaging, and campaigns for brands that want to mean something.',
+      'I work across print, screen, and motion — and I care most about the idea underneath. The craft is the easy part; the point of view is the work.',
+      'Currently based between New York and Lisbon. Always one coffee away from a new idea.'
+    ]
+  },
+  work:[
+    {t:'Solène', tag:'Brand Identity', d:'A complete identity for a skincare label — wordmark, palette, and a packaging system that scales across 12 SKUs.', hue:24},
+    {t:'Atlas Type', tag:'Type & Web', d:'A variable-font foundry with a live specimen playground you can type into.', hue:212},
+    {t:'Field Notes', tag:'Editorial', d:'Art direction and layout for a 120-page printed annual report that people actually kept.', hue:150},
+    {t:'Hark', tag:'Packaging', d:'Coffee packaging — six origins, one bold shelf system you can read from across the room.', hue:32},
+    {t:'Lumen', tag:'Art Direction', d:'Campaign art direction and set design for a lighting brand’s launch film.', hue:268},
+    {t:'Verve', tag:'Motion', d:'Title sequence and social cut-downs for an independent film festival.', hue:338}
+  ],
+  services:[
+    {t:'Brand Identity', d:'Mark, system, guidelines'},
+    {t:'Art Direction', d:'Campaigns, shoots, sets'},
+    {t:'Web & Type', d:'Sites, specimens, digital'},
+    {t:'Packaging', d:'Physical product systems'}
+  ],
+  resume:[
+    {h:'Experience', items:[['Independent — Designer & AD','2019–now'],['Studio Münster — Senior Designer','2016–2019'],['Pentwell — Designer','2014–2016']]},
+    {h:'Recognition', items:[['D&AD Wood Pencil','2022'],['Type Directors Club','2021'],['AIGA 50/50','2020']]}
+  ],
+  contact:{ note:'Taking on 2 projects this quarter.', links:[
+    ['Email','mailto:hello@example.com'],['Instagram','https://www.instagram.com/'],['Dribbble','https://dribbble.com/'],['LinkedIn','https://www.linkedin.com/']
+  ]}
+};
+/* ============================================== */
+
+var $=function(s){return document.querySelector(s)},$id=function(i){return document.getElementById(i)};
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var isPhone=matchMedia('(pointer:coarse)').matches || innerWidth<760;
+var z=20, muted=true, ac=null;
+
+// folder SVG icon (hue-tintable) + file icon
+function folderSVG(){return '<svg viewBox="0 0 64 64"><defs><linearGradient id="f1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fc4ff"/><stop offset="1" stop-color="#3d8bdb"/></linearGradient></defs><path d="M6 16c0-2 1.5-3.5 3.5-3.5H24l5 5h25.5c2 0 3.5 1.5 3.5 3.5v27c0 2-1.5 3.5-3.5 3.5h-45C7.5 51 6 49.5 6 47.5z" fill="url(#f1)"/><path d="M6 22h52v25.5c0 2-1.5 3.5-3.5 3.5h-45C7.5 51 6 49.5 6 47.5z" fill="#cfe8ff" opacity=".25"/></svg>'}
+function fileSVG(label){return '<svg viewBox="0 0 64 64"><rect x="14" y="8" width="36" height="48" rx="4" fill="#fff" stroke="#c9ccd4" stroke-width="1.5"/><path d="M40 8v10h10" fill="none" stroke="#c9ccd4" stroke-width="1.5"/><text x="32" y="40" font-family="Arial" font-weight="700" font-size="9" fill="#8a90a0" text-anchor="middle">'+label+'</text></svg>'}
+function appSVG(hue,letter){return '<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="hsl('+hue+',55%,42%)"/><rect width="64" height="34" rx="15" fill="#fff" opacity=".12"/><text x="32" y="42" font-family="Georgia,serif" font-size="26" fill="#fff" text-anchor="middle">'+letter+'</text></svg>'}
+
+// the desktop items
+var ITEMS=[
+  {key:'about', label:'About', icon:folderSVG()},
+  {key:'work', label:'My Work', icon:folderSVG()},
+  {key:'services', label:'Services', icon:folderSVG()},
+  {key:'contact', label:'Contact', icon:folderSVG()},
+  {key:'resume', label:'Resume.pdf', icon:fileSVG('PDF')},
+  {key:'readme', label:'Read-Me.txt', icon:fileSVG('TXT')}
+];
+
+/* ---------- sound (WebAudio, no files) ---------- */
+function blip(freq,dur){ if(muted) return; try{ ac=ac||new (window.AudioContext||window.webkitAudioContext)(); var o=ac.createOscillator(),g=ac.createGain(); o.type='sine';o.frequency.value=freq; g.gain.value=.05; o.connect(g);g.connect(ac.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+(dur||.12)); o.stop(ac.currentTime+(dur||.12)); }catch(e){} }
+
+/* ---------- content HTML per key ---------- */
+function bodyFor(key){
+  var c=CONTENT;
+  if(key==='about') return '<div class="avatar">'+c.initials+'</div><h2>'+c.about.headline+'</h2><div class="role">'+c.name+' · '+c.role+'</div>'+c.about.body.map(function(p){return '<p>'+p+'</p>'}).join('');
+  if(key==='work') return '<h2 style="margin-bottom:16px">Selected Work</h2><div class="wgrid">'+c.work.map(function(w,i){return '<div class="wcard" data-work="'+i+'"><div class="wmock" style="background:linear-gradient(135deg,hsl('+w.hue+',50%,52%),hsl('+((w.hue+30)%360)+',55%,38%))"><div class="bar"></div><div class="blk" style="width:34%;height:26px;left:8px;bottom:8px"></div><div class="blk" style="width:22%;height:26px;right:8px;bottom:8px;opacity:.7"></div></div><div class="wmeta"><div class="wt">'+w.t+'</div><div class="wtag">'+w.tag+'</div></div></div>'}).join('')+'</div>';
+  if(key==='services') return '<h2 style="margin-bottom:14px">Services</h2>'+c.services.map(function(s){return '<div class="srow"><span class="st">'+s.t+'</span><span class="sd">'+s.d+'</span></div>'}).join('');
+  if(key==='contact') return '<h2 style="margin-bottom:6px">Let’s talk</h2><p class="note" style="margin-bottom:16px">'+c.contact.note+'</p>'+c.contact.links.map(function(l){return '<a class="clink" href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+'<span style="color:var(--accent)">→</span></a>'}).join('');
+  if(key==='resume') return '<div class="resume"><h2>'+c.name+'</h2><div class="role">'+c.role+'</div>'+c.resume.map(function(sec){return '<h3>'+sec.h+'</h3>'+sec.items.map(function(it){return '<div class="ritem"><span>'+it[0]+'</span><span>'+it[1]+'</span></div>'}).join('')}).join('')+'</div>';
+  if(key==='readme') return '<div class="mono">'+c.readme+'</div>';
+  return '';
+}
+function titleFor(key){ var m={about:'About',work:'My Work',services:'Services',contact:'Contact',resume:'Resume.pdf',readme:'Read-Me.txt'}; return m[key]||key; }
+function workDetail(i){ var w=CONTENT.work[i]; return '<div class="wmock" style="height:150px;border-radius:10px;margin-bottom:16px;background:linear-gradient(135deg,hsl('+w.hue+',50%,52%),hsl('+((w.hue+30)%360)+',55%,38%))"><div class="bar"></div><div class="blk" style="width:40%;height:40px;left:10px;bottom:10px"></div><div class="blk" style="width:26%;height:40px;right:10px;bottom:10px;opacity:.7"></div></div><h2>'+w.t+'</h2><div class="role">'+w.tag+'</div><p>'+w.d+'</p>'; }
+
+/* ---------- window manager (desktop) ---------- */
+var openWins={};
+function focusWin(el){ el.style.zIndex=++z; }
+function makeWin(id,title,html){
+  if(openWins[id]){ focusWin(openWins[id]); return; }
+  var w=document.createElement('div'); w.className='win'+(reduce?'':' opening');
+  var n=Object.keys(openWins).length;
+  w.style.left=Math.min(innerWidth-360, 120+n*28)+'px';
+  w.style.top=Math.min(innerHeight-200, 70+n*26)+'px';
+  w.style.width='420px'; w.style.zIndex=++z;
+  w.innerHTML='<div class="win-bar"><div class="win-lights"><button class="win-btn r" title="Close"></button><button class="win-btn y"></button><button class="win-btn g"></button></div><div class="win-title">'+title+'</div></div><div class="win-body">'+html+'</div>';
+  $id('desk').appendChild(w); openWins[id]=w;
+  w.addEventListener('pointerdown',function(){focusWin(w)});
+  w.querySelector('.win-btn.r').addEventListener('click',function(){ w.remove(); delete openWins[id]; blip(360,.09); });
+  w.querySelectorAll('[data-work]').forEach(function(card){ card.addEventListener('click',function(){ var i=+card.getAttribute('data-work'); makeWin('work-'+i, CONTENT.work[i].t, workDetail(i)); blip(680,.1); }); });
+  drag(w, w.querySelector('.win-bar'));
+  blip(620,.12);
+}
+function openItem(key){ makeWin(key, titleFor(key), bodyFor(key)); }
+
+/* ---------- dragging (pointer = mouse + touch) ---------- */
+function drag(el, handle){
+  handle.addEventListener('pointerdown',function(e){
+    if(e.target.closest('.win-btn')) return;
+    e.preventDefault(); focusWin(el);
+    var r=el.getBoundingClientRect(), sx=e.clientX, sy=e.clientY, ox=r.left, oy=r.top;
+    try{handle.setPointerCapture(e.pointerId);}catch(_){}
+    function mv(ev){ el.style.left=Math.max(0,Math.min(innerWidth-60, ox+ev.clientX-sx))+'px'; el.style.top=Math.max(28,Math.min(innerHeight-50, oy+ev.clientY-sy))+'px'; }
+    function up(){ handle.removeEventListener('pointermove',mv); handle.removeEventListener('pointerup',up); }
+    handle.addEventListener('pointermove',mv); handle.addEventListener('pointerup',up);
+  });
+}
+function dragIcon(el){
+  var moved=false;
+  el.addEventListener('pointerdown',function(e){
+    e.preventDefault(); moved=false;
+    var r=el.getBoundingClientRect(), sx=e.clientX, sy=e.clientY, ox=r.left, oy=r.top;
+    try{el.setPointerCapture(e.pointerId);}catch(_){}
+    function mv(ev){ if(Math.abs(ev.clientX-sx)+Math.abs(ev.clientY-sy)>4) moved=true; el.style.left=Math.max(0,Math.min(innerWidth-84, ox+ev.clientX-sx))+'px'; el.style.top=Math.max(34,Math.min(innerHeight-90, oy+ev.clientY-sy))+'px'; }
+    function up(){ el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); }
+    el.addEventListener('pointermove',mv); el.addEventListener('pointerup',up);
+  });
+  return function(){return moved;};
+}
+
+/* ---------- render desktop ---------- */
+function renderDesktop(){
+  var box=$id('icons'); var col=0;
+  ITEMS.forEach(function(it,i){
+    var el=document.createElement('div'); el.className='icon';
+    el.style.right=(24)+'px'; el.style.left='auto'; el.style.top=(46+i*92)+'px';
+    el.innerHTML=it.icon+'<span>'+it.label+'</span>';
+    box.appendChild(el);
+    var movedFn=dragIcon(el);
+    el.addEventListener('dblclick',function(){ openItem(it.key); });
+    box.appendChild(el);
+  });
+  // dock: about, work, services, contact
+  var dock=$id('dock');
+  [['about','A',24],['work','W',150],['services','S',210],['contact','C',338]].forEach(function(d){
+    var b=document.createElement('button'); b.innerHTML=appSVG(d[2],d[1]); b.title=titleFor(d[0]);
+    b.addEventListener('click',function(){ openItem(d[0]); }); dock.appendChild(b);
+  });
+}
+
+/* ---------- render phone ---------- */
+function renderPhone(){
+  $id('phName').textContent=CONTENT.name; $id('phRole').textContent=CONTENT.role;
+  var apps=$id('phApps');
+  ITEMS.forEach(function(it,i){
+    var b=document.createElement('button'); b.className='ph-app';
+    var hue=[24,212,150,32,268,338][i]||200;
+    b.innerHTML=(it.key==='resume'||it.key==='readme'? it.icon : appSVG(hue, it.label[0]))+'<span>'+it.label.replace('.pdf','').replace('.txt','')+'</span>';
+    b.addEventListener('click',function(){ openSheet(it.key); }); apps.appendChild(b);
+  });
+  var dock=$id('phDock');
+  ['about','work','contact'].forEach(function(k,i){ var b=document.createElement('button'); b.innerHTML=appSVG([24,212,338][i], titleFor(k)[0]); b.addEventListener('click',function(){openSheet(k)}); dock.appendChild(b); });
+}
+function openSheet(key){
+  var s=document.createElement('div'); s.className='sheet';
+  s.innerHTML='<div class="sheet-bar"><button>‹ Home</button><div class="stitle">'+titleFor(key)+'</div></div><div class="sheet-body">'+bodyFor(key)+'</div>';
+  document.body.appendChild(s);
+  s.querySelector('button').addEventListener('click',function(){ s.classList.remove('up'); setTimeout(function(){s.remove();},320); });
+  s.querySelectorAll('[data-work]').forEach(function(card){ card.addEventListener('click',function(){ openSheet('__work'+card.getAttribute('data-work')); }); });
+  requestAnimationFrame(function(){ s.classList.add('up'); });
+}
+// allow work-detail sheets
+var _bodyFor=bodyFor;
+bodyFor=function(key){ if(key.indexOf('__work')===0){ return workDetail(+key.slice(6)); } return _bodyFor(key); };
+var _titleFor=titleFor;
+titleFor=function(key){ if(key.indexOf('__work')===0){ return CONTENT.work[+key.slice(6)].t; } return _titleFor(key); };
+
+/* ---------- clock ---------- */
+function tick(){ try{ var d=new Date(), h=d.getHours(), m=d.getMinutes(); var hh=((h%12)||12), mm=(m<10?'0':'')+m, ap=h<12?'AM':'PM'; var t=hh+':'+mm+' '+ap; if($id('clock'))$id('clock').textContent=t; if($id('phClock'))$id('phClock').textContent=hh+':'+mm; }catch(e){} }
+
+/* ---------- boot ---------- */
+function start(){
+  // fill config-driven labels
+  $id('mbName').textContent=CONTENT.name; $id('bootMark').textContent=CONTENT.initials; $id('fbName').textContent=CONTENT.name;
+  $id('fallback').style.display='none';
+  tick(); setInterval(tick,15000);
+  if(isPhone){ renderPhone(); $id('phone').style.display='flex'; $id('boot').classList.add('gone'); return; }
+  renderDesktop();
+  $id('soundBtn').addEventListener('click',function(){ muted=!muted; $id('soundBtn').textContent=muted?'🔇':'🔊'; if(!muted) blip(700,.12); });
+  if(reduce){ $id('boot').classList.add('gone'); $id('desk').classList.add('on'); return; }
+  // boot animation
+  requestAnimationFrame(function(){ $id('bootFill').style.width='100%'; });
+  setTimeout(function(){ $id('boot').classList.add('gone'); $id('desk').classList.add('on'); }, 1700);
+}
+start();
+</script>
+</body>
+</html>

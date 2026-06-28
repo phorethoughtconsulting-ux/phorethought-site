@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Comes Next</title>
+<meta name="description" content="An interactive experience about beginning.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070a12'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e7ad55'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--gold:#e7ad55;--serif:'DM Serif Display',Georgia,serif;--mono:'DM Mono',monospace;--sans:'DM Sans',system-ui,sans-serif}
+  body{background:#06080f;color:#eee;font-family:var(--sans);overflow-x:hidden}
+  #stage{position:fixed;inset:0;z-index:0}
+  #glow{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(120% 95% at 50% 118%,rgba(231,173,85,.5),rgba(231,150,70,.14) 38%,transparent 66%)}
+  #spacer{position:relative;z-index:0;width:100%}
+  #textlayer{position:fixed;inset:0;z-index:2;perspective:1000px;pointer-events:none}
+  .scene{position:absolute;top:50%;left:50%;width:100%;max-width:900px;padding:0 28px;transform:translate(-50%,-50%);text-align:center;opacity:0;backface-visibility:hidden;will-change:transform,opacity}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:.85}
+  .name{font-family:var(--serif);font-size:clamp(40px,8vw,96px);line-height:1;letter-spacing:-1.5px;color:#fff;text-shadow:0 8px 50px rgba(0,0,0,.7)}
+  .beat{font-family:var(--serif);font-size:clamp(30px,5vw,60px);line-height:1.16;color:#fff;max-width:18ch;margin:0 auto;text-shadow:0 8px 50px rgba(0,0,0,.7)}
+  .beat em,.deep em,.climax em{font-style:italic;color:var(--gold)}
+  .beat.small{font-size:clamp(25px,3.8vw,44px);max-width:24ch}
+  .deep{font-family:var(--serif);font-size:clamp(38px,7vw,84px);line-height:1.05;color:#fff;margin:0 auto;text-shadow:0 8px 50px rgba(0,0,0,.7)}
+  .climax{font-family:var(--serif);font-size:clamp(32px,6vw,72px);line-height:1.12;color:#fff;max-width:16ch;margin:0 auto;text-shadow:0 0 60px rgba(231,173,85,.35),0 8px 50px rgba(0,0,0,.7)}
+  .climax em{color:#f4c878}
+  .replay{display:inline-block;margin-top:30px;font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#06080f;background:var(--gold);padding:14px 28px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .replay:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(231,173,85,.32)}
+  .credit{display:block;margin-top:24px;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:#6f7890;text-decoration:none;transition:color .2s}
+  .credit:hover{color:var(--gold)}
+  .scrollcue{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7d889c;display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .5s}
+  .scrollcue .ln{width:1px;height:34px;background:linear-gradient(var(--gold),transparent);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+  #fallback{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;background:radial-gradient(120% 90% at 50% 50%,#0e1424,#06080f 80%)}
+  body.reduced #textlayer{position:static;perspective:none;pointer-events:auto}
+  body.reduced .scene{position:relative;top:auto;left:auto;transform:none!important;opacity:1!important;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  body.reduced #spacer,body.reduced .scrollcue{display:none}
+  body.reduced #glow{opacity:.4}
+  @media (prefers-reduced-motion:reduce){.scrollcue .ln{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="glow"></div>
+<div id="spacer"></div>
+<div id="textlayer"></div>
+
+<div id="fallback">
+  <div class="eyebrow">An experience</div>
+  <div class="name">What comes next</div>
+</div>
+
+<div class="scrollcue" id="cue"><span>Scroll</span><span class="ln"></span></div>
+
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ===== the experience (each line is a moment you fly through) ===== */
+const SCENES = [
+  `<div class="eyebrow">An experience</div><div class="name">What comes next</div>`,
+  `<div class="beat small">Everything that exists<br>was once just an idea<br>in someone's <em>head.</em></div>`,
+  `<div class="deep">Yours included.</div>`,
+  `<div class="beat small">The gap between thinking it<br>and <em>making it</em><br>is smaller than it feels.</div>`,
+  `<div class="beat small">It only looks like a wall<br>because you're standing<br><em>too close.</em></div>`,
+  `<div class="beat small">The work doesn't need you<br>to be ready.<br>It needs you to <em>begin.</em></div>`,
+  `<div class="deep">Start small.<br>Start badly.<br><em>Start.</em></div>`,
+  `<div class="climax">The best thing<br>you'll ever make<br><em>hasn't happened yet.</em></div>`,
+  `<div class="deep">Begin.</div><button class="replay" id="replay">↻ Again</button><a class="credit" href="../index.html" target="_blank" rel="noopener">Built by Phorethought ↗</a>`
+];
+/* ================================================================= */
+
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+const layer = document.getElementById('textlayer');
+const glow = document.getElementById('glow');
+layer.innerHTML = SCENES.map(s=>`<div class="scene">${s}</div>`).join('');
+const els = [...layer.querySelectorAll('.scene')];
+const N = els.length;
+
+function wireReplay(){ const r=document.getElementById('replay'); if(r) r.addEventListener('click',()=>{ window.scrollTo({top:0,behavior: reduce?'auto':'smooth'}); }); }
+
+(function init(){
+  try{
+    const spacer = document.getElementById('spacer');
+    spacer.style.height = (N*86)+'vh';   // a touch slower — it's contemplative
+
+    const canvas = document.getElementById('stage');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(innerWidth, innerHeight);
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x06080f, 0.0007);
+    const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 1, 4000);
+    camera.position.set(0,0,600);
+
+    const COUNT = innerWidth<760 ? 1700 : 3600;
+    const pos = new Float32Array(COUNT*3), col = new Float32Array(COUNT*3);
+    // cool blue-white near the start, warm gold deeper in (color by depth = the journey toward dawn)
+    const cool = new THREE.Color('#9fb6e0'), warm = new THREE.Color('#e7ad55'), bright = new THREE.Color('#fff3d6'), t = new THREE.Color();
+    for(let i=0;i<COUNT;i++){
+      const z = -Math.random()*4200 + 600;
+      pos[i*3]   = (Math.random()-.5)*2000;
+      pos[i*3+1] = (Math.random()-.5)*2000;
+      pos[i*3+2] = z;
+      const depth = (600 - z)/4800;                 // 0 (near) .. 1 (far)
+      t.copy(cool).lerp(warm, Math.min(1,depth*1.3));
+      if(Math.random()<0.25) t.lerp(bright,0.5);
+      col[i*3]=t.r; col[i*3+1]=t.g; col[i*3+2]=t.b;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+    const sc=document.createElement('canvas'); sc.width=sc.height=64; const sx=sc.getContext('2d');
+    const g=sx.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.4,'rgba(255,255,255,.55)'); g.addColorStop(1,'rgba(255,255,255,0)');
+    sx.fillStyle=g; sx.fillRect(0,0,64,64);
+    const mat = new THREE.PointsMaterial({ size:6, map:new THREE.CanvasTexture(sc), vertexColors:true, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending });
+    const field = new THREE.Points(geo, mat);
+    scene.add(field);
+
+    document.getElementById('fallback').style.display='none';
+    window.__srReady = true;
+    wireReplay();
+
+    if(reduce){ document.body.classList.add('reduced'); (function f(){ field.rotation.z+=0.0002; renderer.render(scene,camera); requestAnimationFrame(f); })(); return; }
+
+    let mx=0,my=0; addEventListener('mousemove',e=>{ mx=(e.clientX/innerWidth-.5); my=(e.clientY/innerHeight-.5); });
+
+    let progress = 0;
+    if(window.gsap && window.ScrollTrigger){
+      gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.create({ trigger:'#spacer', start:'top top', end:'bottom bottom', scrub:1,
+        onUpdate:self=>{ progress = self.progress;
+          gsap.to('#cue',{opacity: progress>0.015?0:1, duration:.3, overwrite:true}); } });
+    } else {
+      const rc=()=>{ const max=document.body.scrollHeight-innerHeight; progress = max>0 ? scrollY/max : 0; };
+      addEventListener('scroll',rc,{passive:true}); rc();
+    }
+
+    function placeScenes(){
+      for(let i=0;i<N;i++){
+        const c = i/(N-1);
+        const d = (progress - c)*(N-1);
+        const ad = Math.abs(d);
+        const o = Math.max(0, 1 - ad*1.55);
+        const el = els[i];
+        const z = d<0 ? d*1150 : d*560;
+        el.style.opacity = o.toFixed(3);
+        el.style.transform = `translate(-50%,-50%) translateZ(${z.toFixed(1)}px)`;
+        el.style.pointerEvents = o>0.55 ? 'auto' : 'none';
+        el.style.visibility = o<0.01 ? 'hidden' : 'visible';
+      }
+    }
+
+    function frame(){
+      const targetZ = 600 - progress*3200;
+      camera.position.z += (targetZ - camera.position.z)*0.06;
+      camera.position.x += (mx*55 - camera.position.x)*0.035;
+      camera.position.y += (-my*36 - camera.position.y)*0.035;
+      camera.lookAt(0,0,camera.position.z-400);
+      field.rotation.z += 0.00025;
+      glow.style.opacity = Math.min(0.72, Math.max(0, progress*1.25 - 0.12)).toFixed(3); // dawn rises toward the message
+      placeScenes();
+      renderer.render(scene,camera);
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+    addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); if(window.ScrollTrigger) ScrollTrigger.refresh(); });
+  }catch(err){ document.body.classList.add('reduced'); document.getElementById('fallback').style.display='none'; wireReplay(); if(window.console) console.warn('Experience unavailable:', err); }
+})();
+</script>
+</body>
+</html>

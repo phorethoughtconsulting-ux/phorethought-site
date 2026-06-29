@@ -101,8 +101,9 @@ function renderFloor(){if(!OWNER)return;const h=Math.max(0.5,parseFloat($('obh')
   $('obrate').textContent='$'+rate.toFixed(2)+'/hr';const v=$('obverdict'),ok=rate>=FLOOR;
   v.textContent=ok?('✓ above floor (+$'+(rate-FLOOR).toFixed(2)+'/hr)'):('✗ below floor (−$'+(FLOOR-rate).toFixed(2)+'/hr) — raise price or cut hours');
   v.className='ob-verdict '+(ok?'good':'bad');}
-/* ▼ PASTE YOUR FORMSPREE FORM ID BELOW (from formspree.io). Until then, the form falls back to "email us". */
-const FORMSPREE='https://formspree.io/f/REPLACE_WITH_YOUR_ID';
+/* ▼ PASTE THESE (same two values across every form): emails you + pings Slack. Empty = falls back to "email us". */
+const WEB3FORMS_KEY='bb4252da-6cf6-4eee-8e78-933ef950b3ad';  // Web3Forms access key — sends submissions to your email
+const SLACK_WEBHOOK='';  // your Slack Incoming Webhook URL — instant ping
 $('types').innerHTML=TYPES.map((t,i)=>'<div class="opt'+(i===0?' on':'')+'" data-i="'+i+'"><div class="n">'+t.n+'</div><div class="p">from $'+t.p.toLocaleString()+'</div></div>').join('');
 $('types').querySelectorAll('.opt').forEach(o=>o.onclick=()=>{type=+o.dataset.i;$('types').querySelectorAll('.opt').forEach(x=>x.classList.remove('on'));o.classList.add('on');calc();});
 $('addons').innerHTML=ADDONS.map((a,i)=>'<div class="add" data-i="'+i+'"><div class="box">✓</div><div class="n">'+a.n+'</div><div class="p">+$'+a.p.toLocaleString()+(a.mo?'/mo':'')+'</div></div>').join('');
@@ -121,19 +122,12 @@ $('send').onclick=async()=>{
   const email=($('qemail').value||'').trim();
   if(!email.includes('@')){$('qemail').style.borderColor='#e0792b';$('qemail').focus();return;}
   const btn=$('send');btn.disabled=true;btn.textContent='…';
-  const data={email,service:TYPES[type].n,pages:$('pages').value,timeline:rush>1?'Rush (+30%)':'Standard',
-    addons:[...sel].map(i=>ADDONS[i].n).join(', ')||'none',
-    estimate:'$'+lastTotal.toLocaleString()+(lastMonthly?(' + $'+lastMonthly.toLocaleString()+'/mo'):''),
-    _subject:'New quote request — Phorethought'};
-  try{
-    const r=await fetch(FORMSPREE,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});
-    if(!r.ok)throw new Error('bad');
-    $('reqform').classList.remove('show');$('ok').classList.add('show');
-  }catch(e){
-    btn.disabled=false;btn.textContent='Send';
-    $('ok').textContent='Couldn\'t send right now — please email phorethoughtconsulting@gmail.com directly.';
-    $('reqform').classList.remove('show');$('ok').classList.add('show');
-  }
+  const summary=`Service: ${TYPES[type].n}\nPages: ${$('pages').value}\nTimeline: ${rush>1?'Rush (+30%)':'Standard'}\nAdd-ons: ${[...sel].map(i=>ADDONS[i].n).join(', ')||'none'}\nEstimate: $${lastTotal.toLocaleString()}${lastMonthly?(' + $'+lastMonthly.toLocaleString()+'/mo'):''}\nEmail: ${email}`;
+  let ok=false;
+  if(WEB3FORMS_KEY){ try{ const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:'New quote request — Phorethought',from_name:'Phorethought quote tool',email,message:summary})}); const j=await r.json(); if(j.success)ok=true; }catch(e){} }
+  if(SLACK_WEBHOOK){ try{ await fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':money_with_wings: *New quote request*\n'+summary})}); ok=true; }catch(e){} }
+  if(ok){ $('reqform').classList.remove('show');$('ok').classList.add('show'); }
+  else { btn.disabled=false;btn.textContent='Send'; $('ok').textContent='Couldn\'t send right now — please email phorethoughtconsulting@gmail.com directly.'; $('reqform').classList.remove('show');$('ok').classList.add('show'); }
 };
 $('qemail')&&$('qemail').addEventListener('input',()=>{$('qemail').style.borderColor='';});
 if(OWNER){$('ownerbox').style.display='block';$('obh').oninput=renderFloor;}

@@ -99,8 +99,7 @@
 </header>
 
 <div class="wrap">
-  <!-- TODO: set action to your real Formspree endpoint before launch (https://formspree.io/f/XXXX) -->
-  <form id="intake" action="https://formspree.io/f/your-endpoint" method="POST">
+  <form id="intake" method="POST">
 
     <div class="fgroup">
       <label for="name">Your name *</label>
@@ -224,18 +223,21 @@
 </footer>
 
 <script>
-  // POC: graceful success without a wired endpoint. When Formspree is set,
-  // this still works — it posts in the background then shows the thank-you.
+  // Free-10 intake → email (Web3Forms) + Slack ping. Paste the same two values used on every other form.
+  const WEB3FORMS_KEY='bb4252da-6cf6-4eee-8e78-933ef950b3ad';  // Web3Forms access key
+  const SLACK_WEBHOOK='';  // your Slack Incoming Webhook URL
   (function(){
     var f=document.getElementById('intake'); if(!f) return;
     f.addEventListener('submit',function(e){
       e.preventDefault();
       if(!f.checkValidity()){f.reportValidity();return;}
-      var ok=function(){f.style.display='none';document.getElementById('done').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});};
-      var action=f.getAttribute('action')||'';
-      if(action.indexOf('your-endpoint')>-1){ ok(); return; } // endpoint not wired yet
-      fetch(action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
-        .then(ok).catch(ok);
+      var done=function(){f.style.display='none';document.getElementById('done').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});};
+      var nm=(document.getElementById('name')||{}).value||'', em=(document.getElementById('email')||{}).value||'';
+      var tasks=[];
+      if(WEB3FORMS_KEY){ var fd=new FormData(f); fd.append('access_key',WEB3FORMS_KEY); fd.append('subject','New free-10 intake — Phorethought'); fd.append('from_name','Phorethought free-10'); tasks.push(fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).catch(function(){})); }
+      if(SLACK_WEBHOOK){ tasks.push(fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':sparkles: *New free-10 intake*\nName: '+nm+'\nEmail: '+em})}).catch(function(){})); }
+      if(!tasks.length){ done(); return; } // not wired yet → graceful success
+      Promise.allSettled(tasks).then(done);
     });
   })();
 </script>

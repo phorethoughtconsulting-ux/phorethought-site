@@ -355,12 +355,20 @@
    try{if(sessionStorage.getItem('vbpoc'))p.classList.add('gone');}catch(e){}
    if(b)b.onclick=function(){p.classList.add('gone');try{sessionStorage.setItem('vbpoc','1')}catch(e){}};})();
 
-  // contact form (POC — wire a Formspree endpoint before real launch)
+  // contact form → email (Web3Forms) + Slack ping. Paste the same two values used on every other form.
   (function(){var f=document.getElementById('cform');if(!f)return;
+   var WEB3FORMS_KEY='bb4252da-6cf6-4eee-8e78-933ef950b3ad';  // Web3Forms access key
+   var SLACK_WEBHOOK='';  // your Slack Incoming Webhook URL
    f.addEventListener('submit',function(e){e.preventDefault();
      var n=(document.getElementById('cf-name').value||'').trim(),em=(document.getElementById('cf-email').value||'').trim();
+     var mEl=document.getElementById('cf-msg')||document.getElementById('cf-message');var m=mEl?(mEl.value||'').trim():'';
      if(!n||em.indexOf('@')<0){return;}
-     f.style.display='none';document.getElementById('cdone').classList.add('show');
+     var done=function(){f.style.display='none';document.getElementById('cdone').classList.add('show');};
+     var tasks=[];
+     if(WEB3FORMS_KEY){tasks.push(fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:'New message — Vincent Barnes site',from_name:'Vincent Barnes site',name:n,email:em,message:m||'(no message)'})}).catch(function(){}));}
+     if(SLACK_WEBHOOK){tasks.push(fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':wave: *New message — Vincent site*\nName: '+n+'\nEmail: '+em+(m?('\nMsg: '+m):'')})}).catch(function(){}));}
+     if(!tasks.length){done();return;}
+     Promise.allSettled(tasks).then(done);
    });})();
 
   // mobile nav

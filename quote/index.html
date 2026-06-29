@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--ink:#0a0f1e;--soft:#444;--muted:#888;--ghost:#bbb;--paper:#fff;--warm:#f9f8f6;--blue:#1a56db;--rule:#e8e8e8;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
+  :root{--ink:#0a0f1e;--soft:#444;--muted:#888;--ghost:#bbb;--paper:#fff;--warm:#f9f8f6;--blue:#e7ad55;--rule:#e8e8e8;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
   body{font-family:var(--sans);background:var(--warm);color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 20px;line-height:1.6}
   .head{max-width:960px;margin:0 auto 26px}
   .logo{font-family:var(--serif);font-size:22px}
@@ -19,17 +19,17 @@
   .lab{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:20px 0 10px}.lab:first-child{margin-top:0}
   .types{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .opt{border:1px solid var(--rule);border-radius:12px;padding:14px;cursor:pointer;transition:.15s}
-  .opt:hover{border-color:var(--ghost)}.opt.on{border-color:var(--blue);background:rgba(26,86,219,.05)}
+  .opt:hover{border-color:var(--ghost)}.opt.on{border-color:var(--blue);background:rgba(231,173,85,.12)}
   .opt .n{font-family:var(--serif);font-size:17px}.opt .p{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:2px}
   .addons{display:flex;flex-direction:column;gap:9px}
   .add{display:flex;align-items:center;gap:12px;border:1px solid var(--rule);border-radius:10px;padding:12px 14px;cursor:pointer;transition:.15s}
-  .add:hover{border-color:var(--ghost)}.add.on{border-color:var(--blue);background:rgba(26,86,219,.04)}
-  .add .box{width:20px;height:20px;border-radius:6px;border:2px solid var(--ghost);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+  .add:hover{border-color:var(--ghost)}.add.on{border-color:var(--blue);background:rgba(231,173,85,.10)}
+  .add .box{width:20px;height:20px;border-radius:6px;border:2px solid var(--ghost);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink);flex-shrink:0}
   .add.on .box{background:var(--blue);border-color:var(--blue)}
   .add .n{flex:1;font-size:14px}.add .p{font-size:13px;color:var(--muted);font-family:var(--mono)}
   .slider{display:flex;align-items:center;gap:14px}.slider input{flex:1}.slider .v{font-family:var(--serif);font-size:20px;width:44px;text-align:right}
   .toggle{display:flex;gap:8px}.toggle .t{flex:1;text-align:center;border:1px solid var(--rule);border-radius:10px;padding:11px;font-size:13px;cursor:pointer;transition:.15s}
-  .toggle .t.on{border-color:var(--blue);background:rgba(26,86,219,.08)}
+  .toggle .t.on{border-color:var(--blue);background:rgba(231,173,85,.14)}
   .quote{position:sticky;top:20px}
   .quote h3{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
   .lines{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;min-height:30px}
@@ -41,7 +41,7 @@
   .cta:hover{transform:translateY(-2px);background:#1a2744}
   .reqform{margin-top:12px;display:none;gap:8px}.reqform.show{display:flex}
   .reqform input{flex:1;background:var(--warm);border:1px solid var(--rule);border-radius:10px;padding:11px;font-family:inherit;outline:none}
-  .ok{display:none;margin-top:12px;font-size:13px;color:var(--blue);text-align:center}.ok.show{display:block}
+  .ok{display:none;margin-top:12px;font-size:13px;color:var(--ink);text-align:center}.ok.show{display:block}
   .note{max-width:960px;margin:18px auto 0;text-align:center;font-size:11px;color:var(--ghost);font-family:var(--mono)}
   @media(max-width:780px){.grid{grid-template-columns:1fr}.quote{position:static}.types{grid-template-columns:1fr}}
   /* owner-only rate-floor check (hidden from clients; ?owner=1 to show) */
@@ -81,7 +81,7 @@
       <button class="cta" id="cta">Get my full quote →</button>
       <div class="reqform" id="reqform"><input type="email" id="qemail" placeholder="your@email.com"><button class="cta" style="margin:0;width:auto;padding:11px 16px" id="send">Send</button></div>
       <div class="ok" id="ok">✓ Got it — your full quote is on its way within 24 hours.</div>
-      <div style="font-size:11px;color:var(--ghost);text-align:center;margin-top:12px">Your info is only used to send your quote. <a href="../privacy/index.html" style="color:var(--blue)">Privacy</a></div>
+      <div style="font-size:11px;color:var(--ghost);text-align:center;margin-top:12px">Your info is only used to send your quote. <a href="../privacy/index.html" style="color:var(--ink);text-decoration:underline">Privacy</a></div>
     </div>
   </div>
   <div class="note">PHORETHOUGHT · estimate is a starting point — final quote confirmed after a quick scope chat.</div>

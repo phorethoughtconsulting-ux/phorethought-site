@@ -26,7 +26,7 @@
     --paper: #fff;
     --paper-warm: #f9f8f6;
     --accent: #0a0f1e;
-    --blue: #1a56db;
+    --gold: #e7ad55;
     --rule: #e8e8e8;
     --serif: 'DM Serif Display', Georgia, serif;
     --sans: 'DM Sans', system-ui, sans-serif;
@@ -491,7 +491,7 @@
   .pm-dim { display: flex; align-items: center; gap: 12px; }
   .pm-dim-label { font-size: 11px; color: rgba(255,255,255,0.5); font-family: var(--mono); width: 100px; flex-shrink: 0; }
   .pm-dim-bar-wrap { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; }
-  .pm-dim-bar { height: 4px; border-radius: 2px; background: #5b9cf6; }
+  .pm-dim-bar { height: 4px; border-radius: 2px; background: #e7ad55; }
   .pm-dim-val { font-size: 11px; color: rgba(255,255,255,0.4); font-family: var(--mono); width: 28px; text-align: right; }
 
   /* ─── PROCESS ─── */
@@ -650,11 +650,11 @@
   .work-card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(10,15,30,0.22); border-color: var(--ink); background: linear-gradient(rgba(10,15,30,0.86), rgba(10,15,30,0.90)), url('assets/camo-grey.jpg'); background-size: cover; background-position: center; }
   .work-card:hover .wt, .work-card:hover .wd { color: #fff; }
   .work-card:hover .tag { color: #fff; border-color: rgba(255,255,255,0.45); }
-  .work-card .tag { align-self: flex-start; font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); border: 1px solid rgba(26,86,219,0.3); border-radius: 30px; padding: 5px 11px; margin-bottom: 16px; }
+  .work-card .tag { align-self: flex-start; font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(231,173,85,0.35); border-radius: 30px; padding: 5px 11px; margin-bottom: 16px; }
   .work-card .wt { font-family: var(--serif); font-size: 24px; color: var(--ink); margin-bottom: 6px; }
   .work-card .wd { font-size: 14px; color: var(--ink-soft); flex: 1; line-height: 1.55; }
   .work-card .view { margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 5px; }
-  .work-card:hover .view { color: #6ea8ff; }
+  .work-card:hover .view { color: #f0bd6e; }
   @media (max-width: 860px) { .work-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .work-grid { grid-template-columns: 1fr; } }
 
@@ -956,14 +956,12 @@
   html.inv img, html.inv video, html.inv .studio-banner{ filter:invert(1); }
   #vcursor{position:fixed;top:0;left:0;width:24px;height:24px;margin:-12px 0 0 -12px;border:1.6px solid #fff;border-radius:50%;pointer-events:none;z-index:100000;mix-blend-mode:difference;transition:width .18s ease,height .18s ease,margin .18s ease,background .18s ease;will-change:transform}
   #vcursor.big{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(255,255,255,.18)}
-  #brain-wrap{position:fixed;top:64px;right:24px;width:180px;height:180px;z-index:9999;pointer-events:none;filter:drop-shadow(0 0 22px rgba(120,200,255,.5));will-change:transform}
-  #brainfx{width:100%;height:100%;display:block}
   .inv-reveal{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
   .inv-reveal.in{opacity:1;transform:none}
   .inv-mag{transition:transform .18s ease-out}
   .inv-tilt{transition:transform .16s ease-out;will-change:transform}
   @media (hover:hover){ html.inv, html.inv a, html.inv button, html.inv .service-card, html.inv .work-card { cursor:none } }
-  @media (prefers-reduced-motion:reduce){ #vcursor{display:none} html.inv,html.inv *{cursor:auto !important} .inv-reveal{transition:none;opacity:1;transform:none} #brain{animation:none !important} }
+  @media (prefers-reduced-motion:reduce){ #vcursor{display:none} html.inv,html.inv *{cursor:auto !important} .inv-reveal{transition:none;opacity:1;transform:none} }
   @media (hover:none){ #vcursor{display:none} }
 </style>
 
@@ -1005,55 +1003,15 @@
 
   var heroParallax=false; setTimeout(function(){heroParallax=true;},1300);
   if(!touch && !reduce){
-    var hero=document.querySelector('.hero'), bw=document.getElementById('brain-wrap');
+    var hero=document.querySelector('.hero');
     addEventListener('mousemove',function(e){
       var dx=(e.clientX/innerWidth-0.5),dy=(e.clientY/innerHeight-0.5);
-      if(bw) bw.style.transform='translate('+(dx*-26)+'px,'+(dy*-18)+'px)';
       if(heroParallax && hero){ var hh=hero.querySelector('.hero-headline'),hs=hero.querySelector('.hero-sub');
         if(hh) hh.style.transform='translate('+(dx*16)+'px,'+(dy*10)+'px)';
         if(hs) hs.style.transform='translate('+(dx*9)+'px,'+(dy*6)+'px)'; }
     });
   }
 
-  // ---- 3D point-cloud brain (spins 360, twitch + pulse) ----
-  (function(){
-    var cv=document.getElementById('brainfx'); if(!cv) return;
-    var bw=document.getElementById('brain-wrap');
-    if(reduce){ if(bw) bw.style.opacity='.5'; }
-    var g=cv.getContext('2d'); var DPR=Math.min(2,devicePixelRatio||1), S=180;
-    cv.width=S*DPR; cv.height=S*DPR; g.scale(DPR,DPR);
-    var cxp=S/2, cyp=S/2, R=66, FOV=2.5, N=240, pts=[];
-    for(var i=0;i<N;i++){
-      var u=Math.random()*2-1, ph=Math.random()*Math.PI*2, s=Math.sqrt(1-u*u), th=Math.acos(u);
-      var bump=1 + 0.13*Math.sin(6*ph)*Math.sin(5*th) + 0.05*(Math.random()-0.5);
-      var x=s*Math.cos(ph)*1.18*bump, y=u*0.95*bump, z=s*Math.sin(ph)*1.0*bump;
-      if(Math.abs(x)<0.05) continue; x += (x>0?1:-1)*0.06;
-      pts.push({x:x,y:y,z:z,nb:[]});
-    }
-    for(var a=0;a<pts.length;a++){ for(var b=a+1;b<pts.length;b++){ var dx=pts[a].x-pts[b].x,dy=pts[a].y-pts[b].y,dz=pts[a].z-pts[b].z; if(dx*dx+dy*dy+dz*dz<0.085){ pts[a].nb.push(b); } } }
-    var ang=0.4, tilt=0.34, t=0, tw=0, twT=3;
-    function frame(){
-      requestAnimationFrame(frame); if(document.hidden) return;
-      t+=0.016; ang+= (reduce?0:0.008);
-      twT-=0.016; if(twT<=0 && !reduce){ twT=4+Math.random()*4; tw=0.5; } if(tw>0) tw-=0.05;
-      var jit = tw>0 ? (Math.random()-0.5)*0.10*tw : 0;
-      var breathe = 1 + (reduce?0:0.04*Math.sin(t*1.4));
-      var ca=Math.cos(ang+jit), sa=Math.sin(ang+jit), ct=Math.cos(tilt), stt=Math.sin(tilt);
-      g.clearRect(0,0,S,S); var proj=[];
-      for(var i2=0;i2<pts.length;i2++){ var p=pts[i2];
-        var x1=p.x*ca+p.z*sa, z1=-p.x*sa+p.z*ca, y1=p.y;
-        var y2=y1*ct - z1*stt, z2=y1*stt + z1*ct;
-        var sc=FOV/(FOV+z2)*breathe;
-        proj.push({sx:cxp+x1*R*sc, sy:cyp+y2*R*sc, sc:sc, z:z2});
-      }
-      g.lineWidth=1;
-      for(var i3=0;i3<pts.length;i3++){ var pa=proj[i3], nb=pts[i3].nb; for(var k=0;k<nb.length;k++){ var pb=proj[nb[k]]; var dep=(pa.sc+pb.sc)/2; g.strokeStyle='rgba(150,205,255,'+(0.11*dep)+')'; g.beginPath(); g.moveTo(pa.sx,pa.sy); g.lineTo(pb.sx,pb.sy); g.stroke(); } }
-      for(var i4=0;i4<proj.length;i4++){ var pp=proj[i4]; var al=Math.max(0.14,Math.min(1,0.35+0.65*((pp.z+1.3)/2.6)));
-        g.beginPath(); g.arc(pp.sx,pp.sy,1.7*pp.sc,0,7); g.fillStyle='rgba(205,235,255,'+al+')'; g.shadowColor='rgba(130,200,255,0.9)'; g.shadowBlur=6*pp.sc; g.fill(); }
-      g.shadowBlur=0;
-    }
-    frame();
-  })();
 })();
 </script>
 <!-- PH-SMOOTH · Lenis smooth scroll (desktop only; keeps the twin's own cursor/tilt/parallax intact) -->

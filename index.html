@@ -705,6 +705,21 @@
   @media (max-width: 860px) { .work-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .work-grid { grid-template-columns: 1fr; } }
 
+  /* ─── FEATURED EXPERIENCE BANNER ─── */
+  .xfeature { position: relative; display: block; overflow: hidden; border-radius: 18px; min-height: clamp(380px, 58vh, 540px); margin: 6px 0 14px; background: radial-gradient(120% 90% at 50% 34%, #0e1424, #06080f 80%); box-shadow: 0 30px 70px rgba(10,15,30,0.30); text-decoration: none; color: #fff; isolation: isolate; }
+  .xfeature-stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+  .xfeature-glow { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(92% 62% at 50% 118%, rgba(231,173,85,0.46), rgba(231,150,70,0.10) 40%, transparent 68%); }
+  .xfeature-vig { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(4,6,12,0.55)); }
+  .xfeature-inner { position: relative; z-index: 2; min-height: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 28px; }
+  .xfeature-k { font-family: var(--mono); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #e7ad55; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .xfeature-k::before, .xfeature-k::after { content: ''; width: 22px; height: 1px; background: rgba(231,173,85,0.5); }
+  .xfeature-title { font-family: var(--serif); font-size: clamp(31px, 5vw, 62px); line-height: 1.05; letter-spacing: -1px; color: #fff; margin-bottom: 18px; text-shadow: 0 8px 50px rgba(0,0,0,0.6); }
+  .xfeature-title em { font-style: italic; color: #f4c878; }
+  .xfeature-sub { font-size: 15px; color: rgba(255,255,255,0.74); max-width: 520px; line-height: 1.6; margin-bottom: 32px; }
+  .xfeature-cta { font-family: var(--mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: #e7ad55; color: #0a0f1e; padding: 15px 30px; border-radius: 40px; font-weight: 600; transition: transform 0.2s, background 0.2s, box-shadow 0.2s; }
+  .xfeature:hover .xfeature-cta { transform: translateY(-2px); background: #f0bd6e; box-shadow: 0 14px 34px rgba(231,173,85,0.30); }
+  @media (max-width: 560px) { .xfeature-inner { padding: 46px 22px; } }
+
   /* ─── MOBILE ─── */
   .nav-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--ink); cursor: pointer; line-height: 1; padding: 4px; }
   @media (max-width: 1140px) {
@@ -972,6 +987,19 @@
     <div class="section-label">What's possible</div>
     <h2 class="section-title">It starts as<br>an idea.</h2>
     <p class="work-intro">Every piece here began the same way — someone described a problem or an idea, and we built the thing that didn't exist yet. Don't read it as a portfolio; read it as a question: <em>what could we build for you?</em> Open any to try it live — then bring us yours.</p>
+
+    <!-- FEATURED EXPERIENCE -->
+    <a class="xfeature" href="demos/what-comes-next.html" target="_blank" rel="noopener" aria-label="Open the experience: What Comes Next">
+      <canvas class="xfeature-stars" aria-hidden="true"></canvas>
+      <div class="xfeature-glow" aria-hidden="true"></div>
+      <div class="xfeature-vig" aria-hidden="true"></div>
+      <div class="xfeature-inner">
+        <div class="xfeature-k">Featured Experience</div>
+        <h3 class="xfeature-title">The best thing you'll make<br><em>hasn't happened yet.</em></h3>
+        <p class="xfeature-sub">A flight through deep space and a single idea — built to be felt, not read. Scroll, and let it land.</p>
+        <span class="xfeature-cta">Enter the experience →</span>
+      </div>
+    </a>
 
     <div class="work-group">
       <div class="gh">Tools &amp; Automations</div>
@@ -1295,6 +1323,43 @@
     if(hidden.length) gsap.set(hidden,{opacity:1,y:0,clearProps:'transform'});
     if(window.console) console.warn('PH-MOTION disabled:', err);
   }
+})();
+</script>
+<!-- FEATURED-EXPERIENCE STARFIELD · self-contained, fail-safe (gradient+glow remain if this no-ops) -->
+<script>
+(function(){
+  var cv = document.querySelector('.xfeature-stars'); if(!cv) return;
+  var ctx; try{ ctx = cv.getContext('2d'); }catch(e){} if(!ctx) return;
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var DPR = Math.min(window.devicePixelRatio||1, 2);
+  var W=0,H=0,cx=0,cy=0,stars=[],raf=0,running=false;
+  function size(){ var r=cv.getBoundingClientRect(); W=cv.width=Math.max(1,Math.round(r.width*DPR)); H=cv.height=Math.max(1,Math.round(r.height*DPR)); cx=W/2; cy=H/2; }
+  function init(){ size(); stars=[]; var n=Math.min(240, Math.floor(W*H/16000)); for(var i=0;i<n;i++){ stars.push({ x:(Math.random()-0.5)*W, y:(Math.random()-0.5)*H, z:Math.random()*W }); } }
+  function draw(motion){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      if(motion){ s.z -= W*0.0016; if(s.z<1){ s.x=(Math.random()-0.5)*W; s.y=(Math.random()-0.5)*H; s.z=W; } }
+      var k=128/s.z, px=cx+s.x*k, py=cy+s.y*k;
+      if(px<0||px>W||py<0||py>H) continue;
+      var near=1-s.z/W;
+      var sz=Math.max(0.4, near*2.4*DPR), a=Math.min(1, near*1.2);
+      var r=Math.round(150+near*105), g=Math.round(172+near*1), b=Math.round(224-near*150); // deep blue far → gold near
+      ctx.globalAlpha=a*0.9; ctx.fillStyle='rgb('+r+','+g+','+b+')';
+      ctx.beginPath(); ctx.arc(px,py,sz,0,6.2832); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function loop(){ draw(true); raf=requestAnimationFrame(loop); }
+  function start(){ if(running||reduce) return; running=true; loop(); }
+  function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
+  init();
+  if(reduce){ draw(false); return; }                 // one static frame, no motion
+  try{
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:0.04});
+    io.observe(cv);
+  }catch(e){ start(); }                               // no IO support → just run
+  var rt; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(init,200); });
 })();
 </script>
 <!-- PH-ANALYTICS -->

@@ -26,6 +26,13 @@
   .climax em{color:#f4c878}
   .replay{display:inline-block;margin-top:30px;font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#06080f;background:var(--gold);padding:14px 28px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;transition:transform .25s,box-shadow .25s}
   .replay:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(231,173,85,.32)}
+  .endcta{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:30px}
+  .endcta .replay{margin-top:0}
+  .replay.ghost{background:transparent;color:var(--gold);border:1px solid rgba(231,173,85,.5)}
+  .replay.ghost:hover{box-shadow:none;background:rgba(231,173,85,.08)}
+  #bloom{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(62% 52% at 50% 52%,rgba(255,241,214,.9),rgba(231,173,85,.28) 40%,transparent 72%)}
+  @keyframes climaxGlow{0%,100%{text-shadow:0 0 60px rgba(231,173,85,.30),0 8px 50px rgba(0,0,0,.7)}50%{text-shadow:0 0 92px rgba(231,173,85,.58),0 8px 50px rgba(0,0,0,.7)}}
+  .climax{animation:climaxGlow 3.8s ease-in-out infinite}
   .credit{display:block;margin-top:24px;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:#6f7890;text-decoration:none;transition:color .2s}
   .credit:hover{color:var(--gold)}
   .scrollcue{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7d889c;display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .5s}
@@ -42,6 +49,7 @@
 <body>
 <canvas id="stage"></canvas>
 <div id="glow"></div>
+<div id="bloom"></div>
 <div id="spacer"></div>
 <div id="textlayer"></div>
 
@@ -68,13 +76,14 @@ const SCENES = [
   `<div class="beat small">The work doesn't need you<br>to be ready.<br>It needs you to <em>begin.</em></div>`,
   `<div class="deep">Start small.<br>Start badly.<br><em>Start.</em></div>`,
   `<div class="climax">The best thing<br>you'll ever make<br><em>hasn't happened yet.</em></div>`,
-  `<div class="deep">Begin.</div><button class="replay" id="replay">↻ Again</button><a class="credit" href="../index.html" target="_blank" rel="noopener">Built by Phorethought ↗</a>`
+  `<div class="deep">Begin.</div><div class="endcta"><a class="replay" href="../study/index.html">Start yours →</a><button class="replay ghost" id="replay">↻ Again</button></div><a class="credit" href="../index.html" target="_blank" rel="noopener">Built by Phorethought ↗</a>`
 ];
 /* ================================================================= */
 
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 const layer = document.getElementById('textlayer');
 const glow = document.getElementById('glow');
+const bloom = document.getElementById('bloom');
 layer.innerHTML = SCENES.map(s=>`<div class="scene">${s}</div>`).join('');
 const els = [...layer.querySelectorAll('.scene')];
 const N = els.length;
@@ -98,7 +107,7 @@ function wireReplay(){ const r=document.getElementById('replay'); if(r) r.addEve
     const COUNT = innerWidth<760 ? 1700 : 3600;
     const pos = new Float32Array(COUNT*3), col = new Float32Array(COUNT*3);
     // cool blue-white near the start, warm gold deeper in (color by depth = the journey toward dawn)
-    const cool = new THREE.Color('#9fb6e0'), warm = new THREE.Color('#e7ad55'), bright = new THREE.Color('#fff3d6'), t = new THREE.Color();
+    const cool = new THREE.Color('#7d99cf'), warm = new THREE.Color('#e7ad55'), bright = new THREE.Color('#fff3d6'), t = new THREE.Color();
     for(let i=0;i<COUNT;i++){
       const z = -Math.random()*4200 + 600;
       pos[i*3]   = (Math.random()-.5)*2000;
@@ -146,21 +155,31 @@ function wireReplay(){ const r=document.getElementById('replay'); if(r) r.addEve
         const o = Math.max(0, 1 - ad*1.55);
         const el = els[i];
         const z = d<0 ? d*1150 : d*560;
+        const blur = Math.min(6, ad*4.2);                 // depth-of-field: sharp at center, soft as it recedes
         el.style.opacity = o.toFixed(3);
         el.style.transform = `translate(-50%,-50%) translateZ(${z.toFixed(1)}px)`;
+        el.style.filter = blur>0.06 ? `blur(${blur.toFixed(2)}px)` : 'none';
         el.style.pointerEvents = o>0.55 ? 'auto' : 'none';
         el.style.visibility = o<0.01 ? 'hidden' : 'visible';
       }
     }
 
+    let lastP = 0, sp = 0, tacc = 0;
     function frame(){
+      tacc += 0.016;
+      const dp = progress - lastP; lastP = progress;
+      sp += (Math.min(1, Math.abs(dp)*55) - sp) * 0.08;        // smoothed scroll speed, 0..1
       const targetZ = 600 - progress*3200;
       camera.position.z += (targetZ - camera.position.z)*0.06;
       camera.position.x += (mx*55 - camera.position.x)*0.035;
       camera.position.y += (-my*36 - camera.position.y)*0.035;
       camera.lookAt(0,0,camera.position.z-400);
-      field.rotation.z += 0.00025;
+      camera.fov = 60 + sp*16; camera.updateProjectionMatrix();  // speed rush: lens widens as you accelerate
+      field.rotation.z += 0.00025 + sp*0.0035;                   // the field whirls faster the faster you go
+      mat.size = 5.4 + Math.sin(tacc*1.6)*0.7 + sp*12;           // gentle twinkle + bloom into streaks on speed
       glow.style.opacity = Math.min(0.72, Math.max(0, progress*1.25 - 0.12)).toFixed(3); // dawn rises toward the message
+      const bl = Math.max(0, 1 - Math.abs(progress - 0.86)/0.13); // warm flash peaks exactly at the climax line
+      bloom.style.opacity = (bl*bl*0.6).toFixed(3);
       placeScenes();
       renderer.render(scene,camera);
       requestAnimationFrame(frame);

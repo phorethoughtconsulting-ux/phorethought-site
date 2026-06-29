@@ -1136,12 +1136,12 @@
     <div class="cta-inner">
       <div class="section-label">Get started</div>
       <h2 class="cta-title">Have something<br><em>worth building?</em></h2>
-      <p class="cta-body">Start in the Study — a 60-minute session where you bring the idea, we research what's possible, and come back with exactly what it'll take to build it (or who to talk to if it's not us).</p>
+      <p class="cta-body">Start with a <strong>free 15-minute intro</strong> — no cost, no commitment. Bring the idea; we'll tell you if and how we can build it. Want to go deeper? The Study is a paid deep-dive that ends with a clear plan and quote — credited toward your build.</p>
       <div class="cta-actions">
-        <a href="study/index.html" class="btn-primary">Get a quote</a>
-        <a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener" class="btn-ghost">Or DM us on Instagram →</a>
+        <a href="https://cal.com/phorethought-tpnezu/intro" target="_blank" rel="noopener" class="btn-primary">Book a free 15-min intro</a>
+        <a href="study/index.html" class="btn-ghost">Or start the Study →</a>
       </div>
-      <p class="cta-note">No commitment. No proposal deck. Just a real conversation.</p>
+      <p class="cta-note" style="text-transform:none;letter-spacing:0;">No commitment. Prefer email? <a href="mailto:phorethoughtconsulting@gmail.com" style="color:var(--ink);border-bottom:1px solid var(--ink-ghost);">phorethoughtconsulting@gmail.com</a></p>
     </div>
   </div>
 </section>
@@ -1170,7 +1170,8 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="https://myopsgrade.com" target="_blank">OpsGrade</a></li>
-      <li><a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Contact</a></li>
+      <li><a href="mailto:phorethoughtconsulting@gmail.com">Email</a></li>
+      <li><a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Instagram</a></li>
       <li><a href="privacy/index.html">Privacy</a></li>
       <li><a href="terms/index.html">Terms</a></li>
     </ul>
@@ -1309,6 +1310,7 @@
     if(!label){
       var h=(a.getAttribute('href')||'').toLowerCase();
       if(h.indexOf('instagram')>-1)label='instagram';
+      else if(h.indexOf('cal.com')>-1)label='book-intro';
       else if(h.indexOf('docs.google.com/forms')>-1||h.indexOf('forms.gle')>-1)label='google-form';
       else if(h.indexOf('mailto:')>-1)label='email';
       else if(h.indexOf('inverted')>-1)label='switch-vibe';

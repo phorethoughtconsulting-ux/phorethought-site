@@ -802,8 +802,8 @@
 
 <!-- HERO -->
 <section class="hero-stage">
-<video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-hidden="true">
-  <source src="assets/hero-bg.mp4" type="video/mp4">
+<video class="hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" aria-hidden="true">
+  <source data-src="assets/hero-bg.mp4" type="video/mp4">
 </video>
 <div class="hero-scrim" aria-hidden="true"></div>
 <div class="hero">
@@ -1248,13 +1248,25 @@
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
 </script>
 
-<!-- HERO VIDEO + hide-text toggle -->
+<!-- HERO VIDEO (off-screen + tab-hidden pause · poster-only on phones/data-saver/reduced-motion) + hide-text toggle -->
 <script>
   (function(){
     var v=document.querySelector('.hero-video');
-    if(v){
-      if(matchMedia('(prefers-reduced-motion:reduce)').matches){ try{ v.pause(); v.removeAttribute('autoplay'); }catch(e){} }
-      else { try{ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){} }
+    var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var small=matchMedia('(max-width: 900px)').matches;
+    var saveData=(navigator.connection && navigator.connection.saveData);
+    // only desktop / fine experiences load + play the video; phones, data-saver and reduced-motion get the poster (no download, no battery drain)
+    if(v && !(reduce || small || saveData)){
+      var s=v.querySelector('source');
+      if(s && s.getAttribute('data-src')){ s.src=s.getAttribute('data-src'); v.load(); }
+      var inView=true, hidden=false;
+      function play(){ if(inView && !hidden){ try{ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){} } }
+      function pause(){ try{ v.pause(); }catch(e){} }
+      play();
+      // pause when scrolled out of the hero (saves CPU + battery)
+      try{ var io=new IntersectionObserver(function(es){ es.forEach(function(e){ inView=e.isIntersecting; inView?play():pause(); }); },{threshold:0.05}); io.observe(v); }catch(e){}
+      // pause when the tab is hidden
+      document.addEventListener('visibilitychange', function(){ hidden=document.hidden; hidden?pause():play(); });
     }
     var btn=document.getElementById('heroHideText'), stage=document.querySelector('.hero-stage');
     if(btn&&stage){ btn.addEventListener('click', function(){ var hid=stage.classList.toggle('no-text'); btn.textContent = hid ? 'Show text' : 'Hide text'; btn.setAttribute('aria-pressed', hid ? 'true' : 'false'); }); }

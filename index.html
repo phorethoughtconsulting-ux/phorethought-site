@@ -122,17 +122,6 @@
   @keyframes heroDrift{ from{ transform: translate3d(-1.5%,-1%,0) scale(1.06); } to{ transform: translate3d(1.5%,1.2%,0) scale(1.14); } }
   @media (max-width:900px){ .hero-atmos{ display:none; } }
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
-  /* hero ripple — subtle living animation behind the headline (gold rings, ambient + cursor-reactive) */
-  .hero-ripple{
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    display: block;
-  }
-  @media (prefers-reduced-motion:reduce){ .hero-ripple{ display:none; } }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -782,7 +771,6 @@
 </nav>
 
 <!-- HERO -->
-<canvas class="hero-ripple" aria-hidden="true"></canvas>
 <div class="hero">
   <div class="hero-atmos" aria-hidden="true"></div>
   <div class="hero-tag">Creative Technology Studio</div>
@@ -1223,58 +1211,6 @@
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
 </script>
 
-<!-- HERO RIPPLE · self-contained, fail-safe (if it no-ops, the hero is simply clean white) -->
-<script>
-(function(){
-  var cv = document.querySelector('.hero-ripple'); if(!cv) return;
-  var ctx; try{ ctx = cv.getContext('2d'); }catch(e){} if(!ctx) return;
-  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;   // honor reduced motion → static white hero
-  var DPR = Math.min(window.devicePixelRatio||1, 2);
-  var W=0,H=0, ripples=[], raf=0, running=false, frame=0, lastM=0;
-
-  function size(){ var r=cv.getBoundingClientRect(); W=cv.width=Math.max(1,Math.round(r.width*DPR)); H=cv.height=Math.max(1,Math.round(r.height*DPR)); }
-  function add(x,y,scale){
-    ripples.push({ x:x, y:y, r:6*DPR, max:Math.max(W,H)*(0.42*(scale||1)), spd:(0.55+Math.random()*0.5) });
-    if(ripples.length>16) ripples.shift();
-  }
-  function loop(){
-    frame++;
-    ctx.clearRect(0,0,W,H);
-    for(var i=ripples.length-1;i>=0;i--){
-      var p=ripples[i];
-      p.r += (W*0.0014)*p.spd;
-      var prog=p.r/p.max;
-      if(prog>=1){ ripples.splice(i,1); continue; }
-      var a=(1-prog)*(1-prog)*0.30;                       // ease-out fade
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832);
-      ctx.strokeStyle='rgba(231,173,85,'+a.toFixed(3)+')'; ctx.lineWidth=1.3*DPR; ctx.stroke();
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r*0.66,0,6.2832);
-      ctx.strokeStyle='rgba(10,15,30,'+(a*0.32).toFixed(3)+')'; ctx.lineWidth=1*DPR; ctx.stroke();
-    }
-    if(frame % 95 === 0) add(W*(0.2+Math.random()*0.6), H*(0.25+Math.random()*0.5), 0.8+Math.random()*0.5);
-    raf=requestAnimationFrame(loop);
-  }
-  function start(){ if(running) return; running=true; size(); loop(); }
-  function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
-
-  window.addEventListener('mousemove', function(e){
-    var now=Date.now(); if(now-lastM<150) return; lastM=now;
-    var r=cv.getBoundingClientRect();
-    if(e.clientY>r.bottom || e.clientY<r.top) return;     // only within the hero band
-    add((e.clientX-r.left)*DPR, (e.clientY-r.top)*DPR, 0.7);
-  }, {passive:true});
-
-  size();
-  add(W*0.32,H*0.42,1.1); add(W*0.7,H*0.6,0.9);            // seed a couple
-  try{
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:0.02});
-    io.observe(cv);
-  }catch(e){ start(); }
-  document.addEventListener('visibilitychange', function(){ if(document.hidden) stop(); else start(); });
-  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(size,180); });
-})();
-</script>
-
 <!-- PH-MOTION · GSAP 3.13 + ScrollTrigger + Lenis (Batch 1: foundation, reveals, count-ups). Self-contained; remove this block to revert. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
@@ -1303,30 +1239,37 @@
       gsap.ticker.lagSmoothing(0);
     }
 
-    // ---- Hero line-mask reveal (on load; cinematic, not per-letter) ----
-    var hero=document.querySelector('.hero-headline');
+    // ---- Hero crumble-on-scroll: eyebrow + headline + sub disintegrate and fall as you scroll down; rebuild on scroll up ----
+    var heroH=document.querySelector('.hero-headline');
     var htag=document.querySelector('.hero-tag'), hsub=document.querySelector('.hero-sub'),
         hact=document.querySelector('.hero-actions'), hscr=document.querySelector('.hero-scroll');
-    if(hero && window.SplitText){
+    if(heroH && window.SplitText){
       gsap.registerPlugin(SplitText);
-      gsap.set(hero,{opacity:0}); hidden.push(hero);
-      var hChrome=[htag,hsub,hact,hscr].filter(Boolean);
-      gsap.set(hChrome,{opacity:0,y:20}); hidden=hidden.concat(hChrome);
-      var revealHero=function(){
+      var setupCrumble=function(){
         try{
-          var split=new SplitText(hero,{type:'lines',mask:'lines',linesClass:'ph-line'});
-          gsap.set(hero,{opacity:1});
-          gsap.timeline()
-            .from(split.lines,{yPercent:115,duration:.85,ease:'power3.out',stagger:.12},0)
-            .to([htag].filter(Boolean),{opacity:1,y:0,duration:.7,ease:EASE},0)
-            .to([hsub,hact].filter(Boolean),{opacity:1,y:0,duration:.8,ease:EASE,stagger:.12},'-=0.30')
-            .to([hscr].filter(Boolean),{opacity:1,y:0,duration:.6,ease:EASE},'-=0.20')
-            .add(function(){ try{ split.revert(); }catch(e){} });
-        }catch(e){ gsap.set([hero].concat(hChrome),{opacity:1,y:0,clearProps:'transform'}); }
+          var sHead = new SplitText(heroH,{type:'words,chars'});
+          var sSub = hsub ? new SplitText(hsub,{type:'words'}) : null;
+          var pieces = sHead.chars.concat(sSub ? sSub.words : []);
+          pieces.forEach(function(el){ el.style.display='inline-block'; el.style.willChange='transform,opacity'; });
+
+          // the crumble — scrubbed to the hero's scroll; headline chars + sub words fall, scatter, spin, fade (random order)
+          gsap.to(pieces,{
+            scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.8 },
+            y:function(){ return 160 + Math.random()*560; },
+            x:function(){ return (Math.random()-0.5)*300; },
+            rotation:function(){ return (Math.random()-0.5)*170; },
+            opacity:0,
+            ease:'power1.in',
+            stagger:{ each:0.012, from:'random' }
+          });
+          // eyebrow + buttons + scroll cue drift away with it (eyebrow kept whole — it's a flex row)
+          gsap.to([htag,hact,hscr].filter(Boolean),{
+            scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.8 },
+            y:120, opacity:0, ease:'power1.in'
+          });
+        }catch(e){ gsap.set([htag,heroH,hsub,hact,hscr].filter(Boolean),{opacity:1,y:0,clearProps:'transform'}); }
       };
-      (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(revealHero);
-      // fail-safe: if anything stalls, show the hero anyway within 2.6s
-      setTimeout(function(){ if(hero && getComputedStyle(hero).opacity==='0'){ gsap.set([hero].concat(hChrome),{opacity:1,y:0,clearProps:'transform'}); } },2600);
+      (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(setupCrumble);
     }
 
     // ---- Scroll reveals: titles / labels / bodies (individual, slow fade-up) ----

@@ -122,6 +122,16 @@
   @keyframes heroDrift{ from{ transform: translate3d(-1.5%,-1%,0) scale(1.06); } to{ transform: translate3d(1.5%,1.2%,0) scale(1.14); } }
   @media (max-width:900px){ .hero-atmos{ display:none; } }
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
+  /* ─── AMBIENT HERO LIFE: gold motes · cursor glow · headline shimmer ─── */
+  .hero-amb{ position:absolute; top:0; left:0; width:100%; height:100vh; z-index:0; pointer-events:none; display:block; }
+  .hero-glow{
+    position:absolute; top:0; left:0; width:520px; height:520px; margin:-260px 0 0 -260px;
+    z-index:0; pointer-events:none; border-radius:50%; opacity:0;
+    background:radial-gradient(circle, rgba(231,173,85,0.18), rgba(231,173,85,0.06) 42%, transparent 70%);
+    filter:blur(8px); transition:opacity .5s ease; will-change:transform;
+  }
+  @media (max-width:900px){ .hero-glow{ display:none; } }
+  @media (prefers-reduced-motion:reduce){ .hero-amb,.hero-glow{ display:none; } }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -771,6 +781,8 @@
 </nav>
 
 <!-- HERO -->
+<canvas class="hero-amb" aria-hidden="true"></canvas>
+<div class="hero-glow" aria-hidden="true"></div>
 <div class="hero">
   <div class="hero-atmos" aria-hidden="true"></div>
   <div class="hero-tag">Creative Technology Studio</div>
@@ -1209,6 +1221,76 @@
   (function(){var t=document.getElementById('navToggle'),n=document.getElementById('navLinks');
    if(t&&n){t.onclick=function(){n.classList.toggle('open')};
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
+</script>
+
+<!-- AMBIENT HERO LIFE · motes + cursor glow + magnetic buttons + card tilt. Self-contained, fail-safe, reduced-motion-aware. -->
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var touch = matchMedia('(pointer:coarse)').matches;
+  var mx = 0; // cursor x offset (-0.5..0.5) for mote parallax
+
+  // ---- drifting gold motes ----
+  var cv = document.querySelector('.hero-amb');
+  if(cv){
+    var ctx; try{ ctx = cv.getContext('2d'); }catch(e){}
+    if(ctx){
+      var DPR = Math.min(window.devicePixelRatio||1, 2), W=0, H=0, motes=[], raf=0, running=false;
+      function size(){ var r=cv.getBoundingClientRect(); W=cv.width=Math.max(1,Math.round(r.width*DPR)); H=cv.height=Math.max(1,Math.round(r.height*DPR)); }
+      function seed(){ size(); motes=[]; var n=touch?12:26; for(var i=0;i<n;i++){ motes.push({ x:Math.random()*W, y:Math.random()*H, r:(0.6+Math.random()*1.6)*DPR, vx:(Math.random()-0.5)*0.10*DPR, vy:(-0.05-Math.random()*0.13)*DPR, a:0.08+Math.random()*0.16, ph:Math.random()*6.28 }); } }
+      function loop(){
+        ctx.clearRect(0,0,W,H);
+        var t = Date.now()*0.001;
+        for(var i=0;i<motes.length;i++){ var m=motes[i];
+          m.x += m.vx + (touch?0:mx*0.35);
+          m.y += m.vy;
+          if(m.y < -12){ m.y=H+12; m.x=Math.random()*W; }
+          if(m.x < -12) m.x=W+12; else if(m.x>W+12) m.x=-12;
+          ctx.globalAlpha = m.a*(0.55+0.45*Math.sin(t*1.3+m.ph));
+          ctx.fillStyle='#e7ad55';
+          ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,6.2832); ctx.fill();
+        }
+        ctx.globalAlpha=1;
+        raf=requestAnimationFrame(loop);
+      }
+      function start(){ if(running) return; running=true; if(!W) seed(); loop(); }
+      function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
+      seed();
+      try{ var io=new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:0.02}); io.observe(cv); }catch(e){ start(); }
+      document.addEventListener('visibilitychange', function(){ document.hidden?stop():start(); });
+      var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(seed,200); });
+    }
+  }
+
+  if(touch) return; // cursor-driven effects: desktop / fine-pointer only
+
+  // ---- cursor glow + mote parallax ----
+  var glow = document.querySelector('.hero-glow');
+  var heroEl = document.querySelector('.hero');
+  window.addEventListener('mousemove', function(e){
+    mx = e.clientX/window.innerWidth - 0.5;
+    if(glow){
+      var bottom = heroEl ? heroEl.getBoundingClientRect().bottom : window.innerHeight;
+      glow.style.opacity = (e.clientY < bottom) ? '1' : '0';
+      glow.style.transform = 'translate('+e.clientX+'px,'+(e.clientY+window.scrollY)+'px)';
+    }
+  }, {passive:true});
+
+  // ---- magnetic buttons ----
+  document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta,.btn-outline-white,.svc-cta a,.reel-cta,.sb-btn').forEach(function(b){
+    b.style.transition='transform .3s cubic-bezier(.2,.7,.2,1)';
+    b.addEventListener('mousemove', function(e){ var r=b.getBoundingClientRect(); var dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2); b.style.transform='translate('+(dx*0.22)+'px,'+(dy*0.30)+'px)'; });
+    b.addEventListener('mouseleave', function(){ b.style.transform='translate(0,0)'; });
+  });
+
+  // ---- card tilt ----
+  document.querySelectorAll('.service-card,.work-card').forEach(function(c){
+    var ok=true;
+    c.addEventListener('mouseenter', function(){ c.style.transition='transform .2s ease'; ok = parseFloat(getComputedStyle(c).opacity) > 0.9; }); // don't fight the GSAP reveal mid-flight
+    c.addEventListener('mousemove', function(e){ if(!ok) return; var r=c.getBoundingClientRect(); var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5; c.style.transform='perspective(820px) rotateY('+(px*6)+'deg) rotateX('+(-py*6)+'deg) translateY(-5px)'; });
+    c.addEventListener('mouseleave', function(){ c.style.transition='transform .45s ease'; c.style.transform=''; });
+  });
+})();
 </script>
 
 <!-- PH-MOTION · GSAP 3.13 + ScrollTrigger + Lenis (Batch 1: foundation, reveals, count-ups). Self-contained; remove this block to revert. -->

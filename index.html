@@ -122,6 +122,31 @@
   @keyframes heroDrift{ from{ transform: translate3d(-1.5%,-1%,0) scale(1.06); } to{ transform: translate3d(1.5%,1.2%,0) scale(1.14); } }
   @media (max-width:900px){ .hero-atmos{ display:none; } }
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
+  /* hero background photo — full-bleed, faded behind the headline (text stays crisp left, figure shows right) */
+  .hero-photo{
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(95deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.87) 34%, rgba(255,255,255,0.58) 64%, rgba(255,255,255,0.44) 100%),
+      linear-gradient(180deg, rgba(255,255,255,0) 48%, rgba(255,255,255,0.82) 85%, #ffffff 100%),
+      url('assets/hero-wall.jpg');
+    background-size: cover, cover, cover;
+    background-position: center, center, center right;
+    background-repeat: no-repeat;
+  }
+  @media (max-width: 900px){
+    .hero-photo{
+      background-image:
+        linear-gradient(180deg, rgba(255,255,255,0.80) 0%, rgba(255,255,255,0.62) 42%, rgba(255,255,255,0.86) 84%, #ffffff 100%),
+        url('assets/hero-wall.jpg');
+      background-size: cover, cover;
+      background-position: center, center;
+    }
+  }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -771,6 +796,7 @@
 </nav>
 
 <!-- HERO -->
+<div class="hero-photo" aria-hidden="true"></div>
 <div class="hero">
   <div class="hero-atmos" aria-hidden="true"></div>
   <div class="hero-tag">Creative Technology Studio</div>

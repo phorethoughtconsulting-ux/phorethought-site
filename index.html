@@ -131,11 +131,11 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(95deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.87) 34%, rgba(255,255,255,0.58) 64%, rgba(255,255,255,0.44) 100%),
-      linear-gradient(180deg, rgba(255,255,255,0) 48%, rgba(255,255,255,0.82) 85%, #ffffff 100%),
+      linear-gradient(95deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.80) 34%, rgba(255,255,255,0.46) 64%, rgba(255,255,255,0.32) 100%),
+      linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.80) 88%, #ffffff 100%),
       url('assets/hero-wall.jpg');
-    background-size: cover, cover, cover;
-    background-position: center, center, center right;
+    background-size: cover, cover, contain;   /* contain = full wall shown, never cropped/zoomed */
+    background-position: center, center, center;
     background-repeat: no-repeat;
   }
   @media (max-width: 900px){

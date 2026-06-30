@@ -122,6 +122,36 @@
   @keyframes heroDrift{ from{ transform: translate3d(-1.5%,-1%,0) scale(1.06); } to{ transform: translate3d(1.5%,1.2%,0) scale(1.14); } }
   @media (max-width:900px){ .hero-atmos{ display:none; } }
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
+  /* ─── VIDEO BACKGROUND HERO ─── */
+  .hero-stage{ position:relative; }
+  .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e; }
+  .hero-scrim{ position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;
+    background:
+      linear-gradient(95deg, rgba(7,9,16,0.82) 0%, rgba(7,9,16,0.56) 42%, rgba(7,9,16,0.30) 72%, rgba(7,9,16,0.22) 100%),
+      linear-gradient(180deg, rgba(7,9,16,0.28) 0%, rgba(7,9,16,0) 28%, rgba(7,9,16,0.50) 100%);
+    transition:opacity .45s ease;
+  }
+  /* light hero text so the words stand out over the video */
+  .hero .hero-headline{ color:#fff; text-shadow:0 2px 32px rgba(0,0,0,0.5); }
+  .hero .hero-headline em{ color:#e7ad55; }
+  .hero .hero-tag{ color:rgba(255,255,255,0.82); }
+  .hero .hero-tag::before{ background:rgba(255,255,255,0.5); }
+  .hero .hero-sub{ color:rgba(255,255,255,0.88); text-shadow:0 1px 20px rgba(0,0,0,0.55); }
+  .hero .hero-scroll{ color:rgba(255,255,255,0.72); }
+  .hero .hero-scroll-line{ background:rgba(255,255,255,0.6); }
+  .hero .btn-primary{ background:#e7ad55; color:#0a0f1e; }
+  .hero .btn-primary:hover{ background:#f0bd6e; }
+  .hero .btn-ghost{ color:#fff; border-bottom-color:rgba(255,255,255,0.45); }
+  .hero .btn-ghost:hover{ border-bottom-color:#fff; }
+  /* hide-text toggle (lets people watch the video) */
+  .hero-hidetext{ position:absolute; right:24px; bottom:24px; z-index:4; display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+    font-family:var(--mono); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.8);
+    background:rgba(10,15,30,0.40); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.28); border-radius:30px; padding:9px 16px;
+    transition:color .2s, border-color .2s, background .2s; }
+  .hero-hidetext:hover{ color:#e7ad55; border-color:rgba(231,173,85,0.55); background:rgba(10,15,30,0.55); }
+  .hero-stage.no-text .hero-tag, .hero-stage.no-text .hero-headline, .hero-stage.no-text .hero-sub, .hero-stage.no-text .hero-actions, .hero-stage.no-text .hero-scroll{ opacity:0 !important; pointer-events:none; transition:opacity .5s ease; }
+  .hero-stage.no-text .hero-scrim{ opacity:0.15; }
+  @media (max-width:760px){ .hero-hidetext{ right:14px; bottom:14px; padding:8px 13px; } }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -771,6 +801,11 @@
 </nav>
 
 <!-- HERO -->
+<section class="hero-stage">
+<video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-hidden="true">
+  <source src="assets/hero-bg.mp4" type="video/mp4">
+</video>
+<div class="hero-scrim" aria-hidden="true"></div>
 <div class="hero">
   <div class="hero-atmos" aria-hidden="true"></div>
   <div class="hero-tag">Creative Technology Studio</div>
@@ -789,6 +824,8 @@
     Scroll
   </div>
 </div>
+<button class="hero-hidetext" id="heroHideText" type="button" aria-pressed="false">Hide text</button>
+</section>
 
 <hr class="rule">
 
@@ -1211,6 +1248,19 @@
    n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open')})});}})();
 </script>
 
+<!-- HERO VIDEO + hide-text toggle -->
+<script>
+  (function(){
+    var v=document.querySelector('.hero-video');
+    if(v){
+      if(matchMedia('(prefers-reduced-motion:reduce)').matches){ try{ v.pause(); v.removeAttribute('autoplay'); }catch(e){} }
+      else { try{ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){} }
+    }
+    var btn=document.getElementById('heroHideText'), stage=document.querySelector('.hero-stage');
+    if(btn&&stage){ btn.addEventListener('click', function(){ var hid=stage.classList.toggle('no-text'); btn.textContent = hid ? 'Show text' : 'Hide text'; btn.setAttribute('aria-pressed', hid ? 'true' : 'false'); }); }
+  })();
+</script>
+
 <!-- HERO INTERACTIONS · magnetic buttons + card tilt. Self-contained, reduced-motion + touch aware. -->
 <script>
 (function(){
@@ -1276,20 +1326,19 @@
           pieces.forEach(function(el){ el.style.display='inline-block'; el.style.willChange='transform,opacity'; });
 
           // the crumble — scrubbed to the hero's scroll; headline chars + sub words fall, scatter, spin, fade (random order)
-          gsap.to(pieces,{
-            scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.8 },
-            y:function(){ return 160 + Math.random()*560; },
-            x:function(){ return (Math.random()-0.5)*300; },
-            rotation:function(){ return (Math.random()-0.5)*170; },
-            opacity:0,
-            ease:'power1.in',
-            stagger:{ each:0.012, from:'random' }
+          // pin the stage so the video holds full-screen and the words hold, then crumble over ~2-3 scrolls (not one)
+          var crumbleTL = gsap.timeline({
+            scrollTrigger:{ trigger:'.hero-stage', start:'top top', end:'+=250%', scrub:0.8, pin:true, anticipatePin:1 }
           });
-          // eyebrow + buttons + scroll cue drift away with it (eyebrow kept whole — it's a flex row)
-          gsap.to([htag,hact,hscr].filter(Boolean),{
-            scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.8 },
-            y:120, opacity:0, ease:'power1.in'
-          });
+          crumbleTL
+            .to(pieces,{
+              y:function(){ return 160 + Math.random()*560; },
+              x:function(){ return (Math.random()-0.5)*300; },
+              rotation:function(){ return (Math.random()-0.5)*170; },
+              opacity:0, ease:'power1.in',
+              stagger:{ each:0.012, from:'random' }
+            }, 0.5)   // hold for the first part of the pin, then crumble
+            .to([htag,hact,hscr].filter(Boolean),{ y:120, opacity:0, ease:'power1.in' }, 0.5);
         }catch(e){ gsap.set([htag,heroH,hsub,hact,hscr].filter(Boolean),{opacity:1,y:0,clearProps:'transform'}); }
       };
       (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(setupCrumble);

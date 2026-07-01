@@ -323,6 +323,20 @@
     padding: 10px 16px;
     border-radius: 4px;
   }
+  .about-more {
+    display: inline-block;
+    margin-left: 22px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #a8761f;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .about-more:hover { color: #e7ad55; }
+  @media (max-width: 560px) { .about-more { display: block; margin: 16px 0 0; } }
   .about-copy {
     background: #eae8e4;
     padding: 40px 40px 44px;
@@ -851,6 +865,7 @@
           <strong>Our edge:</strong> we don't just write code — we ship. OpsGrade is live proof: a full AI-powered SaaS, built and launched in 6 weeks. We build our own products and yours — that's the bar we hold every build to.
         </p>
         <a href="study/index.html" class="btn-primary">Work with us</a>
+        <a href="https://myopsgrade.com/founder" target="_blank" rel="noopener noreferrer" class="about-more">More about the founder ↗</a>
         <div class="about-stats">
           <div>
             <div class="about-stat-num">1</div>

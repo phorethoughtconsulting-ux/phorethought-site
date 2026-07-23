@@ -128,6 +128,16 @@
   /* ─── VIDEO BACKGROUND HERO ─── */
   .hero-stage{ position:relative; min-height:100svh; background:#0a0f1e; }  /* dark backing + full-height so no white body ever shows through the scroll-pin */
   .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e; }
+  /* HERO WALL — the intro's studio, held as the hero, with a slow living drift */
+  .hero-wall{ position:absolute; inset:0; z-index:0; background:url('experience/assets/wall.jpg') center/cover no-repeat; transform:scale(1.06); animation:heroWallDrift 30s ease-in-out infinite alternate; }
+  @keyframes heroWallDrift{ from{ transform:scale(1.04) translate(-0.8%,-0.6%); } to{ transform:scale(1.12) translate(0.8%,0.6%); } }
+  /* veil — subdue the wall's baked text + pink so the gold headline leads (wall reads as atmosphere) */
+  .hero-veil{ position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 40%, rgba(6,9,17,0.42), rgba(6,9,17,0.80)), linear-gradient(180deg, rgba(6,9,17,0.55), rgba(6,9,17,0.30) 40%, rgba(6,9,17,0.86)); }
+  .hero-replay{ margin-top:22px; display:inline-flex; align-items:center; gap:7px; cursor:pointer; background:transparent; border:1px solid rgba(255,255,255,0.28);
+    font-family:var(--mono); font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(255,255,255,0.7); padding:9px 15px; border-radius:30px; transition:color .2s, border-color .2s; }
+  .hero-replay:hover{ color:#e7ad55; border-color:rgba(231,173,85,0.5); }
+  @media(prefers-reduced-motion:reduce){ .hero-wall{ animation:none; transform:scale(1.04); } }
   .hero-scrim{ position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;
     background:
       linear-gradient(95deg, rgba(7,9,16,0.82) 0%, rgba(7,9,16,0.56) 42%, rgba(7,9,16,0.30) 72%, rgba(7,9,16,0.22) 100%),
@@ -988,11 +998,10 @@
 
 <!-- HERO -->
 <section class="hero-stage">
-<video class="hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" aria-hidden="true">
-  <source data-src="assets/hero-bg.webm" type="video/webm">
-  <source data-src="assets/hero-bg.mp4" type="video/mp4">
-</video>
+<!-- HERO = the same studio you land in from the intro (the PHORETHOUGHT wall), with gentle motion -->
+<div class="hero-wall" aria-hidden="true"></div>
 <div class="hero-scrim" aria-hidden="true"></div>
+<div class="hero-veil" aria-hidden="true"></div>
 <div class="hero">
   <div class="hero-atmos" aria-hidden="true"></div>
   <div class="hero-tag">Creative Technology Studio</div>
@@ -1006,6 +1015,7 @@
     <a href="clients/kentucky-cleaning-pros/index.html" class="btn-primary">See a site you can walk through →</a>
     <a href="study/index.html" class="btn-ghost">Bring me an idea →</a>
   </div>
+  <button class="hero-replay" type="button" onclick="try{sessionStorage.removeItem('ph_intro_seen')}catch(e){}location.reload()">↻ Replay intro</button>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     Scroll

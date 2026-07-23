@@ -906,7 +906,10 @@
   .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; will-change:transform,opacity,filter; }
   /* THE OBJECT — generated glowing gold hologram brain; black drops out via screen-blend so only the gold glows over the studio */
   .c-obj{ display:flex; align-items:center; justify-content:center; margin-bottom:10px; animation:cFloat 5.2s ease-in-out infinite; }
-  .c-brain{ width:clamp(220px,30vw,340px); height:auto; display:block; mix-blend-mode:screen; pointer-events:none; }
+  .c-brain{ width:clamp(240px,32vw,360px); height:auto; display:block; mix-blend-mode:screen; pointer-events:none;
+    /* dissolve the hard black square edges so the brain floats (works regardless of blend support) */
+    -webkit-mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%);
+    mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%); }
   @keyframes cFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
   @media(prefers-reduced-motion:reduce){ .c-obj{ animation:none; } }
   /* DRAMATIC type — big, tight, high-contrast; the service word is the star */

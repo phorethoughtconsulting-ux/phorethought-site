@@ -907,8 +907,9 @@
   .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; will-change:transform,opacity,filter; }
   /* THE OBJECT — generated glowing gold hologram brain; black drops out via screen-blend so only the gold glows over the studio */
   .c-obj{ display:flex; align-items:center; justify-content:center; margin-bottom:10px; animation:cFloat 5.2s ease-in-out infinite; }
-  .c-brain{ width:clamp(240px,32vw,360px); height:auto; display:block; mix-blend-mode:screen; pointer-events:none;
-    /* dissolve the hard black square edges so the brain floats (works regardless of blend support) */
+  .c-brain{ width:clamp(240px,32vw,360px); height:auto; display:block; pointer-events:none;
+    transform:translateZ(0); will-change:transform; backface-visibility:hidden;  /* own GPU layer — no blend-mode compositing = smoother */
+    /* dissolve the hard black square edges so the brain floats */
     -webkit-mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%);
     mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%); }
   @keyframes cFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
@@ -971,12 +972,14 @@
     onScroll();
   }
 
-  // parallax — the room shifts as you move, like a window into the studio (feel of being there)
+  // parallax — the room shifts as you move (rAF-throttled so it can't cause jank; only paints once per frame)
   var video=document.querySelector('.hero-video');
   if(video && !reduce && !matchMedia('(pointer:coarse)').matches){
+    var px=0, py=0, pending=false;
     document.addEventListener('mousemove', function(e){
-      var dx=(e.clientX/(window.innerWidth||1)-0.5), dy=(e.clientY/(window.innerHeight||1)-0.5);
-      video.style.transform='scale(1.10) translate('+(-dx*18).toFixed(1)+'px,'+(-dy*13).toFixed(1)+'px)';
+      px=e.clientX/(window.innerWidth||1)-0.5; py=e.clientY/(window.innerHeight||1)-0.5;
+      if(pending) return; pending=true;
+      requestAnimationFrame(function(){ pending=false; video.style.transform='scale(1.10) translate('+(-px*18).toFixed(1)+'px,'+(-py*13).toFixed(1)+'px)'; });
     }, {passive:true});
   }
 })();

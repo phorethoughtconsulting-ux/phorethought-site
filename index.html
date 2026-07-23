@@ -10,9 +10,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Phorethought — You think it, we create it.">
 <meta property="og:description" content="Custom AI tools, software, and sites — built for you, with taste. You think it, we create it.">
-<meta property="og:image" content="assets/camo-grey.jpg">
+<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/camo-grey.jpg">
 <meta property="og:url" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phorethought — You think it, we create it.">
+<meta name="twitter:description" content="Custom AI tools, software, and sites — built for you, with taste. You think it, we create it.">
+<meta name="twitter:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/camo-grey.jpg">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -143,15 +146,6 @@
   .hero .btn-primary:hover{ background:#f0bd6e; }
   .hero .btn-ghost{ color:#fff; border-bottom-color:rgba(255,255,255,0.45); }
   .hero .btn-ghost:hover{ border-bottom-color:#fff; }
-  /* hide-text toggle (lets people watch the video) */
-  .hero-hidetext{ position:absolute; right:24px; bottom:24px; z-index:4; display:inline-flex; align-items:center; gap:7px; cursor:pointer;
-    font-family:var(--mono); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.8);
-    background:rgba(10,15,30,0.40); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.28); border-radius:30px; padding:9px 16px;
-    transition:color .2s, border-color .2s, background .2s; }
-  .hero-hidetext:hover{ color:#e7ad55; border-color:rgba(231,173,85,0.55); background:rgba(10,15,30,0.55); }
-  .hero-stage.no-text .hero-tag, .hero-stage.no-text .hero-headline, .hero-stage.no-text .hero-sub, .hero-stage.no-text .hero-actions, .hero-stage.no-text .hero-scroll{ opacity:0 !important; pointer-events:none; transition:opacity .5s ease; }
-  .hero-stage.no-text .hero-scrim{ opacity:0.15; }
-  @media (max-width:760px){ .hero-hidetext{ right:14px; bottom:14px; padding:8px 13px; } }
   .hero-tag {
     font-family: var(--mono);
     font-size: 12px;
@@ -222,6 +216,9 @@
     transition: border-color 0.2s;
   }
   .btn-ghost:hover { border-color: var(--ink); }
+  /* subtle doorway into the film — a whisper, not a button */
+  .hero-door{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.72);text-shadow:0 1px 14px rgba(0,0,0,.55);text-decoration:none;transition:color .25s,letter-spacing .25s}
+  .hero-door:hover{color:#e7ad55;letter-spacing:2.2px}
   .hero-scroll {
     margin-top: 80px;
     display: flex;
@@ -386,13 +383,16 @@
   }
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2px;
     background: var(--rule);
     border-radius: 8px;
     overflow: hidden;
   }
-  .services-grid > .service-card:last-child{ grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .services-grid > .service-card{ grid-column: span 2; }
+  /* last row: Fixes + Care share it — no empty cells in the ladder */
+  .services-grid > .service-card:nth-last-child(2),
+  .services-grid > .service-card:last-child{ grid-column: span 3; }
   .service-card {
     background: var(--paper);
     padding: 40px 36px;
@@ -677,7 +677,7 @@
   .footer-copy {
     font-family: var(--mono);
     font-size: 11px;
-    color: rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.4);
     letter-spacing: 1px;
   }
 
@@ -690,12 +690,6 @@
   .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .tools-grid { grid-template-columns: repeat(2, 1fr); }
   /* Step inside the studio — featured banner */
-  .studio-banner { position: relative; min-height: clamp(360px, 60vh, 540px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 64px 24px; color: #fff; overflow: hidden; background: linear-gradient(rgba(6,8,14,0.6), rgba(6,8,14,0.8)), url('portfolio/14-studio/assets/og.jpg') center / cover no-repeat; }
-  .studio-banner .sb-k { font-family: var(--mono); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: #e7ad55; margin-bottom: 14px; }
-  .studio-banner h2 { font-family: var(--serif); font-size: clamp(34px, 6vw, 62px); line-height: 1.04; margin-bottom: 14px; }
-  .studio-banner p { max-width: 460px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.84); margin-bottom: 28px; }
-  .studio-banner .sb-btn { font-family: var(--mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: #fff; color: #0a0f1e; padding: 16px 30px; border-radius: 40px; text-decoration: none; font-weight: 600; transition: transform 0.2s, background 0.2s; }
-  .studio-banner .sb-btn:hover { background: #e7ad55; transform: translateY(-2px); }
   /* Phorethought Studios — motion reel band */
   .reel-band { background: linear-gradient(180deg,#0a0f1e,#0d1426); padding: 92px 24px; border-top: 1px solid rgba(255,255,255,0.08); }
   .reel-inner { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 56px; align-items: center; }
@@ -782,11 +776,19 @@
     .section-title { font-size: clamp(26px, 7vw, 40px); }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
     .services-grid { grid-template-columns: 1fr; }
+    .services-grid > .service-card,
+    .services-grid > .service-card:nth-last-child(2),
+    .services-grid > .service-card:last-child { grid-column: 1 / -1; }
     .process-grid { grid-template-columns: 1fr; gap: 36px; }
     .proof-grid { grid-template-columns: 1fr; gap: 36px; }
     .about-stats { gap: 18px; }
     .process-connector { display: none; }
   }
+
+  /* ─── THE THRESHOLD — every internal navigation passes through the same ink door ─── */
+  #phdoor{position:fixed;inset:0;z-index:9999;background:#0a0f1e;opacity:1;pointer-events:none;transition:opacity .45s ease}
+  #phdoor.open{opacity:0}
+  @media(prefers-reduced-motion:reduce){#phdoor{transition:none}}
 
   /* ─── ANIMATIONS ─── */
   @keyframes fadein { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
@@ -795,33 +797,47 @@
   .fadein-d2 { animation-delay: 0.2s; }
   .fadein-d3 { animation-delay: 0.35s; }
   .fadein-d4 { animation-delay: 0.5s; }
+
+  /* ── SERVICES · drop into the dark work-world (keep light, deepen the moment) ── */
+  #about + hr.rule, #services + hr.rule { display: none; }  /* seamless entry into / exit out of the dark band */
+  #services {
+    position: relative;
+    background: radial-gradient(120% 82% at 50% -6%, #10192f, #0a0f1e 62%), #0a0f1e;
+    color: #fff;
+    padding-top: 134px; padding-bottom: 134px;
+  }
+  #services::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 92px; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, #eae8e4, transparent);  /* feathers from the portfolio grey above it */
+  }
+  #services .section-inner { position: relative; z-index: 2; }
+  #services .section-label { color: #e7ad55; }
+  #services .section-label::before { background: rgba(231,173,85,0.55); }
+  #services .section-title { color: #fff; }
+  #services .section-body { color: rgba(255,255,255,0.72); }
+  #services .services-grid { background: rgba(255,255,255,0.08); }
+  #services .service-card { background: #0e1526; }
+  #services .service-num { color: #e7ad55; }
+  #services .service-name { color: #fff; }
+  #services .service-rule { background: rgba(255,255,255,0.12); }
+  #services .service-desc { color: rgba(255,255,255,0.60); }
+  #services .service-price { color: #fff; }
+  #services .service-cta { color: #e7ad55; }
+  #services .service-card:hover {
+    background: #131d33;
+    box-shadow: inset 0 0 0 1px rgba(231,173,85,0.42), 0 22px 54px rgba(0,0,0,0.45);
+  }
+  #services .service-card:hover .service-num { color: #f0bd6e; }
+  #services .service-card:hover .service-name,
+  #services .service-card:hover .service-desc,
+  #services .service-card:hover .service-price { color: #fff; }
+  #services .service-card:hover .service-cta { color: #f0bd6e; }
+  #services .service-card:hover .service-rule { background: rgba(231,173,85,0.30); }
 </style>
-<!-- PF-GATE (delete this whole block to remove the PIN) -->
-<style id="pfhide">html{visibility:hidden!important}</style>
-<script>(function(){
-var P="2027";
-function reveal(){["pfhide","pf-gate"].forEach(function(id){var el=document.getElementById(id);if(el&&el.parentNode)el.parentNode.removeChild(el);});}
-function build(){
-if(document.getElementById("pf-gate"))return;
-var o=document.createElement("div");o.id="pf-gate";
-o.setAttribute("style","position:fixed;inset:0;z-index:2147483647;visibility:visible!important;background:radial-gradient(120% 80% at 82% -12%,rgba(231,173,85,.10),transparent 55%),linear-gradient(180deg,#0a0f1e,#0b1120 60%,#080d17);display:flex;align-items:center;justify-content:center;color:#ece7dd;font-family:Georgia,'Times New Roman',serif");
-o.innerHTML='<div style="text-align:center;visibility:visible!important">'
-+'<div style="font-size:40px;color:#fff;letter-spacing:.5px">Phorethought</div>'
-+'<div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#e7ad55;margin-top:12px">By invitation</div>'
-+'<input id="pf-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Enter PIN" style="margin-top:30px;width:170px;text-align:center;font-size:28px;letter-spacing:14px;padding:12px 0 12px 14px;background:transparent;border:0;border-bottom:2px solid rgba(231,173,85,.5);color:#fff;outline:none;font-family:ui-monospace,Menlo,monospace">'
-+'<div id="pf-err" style="height:18px;margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:1px;color:#c9622e">&nbsp;</div>'
-+'</div>';
-document.body.appendChild(o);
-var inp=document.getElementById("pf-pin"),err=document.getElementById("pf-err");
-try{inp.focus();}catch(e){}
-function check(){if(inp.value===P){reveal();}else{err.textContent="Not quite.";inp.value="";setTimeout(function(){if(err)err.innerHTML="&nbsp;";},1100);}}
-inp.addEventListener("input",function(){err.innerHTML="&nbsp;";if(inp.value.length>=4)check();});
-}
-if(document.body){build();}else{document.addEventListener("DOMContentLoaded",build);}
-})();</script>
-<!-- /PF-GATE -->
 </head>
 <body>
+<div id="phdoor" aria-hidden="true"></div>
+<noscript><style>#phdoor{display:none}</style></noscript>
 
 <!-- NAV -->
 <nav>
@@ -829,13 +845,11 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
     <a href="#" class="nav-logo">Phorethought</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="clients/index.html">Client Work</a></li>
-      <li><a href="inverted.html">◑ Switch vibe</a></li>
-      <li><a href="study/index.html">Get a Quote</a></li>
-      <li><a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener" class="nav-cta">Let's talk</a></li>
+      <li><a href="#services">What we make</a></li>
+      <li><a href="#work">The work</a></li>
+      <li><a href="experience/index.html">✈ Enter the studio</a></li>
+      <li><a href="study/index.html">The Study</a></li>
+      <li><a href="https://cal.com/phorethought-tpnezu/intro" target="_blank" rel="noopener" class="nav-cta">Let's talk</a></li>
     </ul>
   </div>
 </nav>
@@ -856,323 +870,101 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
     We help you see what to build, build it, then keep it running — custom AI tools, software, and sites, made with taste. For creators, founders, and small teams. You never have to touch the tech.
   </p>
   <div class="hero-actions">
-    <a href="study/index.html" class="btn-primary">Get a quote</a>
+    <a href="study/index.html" class="btn-primary">Bring an idea →</a>
     <a href="#work" class="btn-ghost">See the work →</a>
   </div>
+  <a class="hero-door" href="experience/index.html">✈&nbsp; or step into the studio first</a>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     Scroll
   </div>
 </div>
-<button class="hero-hidetext" id="heroHideText" type="button" aria-pressed="false">Hide text</button>
 </section>
 
 <hr class="rule">
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-photo-wrap">
-        <img
-          src="Phorethought.jpg?v=2"
-          alt="Nicky B"
-          class="about-photo"
-          onerror="this.style.background='#e0e0e0';this.removeAttribute('src')"
-        >
-        <div class="about-photo-tag">Nicky B · Founder &amp; Point of Contact</div>
-      </div>
-      <div class="about-copy">
-        <div class="section-label">About</div>
-        <h2 class="section-title">Built from<br>real experience.</h2>
-        <p class="about-body">
-          I'm Nicky B — your point of contact at Phorethought, a creative technology studio. We do three things: <strong>see it</strong> (you bring the idea, we expand it and hand back a clear plan for what to build), <strong>build it</strong> (custom AI tools, software, and sites), and <strong>keep it</strong> (we keep it running and improving on a retainer). We work with individuals, creators, and small businesses. The mission underneath it all: leverage technology to solve real problems.
-          <br><br>
-          <strong>Our edge:</strong> we don't just write code — we ship. OpsGrade is live proof: a full AI-powered SaaS, custom-engineered from the ground up and launched in 6 weeks. We build our own products and yours — that's the bar we hold every build to.
-        </p>
-        <a href="study/index.html" class="btn-primary">Work with us</a>
-        <a href="https://myopsgrade.com/founder" target="_blank" rel="noopener noreferrer" class="about-more">More about the founder ↗</a>
-        <div class="about-stats">
-          <div>
-            <div class="about-stat-num">1</div>
-            <div class="about-stat-label">Point of contact. Always.</div>
-          </div>
-          <div>
-            <div class="about-stat-num">100%</div>
-            <div class="about-stat-label">Owned by you at handoff</div>
-          </div>
-          <div>
-            <div class="about-stat-num">$0</div>
-            <div class="about-stat-label">Spent on templates</div>
-          </div>
-          <div>
-            <div class="about-stat-num">6wk</div>
-            <div class="about-stat-label">OpsGrade, built &amp; shipped</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-<!-- SERVICES -->
+<!-- WHAT WE MAKE -->
+<style>
+  #services .make-intro{max-width:560px;margin-top:14px}
+  .make-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;margin-top:40px}
+  .also-line{margin-top:22px;font-size:14px;color:rgba(255,255,255,0.6);text-align:center}
+  .also-line a{color:#e7ad55;text-decoration:none;border-bottom:1px solid rgba(231,173,85,0.4);font-weight:600}
+  .make-card{display:flex;flex-direction:column;background:#0e1526;padding:clamp(24px,3vw,34px);transition:background .3s ease}
+  .make-card.feature{background:#111a30;box-shadow:inset 0 0 0 1px rgba(231,173,85,0.28)}
+  .make-k{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e7ad55;margin-bottom:14px}
+  .make-name{font-family:var(--serif);font-size:clamp(21px,2.5vw,27px);line-height:1.12;color:#fff;margin-bottom:12px}
+  .make-desc{font-size:14.5px;line-height:1.6;color:rgba(255,255,255,0.62);flex:1}
+  .make-foot{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.12)}
+  .make-price{font-family:var(--mono);font-size:14px;letter-spacing:.5px;color:#fff}
+  .make-price b{color:#e7ad55;font-weight:600}
+  .make-proof{font-family:var(--mono);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:#e7ad55;text-decoration:none;border-bottom:1px solid rgba(231,173,85,0.4);padding-bottom:2px;transition:.2s;white-space:nowrap}
+  .make-proof:hover{color:#f0bd6e;border-color:#f0bd6e}
+  .make-card:hover{background:#121b31}
+  .founding-line{margin-top:26px;font-family:var(--mono);font-size:12.5px;letter-spacing:1px;color:rgba(255,255,255,0.62);text-align:center}
+  .founding-line a{color:#e7ad55;border-bottom:1px solid rgba(231,173,85,0.45);font-weight:600;text-decoration:none}
+  @media (max-width:900px){ .make-grid{grid-template-columns:1fr} }
+</style>
 <section id="services">
   <div class="section-inner">
-    <div class="services-header">
-      <div>
-        <div class="section-label">What we do</div>
-        <h2 class="section-title">See it. Build it.<br>Keep it.</h2>
-      </div>
-      <p class="section-body">One path, three steps. Start with a consultation, build the thing (custom AI &amp; software is the specialty), and keep it running on a retainer. You bring the idea — we handle the rest, no tech knowledge needed.</p>
-    </div>
-    <div class="services-grid">
+    <div class="section-label">What we make</div>
+    <h2 class="section-title">Four things,<br>done exceptionally.</h2>
+    <p class="section-body make-intro">You bring the idea; we make it real. Every one of these is proven by something live you can open right now — no mockups, no maybes.</p>
+    <div class="make-grid">
 
-      <div class="service-card">
-        <div class="service-num">See it · Consultation</div>
-        <div class="service-name">Creative + Technical Consultation</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">Come into the Study. You bring the idea; we expand it, then research what's possible — the tools, the cost — and come back with a clear plan for what to build (or, if it's not us, the tools or people you'd need). No tech knowledge required, zero guesswork — and the fee is credited toward your build.</div>
-        <div class="service-price">$97</div>
-        <a href="study/index.html" class="service-cta">Start in the Study →</a>
-      </div>
+      <article class="make-card">
+        <div class="make-k">Websites · Static</div>
+        <h3 class="make-name">Clean, fast, yours.</h3>
+        <p class="make-desc">A custom site built to your identity — quick to load, clear to read, handed off completely yours. For a person or a brand that needs to look real online.</p>
+        <div class="make-foot"><span class="make-price">from $300</span><a class="make-proof" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">See Vincent's site ↗</a></div>
+      </article>
 
-      <div class="service-card">
-        <div class="service-num">Build · Flagship</div>
-        <div class="service-name">Custom AI Tool or SaaS</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">The specialty. A custom AI tool or full software product built for your specific problem — a community CRM, an internal automation, a niche tracker, whatever doesn't exist yet. Not a template, not a plugin. OpsGrade is proof: a full AI SaaS, built and launched in 6 weeks.</div>
-        <div class="service-price">From $3,000</div>
-        <a href="study/index.html" class="service-cta">Start here →</a>
-      </div>
+      <article class="make-card feature">
+        <div class="make-k">Websites · Cinematic · Signature</div>
+        <h3 class="make-name">A world people step into.</h3>
+        <p class="make-desc">A site that opens like a film — real footage, motion, sound, a story you walk through instead of scroll past. Nobody in your market has one. The front door of this very site is one.</p>
+        <div class="make-foot"><span class="make-price">$3,500 · <b>founding $900</b></span><a class="make-proof" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">Walk the cleaning site ↗</a></div>
+      </article>
 
-      <div class="service-card">
-        <div class="service-num">Build · Web</div>
-        <div class="service-name">Full Website</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">A complete multi-page site — home, about, services, contact, and whatever else you need. Custom-built end to end, then handed off so you never touch the tech.</div>
-        <div class="service-price">From $1,500</div>
-        <a href="study/index.html" class="service-cta">Let's talk →</a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-num">Build · Web</div>
-        <div class="service-name">Landing Page</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">One focused page built to convert — for a launch, an offer, an event, or a link in bio. Fast, clean, mobile-first, and handed off ready to go.</div>
-        <div class="service-price">From $500</div>
-        <a href="study/index.html" class="service-cta">Let's talk →</a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-num">Build · Motion</div>
-        <div class="service-name">Motion &amp; AI Film</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">Cinematic short-form video — AI-generated and hand-edited in our studio. Brand reels, launches, teasers. Made for you, not pulled off a shelf.</div>
-        <div class="service-price">From $750</div>
-        <a href="study/index.html" class="service-cta">Start here →</a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-num">Keep · Support</div>
-        <div class="service-name">Fixes &amp; Updates</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">Something broken, outdated, or just not right? We fix it — fast and clean. Layout bugs, mobile issues, content changes, new sections, connecting tools. No job too small, no agency wait.</div>
-        <div class="service-price">$75 – $300</div>
-        <a href="study/index.html" class="service-cta">Get it fixed →</a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-num">Keep · Retainer</div>
-        <div class="service-name">Care &amp; Retainers</div>
-        <div class="service-rule"></div>
-        <div class="service-desc">Keep it alive and improving. Site care from $29/mo; apps, AI tools, and full products cost more to maintain (hosting, AI-cost upkeep, monitoring, ongoing fixes). Or step up to a full product retainer where we keep building with you.</div>
-        <div class="service-price">From $29/mo</div>
-        <a href="study/index.html" class="service-cta">Stay covered →</a>
-      </div>
+      <article class="make-card">
+        <div class="make-k">AI Tools &amp; Apps</div>
+        <h3 class="make-name">Software for your exact problem.</h3>
+        <p class="make-desc">A tool or app that doesn't exist yet — built around the thing in front of you, not pulled off a shelf. OpsGrade is proof: a complete AI product, shipped in 6 weeks. Full SaaS builds scale from there.</p>
+        <div class="make-foot"><span class="make-price">from $3,000</span><a class="make-proof" href="https://myopsgrade.com" target="_blank" rel="noopener">Try OpsGrade ↗</a></div>
+      </article>
 
     </div>
+    <p class="also-line">And we make it move — cinematic AI film &amp; motion for brands. <a href="#reel">See the reel ↓</a></p>
+    <p class="founding-line">Early? Five founding clients at a rate we'll never repeat — full sites <b>$500</b>, cinematic <b>$900</b>. <a href="clients/index.html#founding" data-evt="founding-rate">See the founding rate →</a></p>
   </div>
 </section>
 
 <hr class="rule">
 
-<!-- PROOF / OPSGRADE -->
-<section class="proof" id="work">
+<!-- THE WORK (live receipts) -->
+<section id="work">
   <div class="section-inner">
-    <div class="section-label">Proof of Work</div>
-    <h2 class="section-title" style="color:#fff;">OpsGrade —<br><em style="color:rgba(255,255,255,0.45)">our proof.</em></h2>
-
-    <div class="proof-grid">
-      <div class="proof-copy">
-        <p class="proof-body">
-          OpsGrade scores a small business's operations across <strong>8 dimensions</strong> and returns a branded 30/60/90-day fix plan as a PDF. Built and launched in 6 weeks. Live at myopsgrade.com.
-          <br><br>
-          This is the standard we build to. You can use it right now.
-        </p>
-        <div class="proof-tags">
-          <span class="proof-tag">AI-Powered</span>
-          <span class="proof-tag">Ops Scoring</span>
-          <span class="proof-tag">PDF Report</span>
-          <span class="proof-tag">Small Business</span>
-          <span class="proof-tag">Solo Build</span>
-          <span class="proof-tag">6 Weeks</span>
-        </div>
-        <a href="https://myopsgrade.com" class="btn-outline-white" target="_blank">
-          Try OpsGrade →
-        </a>
-      </div>
-
-      <div class="proof-mockup">
-        <div class="proof-mockup-bar">
-          <div class="pm-dot" style="background:#ff5f56"></div>
-          <div class="pm-dot" style="background:#ffbd2e"></div>
-          <div class="pm-dot" style="background:#27c93f"></div>
-          <div class="pm-logo-area">
-            <img src="assets/opsgrade.png" alt="OpsGrade" onerror="this.style.display='none'">
-          </div>
-        </div>
-        <div class="proof-mockup-body">
-          <div class="pm-score-row">
-            <div class="pm-score-circle">
-              <div class="pm-score-num">62</div>
-              <div class="pm-score-sub">/100</div>
-            </div>
-            <div class="pm-score-info">
-              <h4>Operations Score</h4>
-              <p>Needs attention. 3 high-priority areas identified. Your 30/60/90-day plan is ready.</p>
-            </div>
-          </div>
-          <div class="pm-dims">
-            <div class="pm-dim"><div class="pm-dim-label">SOPs</div><div class="pm-dim-bar-wrap"><div class="pm-dim-bar" style="width:38%"></div></div><div class="pm-dim-val">38</div></div>
-            <div class="pm-dim"><div class="pm-dim-label">Team Mgmt</div><div class="pm-dim-bar-wrap"><div class="pm-dim-bar" style="width:55%"></div></div><div class="pm-dim-val">55</div></div>
-            <div class="pm-dim"><div class="pm-dim-label">Finance Ops</div><div class="pm-dim-bar-wrap"><div class="pm-dim-bar" style="width:70%"></div></div><div class="pm-dim-val">70</div></div>
-            <div class="pm-dim"><div class="pm-dim-label">Tech Stack</div><div class="pm-dim-bar-wrap"><div class="pm-dim-bar" style="width:62%"></div></div><div class="pm-dim-val">62</div></div>
-            <div class="pm-dim"><div class="pm-dim-label">Customer Ops</div><div class="pm-dim-bar-wrap"><div class="pm-dim-bar" style="width:80%"></div></div><div class="pm-dim-val">80</div></div>
-          </div>
-        </div>
-      </div>
+    <div class="section-label">The work</div>
+    <h2 class="section-title">Real, live,<br>and yours to open.</h2>
+    <p class="work-intro">Not mockups — everything here is shipped and running in the world right now. Click any one.</p>
+    <div class="work-grid">
+      <a class="work-card lift" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">
+        <span class="tag">Personal Site · Live</span><div class="wt">Vincent Barnes</div><div class="wd">A Navy veteran, builder, and coach — his story and businesses on a clean cinematic site, live on his own domain.</div><span class="view">Visit vincentbarnes.com ↗</span></a>
+      <a class="work-card lift" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">
+        <span class="tag">Cinematic Site · Live</span><div class="wt">Kentucky Cleaning Pros</div><div class="wd">A cleaning company you walk through — scroll room to room as a home goes from cluttered to spotless, then book. Our flagship build.</div><span class="view">Walk the house ↗</span></a>
+      <a class="work-card lift" href="https://myopsgrade.com" target="_blank" rel="noopener">
+        <span class="tag">AI SaaS · Live</span><div class="wt">OpsGrade</div><div class="wd">Scores a small business across 8 operational dimensions and returns a branded 30/60/90-day fix plan. A full AI product, shipped in 6 weeks.</div><span class="view">Try OpsGrade ↗</span></a>
+      <a class="work-card lift" href="experience/index.html">
+        <span class="tag">Cinematic Film · This site</span><div class="wt">The Front Door</div><div class="wd">The scored flight-through that opens this site — written, generated, scored, and built in-house. Proof of the cinematic tier.</div><span class="view">Ride it ↗</span></a>
     </div>
+    <div class="work-foot" style="margin-top:22px"><a href="clients/index.html" style="font-family:var(--mono);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--ink);border-bottom:1px solid var(--ink-ghost,rgba(10,15,30,.2))">See the full gallery →</a></div>
   </div>
 </section>
-
-<hr class="rule">
-
-<!-- SELECTED WORK -->
-<section id="portfolio">
-  <div class="section-inner">
-    <div class="section-label">What's possible</div>
-    <h2 class="section-title">It starts as<br>an idea.</h2>
-    <p class="work-intro">Every piece here began the same way — someone described a problem or an idea, and we built the thing that didn't exist yet. Don't read it as a portfolio; read it as a question: <em>what could we build for you?</em> Open any to try it live — then bring us yours.</p>
-
-    <!-- FEATURED: WHAT WE BUILD -->
-    <a class="xfeature" href="study/index.html" aria-label="Start in the Study — tell us what to build">
-      <canvas class="xfeature-stars" aria-hidden="true"></canvas>
-      <div class="xfeature-glow" aria-hidden="true"></div>
-      <div class="xfeature-vig" aria-hidden="true"></div>
-      <div class="xfeature-inner">
-        <div class="xfeature-k">What we build</div>
-        <h3 class="xfeature-title">You think it.<br>We build the tool that <em>didn't exist yet.</em></h3>
-        <p class="xfeature-sub">Custom AI tools, automations, and software — built from scratch around the exact problem in front of you. Not a template. Not an app you settle for. The thing you describe, made real.</p>
-        <span class="xfeature-cta">Start in the Study →</span>
-      </div>
-    </a>
-
-    <div class="work-group">
-      <div class="gh">Tools &amp; Automations</div>
-      <p class="work-intro" style="margin:-8px 0 22px;font-size:15.5px">Working tools we built to show what's possible — a quote builder, an ROI calculator, an automation. Picture one for <em>yours</em>: a task that runs itself, a calculator that sells for you, a tool no app on the market offers. If you can describe it, we can build it — open any to try it live.</p>
-      <div class="work-grid">
-        <a class="work-card" href="demos/quote-builder.html" target="_blank" rel="noopener">
-          <span class="tag">Pricing Tool · Concept</span><div class="wt">Quote Builder</div><div class="wd">A two-mode estimator — the studio sets its services, a client builds a quote and checks out. Runs entirely in the browser.</div><span class="view">Open the tool ↗</span></a>
-        <a class="work-card" href="demos/roi-calculator.html" target="_blank" rel="noopener">
-          <span class="tag">Automation Tool · Concept</span><div class="wt">ROI Calculator</div><div class="wd">Shows what a repetitive task really costs per year — then suggests the real tools that could take it off your plate.</div><span class="view">Run the numbers ↗</span></a>
-        <a class="work-card" href="demos/automation-simulator.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · Concept</span><div class="wt">Automation, Visualized</div><div class="wd">Watch a workflow fire step by step — a cinematic walkthrough of an automation running, node by node.</div><span class="view">Watch it run ↗</span></a>
-      </div>
-    </div>
-
-    <div class="work-group">
-      <div class="gh">The taste we bring</div>
-      <p class="work-intro" style="margin:-8px 0 22px;font-size:15.5px">Not the product — the <em>feel</em>. This is the cinematic craft and motion we fold into everything we build, so what we hand you doesn't just work — it lands. Open any to experience it.</p>
-      <div class="work-grid tools-grid">
-        <a class="work-card" href="portfolio/14-studio/index.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · Explorable</span><div class="wt">The Studio</div><div class="wd">Step inside a cinematic studio space — zoom into each corner to explore, view the graffiti up close, and find the screen that takes you through.</div><span class="view">Step inside ↗</span></a>
-        <a class="work-card" href="portfolio/11-scroll-story/index.html" target="_blank" rel="noopener">
-          <span class="tag">Immersive Story</span><div class="wt">You Think It</div><div class="wd">A scroll-driven, animated brand experience (also this site's intro).</div><span class="view">Experience it ↗</span></a>
-        <a class="work-card" href="portfolio/10-event-invite/index.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · RSVP</span><div class="wt">Afterglow</div><div class="wd">A dark, cinematic event invite — live countdown, a working RSVP, gold on black.</div><span class="view">Open it ↗</span></a>
-        <a class="work-card" href="demos/what-comes-next.html" target="_blank" rel="noopener">
-          <span class="tag">Experience · Interactive</span><div class="wt">What Comes Next</div><div class="wd">A cinematic scroll experience — fly through a message about beginning as the space warms to dawn. Built to be felt, not read.</div><span class="view">Experience it ↗</span></a>
-      </div>
-    </div>
-
-    <div class="work-group">
-      <div class="gh">And yes — a site too</div>
-      <div class="work-grid">
-        <a class="work-card" href="portfolio/04-photographer/index.html" target="_blank" rel="noopener">
-          <span class="tag">Portfolio Site · Sample</span><div class="wt">Elena Cross</div><div class="wd">A photographer's site — editorial, cinematic, with a click-to-open lightbox gallery.</div><span class="view">View live ↗</span></a>
-      </div>
-    </div>
-
-    <div class="work-group">
-      <div class="gh">Client Work — <a href="clients/index.html" style="color:#a8761f;text-transform:none;letter-spacing:0;font-family:var(--sans);font-weight:600;text-decoration:underline">first 10 portfolios free →</a></div>
-      <div class="work-grid">
-        <a class="work-card" href="clients/ventures/index.html" target="_blank" rel="noopener">
-          <span class="tag">Real Client · Live</span><div class="wt">Vincent Barnes — Portfolio</div><div class="wd">A personal portfolio for a Navy veteran, builder, investor, and educator — his story, his businesses, and the resources he shares. Interactive, professional, built to his brand.</div><span class="view">View live ↗</span></a>
-        <a class="work-card" href="clients/index.html">
-          <span class="tag">The Program</span><div class="wt">Real sites for real people</div><div class="wd">Free portfolios for the first 10 — each one built from scratch to its own identity. See the work and claim a spot.</div><span class="view">See client work ↗</span></a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CAMO BRAND BAND -->
-<div class="camo-band" title="PHORETHOUGHT"></div>
-
-<!-- PROCESS -->
-<section>
-  <div class="section-inner">
-    <div class="section-label">How it works</div>
-    <h2 class="section-title">Simple on purpose.</h2>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="process-num">01</div>
-        <div class="process-title">See it</div>
-        <p class="process-body">In the Study, we talk through what you're building, who it's for, and what done looks like. We research what's possible, then tell you exactly what it'll cost and how long it'll take. No guesswork.</p>
-        <div class="process-connector"></div>
-      </div>
-      <div class="process-step">
-        <div class="process-num">02</div>
-        <div class="process-title">Build it</div>
-        <p class="process-body">We build it custom — AI tools, software, or sites, whatever the roadmap calls for. Check in any time. We ship when it's ready, not when a deadline forces it.</p>
-        <div class="process-connector"></div>
-      </div>
-      <div class="process-step">
-        <div class="process-num">03</div>
-        <div class="process-title">Keep it</div>
-        <p class="process-body">You own everything — code, domain, accounts — handed off with a recorded walkthrough. Then we keep it running and improving on a retainer: updates, new features, and a standing technologist whenever you need one.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
 
 <!-- CAMO BRAND BAND -->
 <div class="camo-band"></div>
 
-<!-- STEP INSIDE THE STUDIO (closing treat) -->
-<section class="studio-banner">
-  <div class="sb-k">Before you go</div>
-  <h2>Step inside our studio</h2>
-  <p>Not a pitch deck — a place. Explore the space where your idea becomes a finished build, then find the screen that takes you through.</p>
-  <a class="sb-btn" href="portfolio/14-studio/index.html" target="_blank" rel="noopener">Step inside ▸</a>
-</section>
-
-<!-- PHORETHOUGHT STUDIOS — MOTION REEL -->
-<section class="reel-band">
+<!-- PHORETHOUGHT STUDIOS — MOTION REEL (the "also") -->
+<section class="reel-band" id="reel">
   <div class="reel-inner">
     <div class="reel-carousel" id="reelCarousel">
       <div class="reel-track" id="reelTrack">
@@ -1235,6 +1027,49 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
   })();
 </script>
 
+<!-- OTHER THINGS WE CAN DO (the tuck) -->
+<section class="svc-menu" id="more">
+  <div class="svc-inner">
+    <div class="svc-eyebrow">Other things we can do</div>
+    <h2 class="svc-head">The rest of the toolkit —<br><em>whenever you need it.</em></h2>
+    <p class="svc-sub">Not the headline, but real work we bundle into a build or add on when it's time. If you can imagine it, it probably fits here.</p>
+    <div class="svc-grid">
+      <div class="svc-col"><h4>Think it through</h4><ul><li>Creative Direction</li><li>Scope &amp; Plan</li><li>Systems Design</li><li>Ops Audit</li></ul></div>
+      <div class="svc-col"><h4>Automate &amp; integrate</h4><ul><li>Automations</li><li>AI Integrations</li><li>Web Apps</li><li>Landing Pages</li></ul></div>
+      <div class="svc-col"><h4>Look the part</h4><ul><li>Brand Identity</li><li>Logos &amp; Marks</li><li>AI Film &amp; Motion</li></ul></div>
+      <div class="svc-col"><h4>Keep it alive</h4><ul><li>Care Plans · $29/mo</li><li>Retainers</li><li>Fixes &amp; Updates</li></ul></div>
+    </div>
+    <div class="svc-cta"><a href="study/index.html">Bring your idea →</a></div>
+  </div>
+</section>
+
+<!-- ABOUT (short) -->
+<section class="about" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-photo-wrap">
+        <img src="Phorethought.jpg?v=2" alt="Nicky B" class="about-photo" onerror="this.style.background='#e0e0e0';this.removeAttribute('src')">
+        <div class="about-photo-tag">Nicky B · Founder &amp; Point of Contact</div>
+      </div>
+      <div class="about-copy">
+        <div class="section-label">About</div>
+        <h2 class="section-title">One studio.<br>One point of contact.</h2>
+        <p class="about-body">I'm Nicky B. You bring the idea; I take it from a conversation to a built, shipped thing — and keep it running after. Custom AI tools, software, and sites, made with taste, for individuals, creators, and small teams. You never have to touch the tech. OpsGrade is live proof: a full AI SaaS, built and launched in six weeks.</p>
+        <a href="study/index.html" class="btn-primary">Work with us</a>
+        <a href="https://myopsgrade.com/founder" target="_blank" rel="noopener noreferrer" class="about-more">More about the founder ↗</a>
+        <div class="about-stats">
+          <div><div class="about-stat-num">1</div><div class="about-stat-label">Point of contact. Always.</div></div>
+          <div><div class="about-stat-num">100%</div><div class="about-stat-label">Owned by you at handoff</div></div>
+          <div><div class="about-stat-num">$0</div><div class="about-stat-label">Spent on templates</div></div>
+          <div><div class="about-stat-num">6wk</div><div class="about-stat-label">OpsGrade, built &amp; shipped</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="section-inner">
@@ -1247,24 +1082,7 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
         <a href="study/index.html" class="btn-ghost">Or start the Study →</a>
       </div>
       <p class="cta-note" style="text-transform:none;letter-spacing:0;">No commitment. Prefer email? <a href="mailto:phorethoughtconsulting@gmail.com" style="color:var(--ink);border-bottom:1px solid var(--ink-ghost);">phorethoughtconsulting@gmail.com</a></p>
-      <p class="cta-note" style="text-transform:none;letter-spacing:0;margin-top:14px;padding-top:14px;border-top:1px solid var(--ink-ghost);opacity:.9;">Looking for <strong>marketing or growth</strong>, not a custom build? That's not our lane — <a href="https://phorethought-marketing-audit.base44.app/form" target="_blank" rel="noopener" style="color:var(--ink);border-bottom:1px solid var(--ink-ghost);font-weight:600;">start with a free marketing audit&nbsp;→</a></p>
     </div>
-  </div>
-</section>
-
-<!-- SERVICES CAPABILITY MENU -->
-<section class="svc-menu">
-  <div class="svc-inner">
-    <div class="svc-eyebrow">The Studio</div>
-    <h2 class="svc-head">Everything we <em>create.</em></h2>
-    <p class="svc-sub">A creative technology studio for individuals, creators &amp; small businesses — consultation, custom AI &amp; software, built with taste. Never pulled off a shelf. You think it, we create it.</p>
-    <div class="svc-grid">
-      <div class="svc-col"><h4>Consult</h4><ul><li>Creative Direction</li><li>Scope &amp; Plan</li><li>Systems Design</li><li>Ops Audit</li></ul></div>
-      <div class="svc-col"><h4>Software</h4><ul><li>Custom AI Tools</li><li>SaaS Products</li><li>Web Apps</li><li>Automations</li></ul></div>
-      <div class="svc-col"><h4>Studio</h4><ul><li>Websites</li><li>Brand Identity</li><li>AI Film</li><li>Motion</li></ul></div>
-      <div class="svc-col"><h4>Care</h4><ul><li>Care Plans</li><li>Retainers</li><li>Fixes &amp; Updates</li></ul></div>
-    </div>
-    <div class="svc-cta"><a href="study/index.html">Start a project →</a></div>
   </div>
 </section>
 
@@ -1273,8 +1091,9 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
   <div class="footer-inner">
     <a href="#" class="footer-logo">Phorethought</a>
     <ul class="footer-links">
+      <li><a href="#services">What we make</a></li>
+      <li><a href="#work">The work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
       <li><a href="https://myopsgrade.com" target="_blank">OpsGrade</a></li>
       <li><a href="mailto:phorethoughtconsulting@gmail.com">Email</a></li>
       <li><a href="https://www.instagram.com/phorethought/" target="_blank" rel="noopener">Instagram</a></li>
@@ -1311,8 +1130,6 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
       // pause when the tab is hidden
       document.addEventListener('visibilitychange', function(){ hidden=document.hidden; hidden?pause():play(); });
     }
-    var btn=document.getElementById('heroHideText'), stage=document.querySelector('.hero-stage');
-    if(btn&&stage){ btn.addEventListener('click', function(){ var hid=stage.classList.toggle('no-text'); btn.textContent = hid ? 'Show text' : 'Hide text'; btn.setAttribute('aria-pressed', hid ? 'true' : 'false'); }); }
   })();
 </script>
 
@@ -1323,7 +1140,7 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
   if(matchMedia('(pointer:coarse)').matches) return; // desktop / fine-pointer only
 
   // ---- magnetic buttons ----
-  document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta,.btn-outline-white,.svc-cta a,.reel-cta,.sb-btn').forEach(function(b){
+  document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta,.btn-outline-white,.svc-cta a,.reel-cta').forEach(function(b){
     b.style.transition='transform .3s cubic-bezier(.2,.7,.2,1)';
     b.addEventListener('mousemove', function(e){ var r=b.getBoundingClientRect(); var dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2); b.style.transform='translate('+(dx*0.22)+'px,'+(dy*0.30)+'px)'; });
     b.addEventListener('mouseleave', function(){ b.style.transform='translate(0,0)'; });
@@ -1400,7 +1217,7 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
     }
 
     // ---- Scroll reveals: titles / labels / bodies (individual, slow fade-up) ----
-    hide('.section-label, .section-title, .section-body, .work-intro, .proof-body, .about-photo-wrap, .studio-banner h2, .reel-copy h2, .cta-title').forEach(function(el){
+    hide('.section-label, .section-title, .section-body, .work-intro, .proof-body, .about-photo-wrap, .reel-copy h2, .cta-title').forEach(function(el){
       ScrollTrigger.create({ trigger:el, start:'top 85%', once:true,
         onEnter:function(){ gsap.to(el,{opacity:1,y:0,duration:.9,ease:EASE}); } });
     });
@@ -1496,6 +1313,21 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
   var rt; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(init,200); });
 })();
 </script>
+<!-- THE THRESHOLD · shared door transition (same snippet on every Phorethought page) -->
+<script>
+(function(){var d=document.getElementById('phdoor');if(!d)return;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('open');});});
+  document.addEventListener('click',function(e){
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return; // respect new-tab / modified clicks
+    var a=e.target.closest&&e.target.closest('a');if(!a)return;
+    var h=a.getAttribute('href')||'';
+    if(!h||h.charAt(0)==='#'||a.target==='_blank'||/^(https?:|mailto:|tel:)/i.test(h))return;
+    e.preventDefault();d.classList.remove('open');
+    setTimeout(function(){location.href=h;},470);
+  },true);
+  addEventListener('pageshow',function(ev){if(ev.persisted)d.classList.add('open');}); // back-button restore
+})();
+</script>
 <!-- PH-ANALYTICS -->
 <script data-goatcounter="https://phorethought.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
@@ -1510,7 +1342,7 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
       else if(h.indexOf('cal.com')>-1)label='book-intro';
       else if(h.indexOf('docs.google.com/forms')>-1||h.indexOf('forms.gle')>-1)label='google-form';
       else if(h.indexOf('mailto:')>-1)label='email';
-      else if(h.indexOf('inverted')>-1)label='switch-vibe';
+      else if(h.indexOf('experience')>-1)label='enter-studio';
       else if(h.indexOf('clients')>-1)label='clients-gallery';
       else return;
     }

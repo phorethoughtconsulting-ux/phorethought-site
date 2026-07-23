@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phorethought — You think it, we create it.</title>
+<meta name="description" content="Step into the studio behind Phorethought — a cinematic front door to the work. You think it, we create it.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23e7ad55' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Phorethought — You think it, we create it.">
+<meta property="og:description" content="Step into the studio behind the work — a cinematic front door.">
+<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/experience/assets/home-city.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phorethought — You think it, we create it.">
+<meta name="twitter:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/experience/assets/home-city.jpg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#0a0f1e;--gold:#e7ad55;--gold2:#f0bd6e;--cream:#f4ecdd;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
+  html,body{height:100%}
+  body{background:#000;color:#fff;font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0;overflow:hidden}
+  .screen{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1s ease,visibility 1s ease}
+  .screen.on{opacity:1;visibility:visible}
+
+  /* backgrounds + video */
+  .bg{position:absolute;inset:0;background-color:#0a0f1e;background-size:cover;background-position:center;transform:scale(1.06)}
+  .screen.on .bg{animation:ken 22s ease-in-out infinite alternate}
+  @keyframes ken{from{transform:scale(1.05) translate(-1.2%,-.7%)}to{transform:scale(1.18) translate(1.2%,.8%)}}
+  /* finale wall: starts at scale(1) (identical to the film's held last frame — seamless handoff), then breathes */
+  #finale.on .bg{animation:wallDrift 30s ease-in-out infinite alternate}
+  @keyframes wallDrift{from{transform:scale(1)}to{transform:scale(1.06)}}
+  /* the wall speaks first, then recedes — our words never sit on its words */
+  #finale .dim{position:absolute;inset:0;z-index:5;background:radial-gradient(110% 85% at 50% 42%,rgba(4,6,12,.62),rgba(4,6,12,.9));opacity:0;transition:opacity 1.4s ease}
+  #finale.spoken .dim{opacity:1}
+  #finale .content{opacity:0;transform:translateY(16px);transition:opacity 1s ease .35s,transform 1s ease .35s}
+  #finale:not(.spoken) .content{pointer-events:none;visibility:hidden}  /* hidden CTAs can't be clicked or tabbed during the clean-wall beat */
+  #finale.spoken .content{opacity:1;transform:none}
+  /* match-cut: on Enter the world settles to frame one of the film, then the still starts moving */
+  #home.takeoff .bg{animation:none;transform:scale(1);transition:transform .95s cubic-bezier(.4,0,.2,1)}
+  #home.takeoff .content,#home.takeoff .hint{opacity:0;transition:opacity .5s ease}
+  .scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 34%,transparent 34%,rgba(4,6,12,.55)),linear-gradient(180deg,rgba(4,6,12,.35),transparent 34%,transparent 60%,rgba(4,6,12,.82))}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .6s ease}
+
+  /* cinematic letterbox */
+  .cinebar{position:absolute;left:0;right:0;height:0;background:#000;z-index:8;transition:height .9s ease;pointer-events:none}
+  #film.on .cinebar{height:6.2vh}
+  .cinebar.top{top:0}.cinebar.bot{bottom:0}
+
+  /* ── cinematic sky titles (timed to the film) ── */
+  .cue{position:absolute;left:0;right:0;top:16%;z-index:7;text-align:center;padding:0 24px;pointer-events:none;
+       opacity:0;filter:blur(7px);transform:translateY(12px);transition:opacity 1s ease,filter 1s ease,transform 1s ease}
+  .cue.show{opacity:1;filter:blur(0);transform:none}
+  .cue.show .l{animation:cueDrift 4.6s ease-out forwards}  /* titles live in the scene — drift with the descent */
+  @keyframes cueDrift{from{transform:translateY(8px);letter-spacing:-1.5px}to{transform:translateY(-10px);letter-spacing:.5px}}
+  .cue .l{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5.6vw,78px);line-height:1.05;letter-spacing:-1px;
+          color:var(--cream);text-shadow:0 2px 34px rgba(0,0,0,.55),0 0 64px rgba(231,173,85,.28)}
+  .cue .l em{font-style:italic;color:#f3ce8f}
+
+  /* content (home + finale) */
+  .content{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 26px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:22px}
+  .eyebrow::before,.eyebrow::after{content:'';width:26px;height:1px;background:rgba(231,173,85,.55)}
+  .wordmark{font-family:var(--serif);font-size:clamp(52px,9vw,116px);line-height:1;letter-spacing:-2px;text-shadow:0 6px 50px rgba(0,0,0,.6)}
+  /* ── cloud-born wordmark: the name is made of sky — cloud-light drifts through the letters, the word breathes ──
+     transparent fill only inside @supports: on any engine without clip-to-text the word stays solid cream, never invisible */
+  #home .wordmark{color:var(--cream);animation:cloudSheen 16s ease-in-out infinite alternate,wmBreathe 9s ease-in-out infinite alternate}
+  @supports((-webkit-background-clip:text) or (background-clip:text)){
+    #home .wordmark{
+      background:linear-gradient(105deg,#fdfaf3 0%,#e6dfcd 20%,#ffffff 38%,#d9d2bf 56%,#fdfaf3 76%,#ece5d4 100%);
+      background-size:230% 100%;
+      -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+      text-shadow:none;filter:drop-shadow(0 6px 38px rgba(0,0,0,.55)) drop-shadow(0 0 46px rgba(244,236,221,.20))}
+  }
+  @keyframes cloudSheen{from{background-position:0% 0}to{background-position:100% 0}}
+  @keyframes wmBreathe{from{letter-spacing:-2px}to{letter-spacing:-.4px}}
+  /* thin veils of mist crossing the sky — some behind the word, one passing in front */
+  .mist{position:absolute;pointer-events:none;border-radius:50%;filter:blur(28px);
+        background:radial-gradient(closest-side,rgba(250,247,238,.85),rgba(250,247,238,0))}
+  .mist.m1{z-index:5;width:58vw;height:15vh;top:24%;left:-62vw;opacity:.15;animation:mistDrift 44s linear infinite}
+  .mist.m2{z-index:7;width:42vw;height:11vh;top:38%;left:-46vw;opacity:.09;animation:mistDrift 61s linear infinite;animation-delay:-27s}
+  .mist.m3{z-index:5;width:34vw;height:9vh;top:14%;left:-40vw;opacity:.11;animation:mistDrift 53s linear infinite;animation-delay:-12s}
+  @keyframes mistDrift{to{transform:translateX(225vw)}}  /* enters off-left, exits off-right — the restart is invisible: a true loop */
+  /* first breath: the page composes itself — eyebrow, name, line, invitation */
+  #home .content>*{opacity:0;transform:translateY(14px);animation:riseIn 1.2s cubic-bezier(.2,.7,.2,1) forwards}
+  #home .eyebrow{animation-delay:.2s}#home .wordmark{animation:cloudSheen 16s ease-in-out infinite alternate,wmBreathe 9s ease-in-out infinite alternate,riseIn 1.2s cubic-bezier(.2,.7,.2,1) .45s forwards}
+  #home .tag{animation-delay:.75s}#home .sub{animation-delay:1s}#home .go{animation-delay:1.3s}
+  @keyframes riseIn{to{opacity:1;transform:none}}
+  .tag{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3vw,34px);color:#f3ce8f;margin-top:14px;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+  .sub{font-weight:300;color:rgba(255,255,255,.8);margin-top:16px;font-size:clamp(15px,1.6vw,18px);max-width:520px;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+  .go{margin-top:38px;display:inline-flex;align-items:center;gap:11px;cursor:pointer;font-family:var(--mono);font-size:14px;letter-spacing:2px;text-transform:uppercase;font-weight:500;
+      color:var(--ink);background:var(--gold);border:none;padding:19px 38px;border-radius:40px;box-shadow:0 16px 44px rgba(231,173,85,.34);transition:transform .3s cubic-bezier(.2,.7,.2,1),background .3s,box-shadow .3s}
+  .go:hover{transform:translateY(-3px);background:var(--gold2);box-shadow:0 22px 60px rgba(231,173,85,.46);letter-spacing:3px}
+  .go:focus-visible,.skip:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .go.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);box-shadow:none}
+  .go.ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .acts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:36px}
+  .acts .go{margin-top:0}
+  .hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:6;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+  .skip{position:absolute;bottom:calc(6.2vh + 18px);right:26px;z-index:9;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);background:rgba(10,15,30,.4);border:1px solid rgba(255,255,255,.25);padding:9px 15px;border-radius:30px;transition:.2s}
+  .skip:hover{color:var(--gold);border-color:rgba(231,173,85,.5)}
+  /* THE THRESHOLD — every internal navigation passes through the same ink door (shared snippet, every Phorethought page) */
+  #phdoor{position:fixed;inset:0;z-index:9999;background:#0a0f1e;opacity:1;pointer-events:none;transition:opacity .45s ease}
+  #phdoor.open{opacity:0}
+  @media(prefers-reduced-motion:reduce){#phdoor{transition:none}}
+
+  @media(max-width:600px){
+    .wordmark{font-size:clamp(46px,14vw,72px)}.cue{top:12%}
+    /* mobile finale: stacked full-tap CTAs */
+    #finale .acts{flex-direction:column;align-items:stretch;gap:10px;margin-top:18px;width:min(300px,86%)}
+    #finale .acts .go{padding:13px 18px;font-size:12px;letter-spacing:1.5px;justify-content:center}
+    #finale .scrim{background:radial-gradient(120% 90% at 50% 34%,transparent 30%,rgba(4,6,12,.55)),linear-gradient(180deg,rgba(4,6,12,.35),transparent 34%,transparent 52%,rgba(4,6,12,.92))}
+  }
+  @media(max-width:420px){.eyebrow{letter-spacing:3.5px}}
+  @media(pointer:coarse){.hint{display:none}}
+  @media(prefers-reduced-motion:reduce){
+    .screen.on .bg{animation:none}
+    .grain{display:none}
+    .cue{transition:opacity .25s ease;filter:none;transform:none}
+    .cue .l{animation:none}
+    #home.takeoff .bg{transition:none}
+    #finale.on .bg{animation:none;transform:scale(1)}
+    #finale .dim,#finale .content{transition:none}
+    video,.screen{transition:none}
+    .mist{display:none}
+    #home .wordmark{animation:none;background:none;color:var(--cream);-webkit-text-fill-color:var(--cream);filter:none;text-shadow:0 6px 50px rgba(0,0,0,.6)}
+    #home .content>*{animation:none;opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div id="phdoor" aria-hidden="true"></div>
+<noscript><style>#phdoor{display:none}</style></noscript>
+<div id="stage">
+
+  <!-- HOME -->
+  <section class="screen on" id="home">
+    <div class="bg" style="background-image:url('assets/home-city.jpg')"></div>
+    <div class="scrim"></div><div class="grain"></div>
+    <div class="mist m1" aria-hidden="true"></div><div class="mist m2" aria-hidden="true"></div><div class="mist m3" aria-hidden="true"></div>
+    <div class="content">
+      <div class="eyebrow">Creative Technology Studio</div>
+      <div class="wordmark">Phorethought</div>
+      <div class="tag">You think it, we create it.</div>
+      <div class="sub">Step into the studio behind the work — a cinematic front door to what we build.</div>
+      <button class="go" id="enterBtn">Enter the studio <span aria-hidden="true">✈</span></button>
+    </div>
+    <div class="hint">Sound on · full-screen: press F</div>
+  </section>
+
+  <!-- FILM -->
+  <section class="screen" id="film">
+    <div class="cinebar top"></div>
+    <video id="v1" src="assets/flyin-scored.mp4" playsinline preload="none"></video>
+    <video id="v2" src="assets/plane-final.mp4" playsinline preload="none" style="opacity:0"></video>
+    <div class="cue" id="cue"><div class="l" id="cueL"></div></div>
+    <div class="cinebar bot"></div>
+    <button class="skip" id="skipBtn" type="button" aria-label="Skip the intro film">Skip →</button>
+  </section>
+
+  <!-- FINALE -->
+  <section class="screen" id="finale">
+    <div class="bg" style="background-image:url('assets/wall.jpg')"></div>
+    <div class="scrim"></div><div class="dim"></div><div class="grain"></div>
+    <div class="content">
+      <div class="wordmark" style="font-size:clamp(34px,5.2vw,68px)">You think it,<br><em style="font-style:italic;color:#f3ce8f">we create it.</em></div>
+      <div class="acts">
+        <a class="go" href="../index.html#services">Start a project →</a>
+        <a class="go ghost" href="../index.html#work">See the work</a>
+        <button class="go ghost" id="replayBtn">↻ Replay</button>
+      </div>
+    </div>
+  </section>
+
+  <audio id="score" src="assets/score.mp3" preload="none"></audio>
+
+</div>
+
+<script>
+  (function(){
+    var home=document.getElementById('home'),film=document.getElementById('film'),finale=document.getElementById('finale'),
+        v1=document.getElementById('v1'),v2=document.getElementById('v2'),
+        cue=document.getElementById('cue'),cueL=document.getElementById('cueL'),
+        enter=document.getElementById('enterBtn'),skip=document.getElementById('skipBtn'),replay=document.getElementById('replayBtn'),
+        score=document.getElementById('score');  // the film's score (Lord Knows — licensed); every use is guarded
+
+    // cinematic sky-titles, timed to each clip (s=in, e=out, in seconds)
+    var CUES_V1=[
+      {s:1.4,e:4.6,html:'You think it.'},
+      {s:5.8,e:9.2,html:'We <em>create</em> it.'}
+    ];
+    var CUES_V2=[
+      {s:0.6,e:3.2,html:'Step inside.'}
+    ];
+
+    function show(el){ [home,film,finale].forEach(function(s){s.classList.remove('on');}); el.classList.add('on'); }
+    function play(v){ var p=v.play(); if(p&&p.catch)p.catch(function(){ try{ v.muted=true; var q=v.play(); if(q&&q.catch)q.catch(function(){}); }catch(e){} }); }  // sound when allowed, silent fallback — never stall
+
+    // warm the media the moment intent shows (hover/focus/touch) — kills the black beat on click
+    var warmed=false;
+    function warm(){ if(warmed)return; warmed=true; try{v1.load();v2.load();if(score)score.load();}catch(e){} }
+    enter.addEventListener('mouseenter',warm); enter.addEventListener('focus',warm); enter.addEventListener('touchstart',warm,{passive:true});
+
+    function fadeScore(){ if(!score)return; var f=setInterval(function(){ if(score.volume>0.07){ score.volume=Math.max(0,score.volume-0.06); } else { try{score.pause();}catch(e){} clearInterval(f); } },130); }
+    var spokenT=null;
+    function toFinale(){ show(finale); fadeScore(); clearTimeout(spokenT); spokenT=setTimeout(function(){ finale.classList.add('spoken'); },1600); }  // wall speaks first (clean beat), then dims as our line rises
+
+    // drive the timed titles off a clip's playback
+    var curCue=null;
+    function bindCues(v,cues){
+      function tick(){
+        var t=v.currentTime,hit=null;
+        for(var i=0;i<cues.length;i++){ if(t>=cues[i].s&&t<cues[i].e){hit=cues[i];break;} }
+        if(hit!==curCue){
+          if(hit){ cueL.innerHTML=hit.html; cue.classList.add('show'); }
+          else { cue.classList.remove('show'); }
+          curCue=hit;
+        }
+      }
+      v.addEventListener('timeupdate',tick);
+    }
+    bindCues(v1,CUES_V1); bindCues(v2,CUES_V2);
+
+    // Enter → fly-in
+    enter.addEventListener('click',function(){
+      warm();
+      if(score){ try{score.currentTime=0;score.volume=1;}catch(e){} var sp=score.play();
+        if(sp&&sp.then){ sp.then(function(){ v1.volume=0.35; v2.volume=0.35; })  // music leads, sound design underneath
+                            .catch(function(){}); } }                             // no score file → clips keep full voice
+      home.classList.add('takeoff');            // match-cut: the sky settles to frame one…
+      setTimeout(function(){
+        show(film);                              // …then the still starts moving
+        if(v1.error){ try{v1.load();}catch(e){} }  // a preload that died on hover gets one retry — its error now fires on-screen and advances
+        v1.style.opacity=1; v2.style.opacity=0; v1.currentTime=0; play(v1);
+      },950);
+    });
+
+    // fly-in ends → step inside (fade through black) → studio flight
+    v1.addEventListener('ended',function(){
+      cue.classList.remove('show'); curCue=null;
+      v1.style.opacity=0;
+      setTimeout(function(){ if(v2.error){try{v2.load();}catch(e){}} v2.style.opacity=1; v2.currentTime=0; play(v2); },650);
+    });
+
+    // studio flight ends → the closing line
+    v2.addEventListener('ended',function(){ cue.classList.remove('show'); curCue=null; toFinale(); });
+
+    // graceful: if a clip fails to load/play, advance instead of stalling on black —
+    // but only if that clip is the one on screen (warm() preloads on hover; a failed
+    // preload must never teleport a user who hasn't even entered)
+    v1.addEventListener('error',function(){ if(!film.classList.contains('on')||v1.style.opacity!=1)return; cue.classList.remove('show'); curCue=null; v1.style.opacity=0; setTimeout(function(){ v2.style.opacity=1; v2.currentTime=0; play(v2); },400); });
+    v2.addEventListener('error',function(){ if(!film.classList.contains('on')||v2.style.opacity!=1)return; cue.classList.remove('show'); curCue=null; toFinale(); });
+
+    skip.addEventListener('click',function(){ try{v1.pause();}catch(e){} try{v2.pause();}catch(e){} cue.classList.remove('show'); toFinale(); });
+    replay.addEventListener('click',function(){ v1.currentTime=0; v2.currentTime=0; v1.style.opacity=1; v2.style.opacity=0; if(score){ try{score.pause();}catch(e){} } v1.volume=1; v2.volume=1; clearTimeout(spokenT); finale.classList.remove('spoken'); home.classList.remove('takeoff'); show(home); });
+
+    // F for fullscreen
+    addEventListener('keydown',function(e){ if(e.key==='f'||e.key==='F'){ var el=document.documentElement; if(!document.fullscreenElement){ (el.requestFullscreen||function(){})(); } else { (document.exitFullscreen||function(){})(); } } });
+  })();
+</script>
+<!-- THE THRESHOLD · shared door transition (same snippet on every Phorethought page) -->
+<script>
+(function(){var d=document.getElementById('phdoor');if(!d)return;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('open');});});
+  document.addEventListener('click',function(e){
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return; // respect new-tab / modified clicks
+    var a=e.target.closest&&e.target.closest('a');if(!a)return;
+    var h=a.getAttribute('href')||'';
+    if(!h||h.charAt(0)==='#'||a.target==='_blank'||/^(https?:|mailto:|tel:)/i.test(h))return;
+    e.preventDefault();d.classList.remove('open');
+    setTimeout(function(){location.href=h;},470);
+  },true);
+  addEventListener('pageshow',function(ev){if(ev.persisted)d.classList.add('open');});
+})();
+</script>
+</body>
+</html>

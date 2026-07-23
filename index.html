@@ -889,7 +889,11 @@
   .make-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;margin-top:40px}
   .also-line{margin-top:22px;font-size:14px;color:rgba(255,255,255,0.6);text-align:center}
   .also-line a{color:#e7ad55;text-decoration:none;border-bottom:1px solid rgba(231,173,85,0.4);font-weight:600}
-  .make-card{display:flex;flex-direction:column;background:#0e1526;padding:clamp(24px,3vw,34px);transition:background .3s ease}
+  .make-card{display:flex;flex-direction:column;background:#0e1526;padding:clamp(20px,2.4vw,26px);transition:background .3s ease}
+  .make-shot{display:block;width:100%;height:158px;object-fit:cover;object-position:top;border-radius:10px;margin-bottom:18px;background:#0b1120;border:1px solid rgba(255,255,255,.08)}
+  .make-desc{font-size:14px;line-height:1.55;color:rgba(255,255,255,0.6)}
+  .work-card img{width:100%;height:150px;object-fit:cover;object-position:top;border-radius:10px;margin-bottom:15px;background:#eee;border:1px solid var(--rule)}
+  .work-card .wd{font-size:14px}
   .make-card.feature{background:#111a30;box-shadow:inset 0 0 0 1px rgba(231,173,85,0.28)}
   .make-k{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e7ad55;margin-bottom:14px}
   .make-name{font-family:var(--serif);font-size:clamp(21px,2.5vw,27px);line-height:1.12;color:#fff;margin-bottom:8px}
@@ -913,27 +917,30 @@
     <div class="make-grid">
 
       <article class="make-card">
+        <img class="make-shot" src="assets/thumb-vincent.jpg" alt="Vincent Barnes — live personal site" loading="lazy">
         <div class="make-k">Websites · Static</div>
         <h3 class="make-name">Clean, fast, yours.</h3>
         <div class="make-purpose">Get seen</div>
-        <p class="make-desc">A custom site built to your identity — quick to load, clear to read, handed off completely yours. For a person or a brand that needs to look real online.</p>
-        <div class="make-foot"><span class="make-price">from $300</span><a class="make-proof" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">See Vincent's site ↗</a></div>
+        <p class="make-desc">A custom site, your identity, handed off completely yours.</p>
+        <div class="make-foot"><span class="make-price">from $300</span><a class="make-proof" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">See it ↗</a></div>
       </article>
 
       <article class="make-card feature">
+        <img class="make-shot" src="assets/thumb-cinematic.jpg" alt="Kentucky Cleaning Pros — cinematic walkthrough site" loading="lazy">
         <div class="make-k">Websites · Cinematic · Signature</div>
         <h3 class="make-name">A world people step into.</h3>
         <div class="make-purpose">Get remembered</div>
-        <p class="make-desc">A site that opens like a film — real footage, motion, sound, a story you walk through instead of scroll past. Nobody in your market has one. The front door of this very site is one.</p>
-        <div class="make-foot"><span class="make-price">$3,500 · <b>founding $900</b></span><a class="make-proof" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">Walk the cleaning site ↗</a></div>
+        <p class="make-desc">A site that opens like a film — walked through, not scrolled past.</p>
+        <div class="make-foot"><span class="make-price">$3,500 · <b>founding $900</b></span><a class="make-proof" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">Walk it ↗</a></div>
       </article>
 
       <article class="make-card">
+        <img class="make-shot" src="assets/thumb-opsgrade.jpg" alt="OpsGrade — AI operations report" loading="lazy">
         <div class="make-k">AI Tools &amp; Apps</div>
         <h3 class="make-name">Software for your exact problem.</h3>
         <div class="make-purpose">Get it built</div>
-        <p class="make-desc">A tool or app that doesn't exist yet — built around the thing in front of you, not pulled off a shelf. OpsGrade is proof: a complete AI product, shipped in 6 weeks. Full SaaS builds scale from there.</p>
-        <div class="make-foot"><span class="make-price">from $3,000</span><a class="make-proof" href="https://myopsgrade.com" target="_blank" rel="noopener">Try OpsGrade ↗</a></div>
+        <p class="make-desc">A tool or app that doesn't exist yet. OpsGrade is ours — an AI ops report, in launch.</p>
+        <div class="make-foot"><span class="make-price">from $3,000</span><a class="make-proof" href="https://myopsgrade.com" target="_blank" rel="noopener">See a sample ↗</a></div>
       </article>
 
     </div>
@@ -952,13 +959,17 @@
     <p class="work-intro">Not mockups — everything here is shipped and running in the world right now. Click any one.</p>
     <div class="work-grid">
       <a class="work-card lift" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">
-        <span class="tag">Personal Site · Live</span><div class="wt">Vincent Barnes</div><div class="wd">A Navy veteran, builder, and coach — his story and businesses on a clean cinematic site, live on his own domain.</div><span class="view">Visit vincentbarnes.com ↗</span></a>
+        <img src="assets/thumb-vincent.jpg" alt="Vincent Barnes site" loading="lazy">
+        <span class="tag">Personal Site · Live</span><div class="wt">Vincent Barnes</div><div class="wd">Navy veteran, builder, coach — on his own domain.</div><span class="view">Visit vincentbarnes.com ↗</span></a>
       <a class="work-card lift" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">
-        <span class="tag">Cinematic Site · Live</span><div class="wt">Kentucky Cleaning Pros</div><div class="wd">A cleaning company you walk through — scroll room to room as a home goes from cluttered to spotless, then book. Our flagship build.</div><span class="view">Walk the house ↗</span></a>
+        <img src="assets/thumb-cinematic.jpg" alt="Kentucky Cleaning Pros walkthrough" loading="lazy">
+        <span class="tag">Cinematic Site · Live</span><div class="wt">Kentucky Cleaning Pros</div><div class="wd">Walk a home from cluttered to spotless, then book. Our flagship.</div><span class="view">Walk the house ↗</span></a>
       <a class="work-card lift" href="https://myopsgrade.com" target="_blank" rel="noopener">
-        <span class="tag">AI SaaS · Live</span><div class="wt">OpsGrade</div><div class="wd">Scores a small business across 8 operational dimensions and returns a branded 30/60/90-day fix plan. A full AI product, shipped in 6 weeks.</div><span class="view">Try OpsGrade ↗</span></a>
+        <img src="assets/thumb-opsgrade.jpg" alt="OpsGrade AI report" loading="lazy">
+        <span class="tag">AI Tools · In launch</span><div class="wt">OpsGrade</div><div class="wd">Scores a business on 8 dimensions, returns a 30/60/90-day fix plan.</div><span class="view">See a sample ↗</span></a>
       <a class="work-card lift" href="experience/index.html">
-        <span class="tag">Cinematic Film · This site</span><div class="wt">The Front Door</div><div class="wd">The scored flight-through that opens this site — written, generated, scored, and built in-house. Proof of the cinematic tier.</div><span class="view">Ride it ↗</span></a>
+        <img src="assets/thumb-frontdoor.jpg" alt="The Front Door film" loading="lazy">
+        <span class="tag">Cinematic Film · This site</span><div class="wt">The Front Door</div><div class="wd">The scored flight-through that opens this site. Built in-house.</div><span class="view">Ride it ↗</span></a>
     </div>
     <div class="work-foot" style="margin-top:22px"><a href="clients/index.html" style="font-family:var(--mono);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--ink);border-bottom:1px solid var(--ink-ghost,rgba(10,15,30,.2))">See the full gallery →</a></div>
   </div>

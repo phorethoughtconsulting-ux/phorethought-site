@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kentucky Cleaning Pros — Clean spaces, better places. | Louisville, KY</title>
+<meta name="description" content="Residential cleaning in the Louisville area — walk through a home as we bring it back to life, then book yours. Veteran-owned, fully insured. Clean spaces, better places.">
+<meta name="theme-color" content="#1E2A25">
+<meta name="robots" content="noindex"><!-- preview: remove at launch when Vincent's real contact goes live -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232F7D5B'/%3E%3Ctext x='16' y='21' font-family='Georgia,serif' font-size='11' fill='%23F7F9F7' text-anchor='middle'%3EKCP%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kentucky Cleaning Pros — Clean spaces, better places.">
+<meta property="og:description" content="Walk through a home as we bring it back to life — then book yours. Residential cleaning, Louisville. Veteran-owned, fully insured.">
+<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/clients/kentucky-cleaning-pros/img/og.jpg">
+<meta property="og:url" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/clients/kentucky-cleaning-pros/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kentucky Cleaning Pros — Clean spaces, better places.">
+<meta name="twitter:description" content="Walk through a home as we bring it back to life — then book yours. Louisville, KY.">
+<meta name="twitter:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/clients/kentucky-cleaning-pros/img/og.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#F7F9F7;--surface:#FFFFFF;--ink:#1E2A25;--muted:#5C6B64;--green:#2F7D5B;--gold:#E8B563;
+        --serif:'Fraunces',Georgia,serif;--sans:'Figtree',system-ui,sans-serif}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body.walking{overflow:hidden}
+
+  /* ───────────── HEADER (persists through both worlds) ───────────── */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+         padding:16px clamp(18px,4vw,38px);transition:background .5s ease,box-shadow .5s ease}
+  header .wm{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.2px;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.5);text-decoration:none;transition:color .5s;white-space:nowrap}
+  @media (max-width:430px){ header .wm{font-size:14px} }
+  header .h-right{display:flex;align-items:center;gap:18px}
+  header a.tel{color:#fff;text-decoration:none;font-weight:600;font-size:14px;text-shadow:0 1px 12px rgba(0,0,0,.5);transition:color .5s}
+  header button.skip{cursor:pointer;background:rgba(20,28,24,.35);border:1px solid rgba(255,255,255,.4);color:#fff;
+        font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;
+        padding:12px 16px;min-height:44px;border-radius:30px;backdrop-filter:blur(6px);transition:.25s;white-space:nowrap}
+  header button.skip:hover{border-color:var(--gold);color:var(--gold)}
+  header.solid{background:rgba(247,249,247,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(30,42,37,.08)}
+  header.solid .wm,header.solid a.tel{color:var(--ink);text-shadow:none}
+  header.solid #skipBtn{display:none}
+  header.solid #sndBtn{background:transparent;border-color:rgba(30,42,37,.25);color:var(--ink)}  /* the sound control never disappears */
+
+  /* ───────────── WALKTHROUGH ───────────── */
+  #walk{position:fixed;inset:0;z-index:50;background:#0c0f0d;cursor:pointer;overflow:hidden}
+  #walk.gone{display:none}
+  .scene{position:absolute;inset:0;opacity:0;will-change:transform,opacity,filter}
+  .scene img,.scene video{width:100%;height:100%;object-fit:cover;display:block}
+  .scene.on{opacity:1}
+  #bloom{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:5;
+         background:radial-gradient(60% 60% at var(--bx,50%) var(--by,55%),rgba(255,252,244,1),rgba(255,252,244,.85) 45%,rgba(255,252,244,0) 78%)}
+  .w-scrim{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:4;pointer-events:none;
+           background:linear-gradient(180deg,transparent,rgba(10,14,12,.55))}
+  .dots{position:absolute;top:70px;left:50%;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:8px;pointer-events:none}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .4s,transform .4s}
+  .dots i.on{background:#fff;transform:scale(1.25)}
+  #roomLabel{position:absolute;top:88px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;color:rgba(255,255,255,.75);
+    font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.55);transition:opacity .4s}
+  /* caption line reveal */
+  .cap .t,.cap .k,.cap .s{will-change:transform,opacity}
+  .cap{position:absolute;left:clamp(20px,4vw,44px);bottom:clamp(26px,6vh,54px);z-index:6;color:#fff;pointer-events:none;
+       max-width:min(520px,86vw);opacity:1;transition:opacity .4s}
+  .cap.off{opacity:0}
+  .cap .k{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#B8E6CE;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  .cap .t{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.4vw,40px);margin-top:7px;line-height:1.12;text-shadow:0 2px 20px rgba(0,0,0,.55)}
+  .cap .s{font-size:clamp(13.5px,1.5vw,16px);margin-top:8px;color:rgba(255,255,255,.88);text-shadow:0 1px 12px rgba(0,0,0,.55);line-height:1.5}
+  .hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:6;color:rgba(255,255,255,.7);
+        font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,.6);pointer-events:none;transition:opacity .5s}
+  #bookCta{position:absolute;left:50%;bottom:clamp(80px,16vh,140px);transform:translateX(-50%) translateY(10px);z-index:7;
+        cursor:pointer;background:var(--green);color:#fff;border:none;font-family:var(--sans);font-weight:600;
+        font-size:15px;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;border-radius:40px;
+        box-shadow:0 16px 44px rgba(47,125,91,.45);opacity:0;visibility:hidden;transition:opacity .8s ease .4s,transform .8s ease .4s,background .25s}
+  #walk.end #bookCta{opacity:1;visibility:visible;transform:translateX(-50%)}
+  #bookCta:hover{background:#256648}
+  #bookCta:focus-visible,header button.skip:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+  /* ───────────── BOOKING PAGE ───────────── */
+  main{position:relative;z-index:1}
+  .band{padding:clamp(64px,9vw,110px) clamp(20px,5vw,48px)}
+  .inner{max-width:1060px;margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:600;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:'';width:26px;height:2px;background:var(--green);border-radius:2px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.6vw,52px);line-height:1.08;letter-spacing:-.5px;margin-top:14px}
+  .lead{color:var(--muted);font-size:clamp(15px,1.7vw,17.5px);line-height:1.65;margin-top:14px;max-width:560px}
+
+  /* booking band */
+  #book{background:linear-gradient(180deg,#EFF5F0,var(--bg))}
+  .book-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);margin-top:40px;align-items:start}
+  form{background:var(--surface);border:1px solid rgba(47,125,91,.16);border-radius:18px;padding:clamp(22px,3vw,34px);
+       box-shadow:0 18px 50px rgba(30,42,37,.08)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fld{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .fld label{font-size:12.5px;font-weight:600;letter-spacing:.6px;color:var(--ink)}
+  .fld input,.fld select,.fld textarea{font-family:var(--sans);font-size:16px;color:var(--ink);background:#FBFDFB;
+       border:1px solid rgba(30,42,37,.18);border-radius:10px;padding:13px 14px;min-height:48px;transition:border-color .2s}
+  .fld textarea{min-height:84px}
+  .fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--green)}
+  .fld textarea{min-height:84px;resize:vertical}
+  button.submit{width:100%;cursor:pointer;background:var(--green);color:#fff;border:none;font-family:var(--sans);
+       font-weight:600;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;padding:16px;border-radius:12px;transition:background .25s}
+  button.submit:hover{background:#256648}
+  .form-note{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center}
+  .call-card{background:var(--ink);color:#F2F6F3;border-radius:18px;padding:clamp(24px,3vw,34px)}
+  .call-card .cc-k{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:#B8E6CE;font-weight:600}
+  .call-card .cc-t{font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.6vw,30px);margin-top:10px;line-height:1.2}
+  .call-card a.big-tel{display:inline-block;margin-top:18px;background:var(--gold);color:#1E2A25;text-decoration:none;
+       font-weight:600;font-size:16px;letter-spacing:1px;padding:15px 26px;border-radius:12px;transition:transform .2s}
+  .call-card a.big-tel:hover{transform:translateY(-2px)}
+  .call-card p{margin-top:16px;font-size:14px;line-height:1.6;color:rgba(242,246,243,.75)}
+
+  /* services */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+  .svc{background:var(--surface);border:1px solid rgba(47,125,91,.16);border-radius:16px;overflow:hidden;
+       transition:transform .3s ease,box-shadow .3s ease}
+  .svc:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(30,42,37,.12)}
+  .svc img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+  .svc .sv-b{padding:18px 20px 22px}
+  .svc h3{font-family:var(--serif);font-weight:600;font-size:20px}
+  .svc p{color:var(--muted);font-size:14px;line-height:1.55;margin-top:7px}
+  .svc .sv-q{margin-top:12px;font-size:12.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green)}
+
+  /* trust */
+  .trust{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+  .badge{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid rgba(47,125,91,.2);
+       border-radius:40px;padding:12px 22px;font-weight:600;font-size:14px}
+  .badge svg{flex:none}
+
+  /* area + footer */
+  .area{background:var(--ink);color:#F2F6F3;text-align:center}
+  .area h2{color:#fff}
+  .area .lead{color:rgba(242,246,243,.75);margin-left:auto;margin-right:auto}
+  footer{background:#16201B;color:rgba(242,246,243,.7);padding:36px clamp(20px,5vw,48px);font-size:13.5px}
+  footer .f-inner{max-width:1060px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer a{color:#B8E6CE;text-decoration:none}
+  footer .credit a{color:rgba(242,246,243,.55);border-bottom:1px solid rgba(242,246,243,.25)}
+
+  /* concept preview overlay (owner handoff) */
+  #poc{position:fixed;inset:0;z-index:90;background:rgba(14,20,17,.86);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px}
+  #poc .p-card{background:var(--surface);border-radius:18px;max-width:430px;padding:30px;text-align:center}
+  #poc h3{font-family:var(--serif);font-size:24px;font-weight:600}
+  #poc p{color:var(--muted);font-size:14.5px;line-height:1.6;margin-top:10px}
+  #poc button{margin-top:20px;cursor:pointer;background:var(--green);color:#fff;border:none;font-weight:600;font-size:14px;letter-spacing:1px;padding:13px 26px;border-radius:10px}
+  #poc.hide{display:none}
+
+  @media (max-width:860px){
+    .book-grid{grid-template-columns:1fr}
+    .svc-grid{grid-template-columns:1fr}
+    .frow{grid-template-columns:1fr}
+    header a.tel{display:none}
+    .dots{top:60px}
+    #roomLabel{top:76px;font-size:10px}
+    #about .inner>div[data-reveal-group]{grid-template-columns:1fr !important}
+    .cap{bottom:clamp(64px,10vh,90px)}          /* clear of the hint + safe-area on phones */
+    .hint{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+    #bookCta{bottom:clamp(110px,20vh,160px)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .scene{transition:opacity .4s ease}
+    .svc,#bookCta,.call-card a.big-tel{transition:none}
+  }
+</style>
+</head>
+<body class="walking">
+
+<header id="hdr">
+  <a class="wm" href="#" aria-label="Kentucky Cleaning Pros home">Kentucky Cleaning Pros</a>
+  <div class="h-right">
+    <a class="tel" href="tel:+15025550100">(502) 555-0100</a><!-- [PLACEHOLDER phone — replace at launch] -->
+    <button class="skip" id="sndBtn" type="button" aria-label="Toggle sound" style="padding:9px 12px">🔊</button>
+    <button class="skip" id="skipBtn" type="button">Book now →</button>
+  </div>
+</header>
+<div id="wprog" aria-hidden="true" style="position:fixed;top:0;left:0;height:3px;width:0;background:var(--green);z-index:70;transition:width .6s ease"></div>
+
+<!-- ═══════════ THE WALKTHROUGH ═══════════ -->
+<div id="walk" role="region" aria-label="Interactive home walkthrough — click or press space to step forward">
+  <!-- living scenes: real camera motion per room; poster = instant paint, video lazy-loads. Reduced-motion / no-GSAP → posters only (stills experience). -->
+  <div class="scene" data-ox="46%" data-oy="66%" role="img" aria-label="A two-story home at golden dusk, windows glowing"><video src="vid/S1-exterior-dusk.mp4" poster="img/S1-exterior-dusk.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="50%" data-oy="48%" role="img" aria-label="The black front door between porch lanterns"><video src="vid/S2-front-door.mp4" poster="img/S2-front-door.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="55%" data-oy="42%" role="img" aria-label="The entry foyer, cluttered with shoes, jackets and boxes"><video src="vid/S3-foyer-cluttered.mp4" poster="img/S3-foyer-cluttered.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="50%" data-oy="50%" role="img" aria-label="Two cleaners in green polos transforming the living room"><video src="vid/S4-livingroom-midclean.mp4" poster="img/S4-livingroom-midclean.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="86%" data-oy="48%" role="img" aria-label="A cleaner polishing the kitchen island in bright light"><video src="vid/S5-kitchen-brighter.mp4" poster="img/S5-kitchen-brighter.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="47%" data-oy="24%" data-bridge="1" role="img" aria-label="Climbing the staircase toward a bright landing"><video src="vid/B1-stairs-up.mp4" poster="img/B1-stairs-up.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="88%" data-oy="50%" role="img" aria-label="A sparkling clean bathroom in bright light"><video src="vid/S6-bathroom-sparkling.mp4" poster="img/S6-bathroom-sparkling.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="42%" data-oy="46%" data-bridge="1" role="img" aria-label="Walking down the stairs into the gleaming foyer"><video src="vid/B2-stairs-down.mp4" poster="img/B2-stairs-down.jpg" muted playsinline preload="none"></video></div>
+  <div class="scene" data-ox="50%" data-oy="55%" role="img" aria-label="The same foyer, spotless and glowing"><video src="vid/S7-foyer-gleaming.mp4" poster="img/S7-foyer-gleaming.jpg" muted playsinline preload="none"></video></div>
+  <!-- the travel layer: frame-to-frame walking clips between rooms (starts on the current room's final frame, lands on the next room's first frame) -->
+  <video id="travel" muted playsinline preload="none" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:3;pointer-events:none"></video>
+  <div id="bloom"></div>
+  <div class="w-scrim"></div>
+  <div class="dots" id="dots"></div>
+  <div id="roomLabel"></div>
+  <div class="cap" id="cap"><div class="k" id="capK"></div><div class="t" id="capT"></div><div class="s" id="capS"></div></div>
+  <button id="bookCta" type="button">Book now</button>
+  <div class="hint" id="hint">Scroll to walk through</div>
+</div>
+<audio id="amb" src="audio/ambient.mp3" loop preload="none"></audio>
+
+<!-- ═══════════ THE BOOKING PAGE ═══════════ -->
+<main>
+  <section class="band" id="book">
+    <div class="inner">
+      <span class="eyebrow">Book a cleaning</span>
+      <h2>Get your quote in 60 seconds.</h2>
+      <p class="lead">Every home is different — tell us about yours and we'll come back fast with a quote. Prefer to talk? Call and we'll sort it out together.</p>
+      <div class="book-grid">
+        <form action="https://formspree.io/f/PLACEHOLDER" method="POST" aria-label="Cleaning quote request"><!-- [PLACEHOLDER endpoint — Vincent's email at launch] -->
+          <div class="frow">
+            <div class="fld"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+            <div class="fld"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+          </div>
+          <div class="frow">
+            <div class="fld"><label for="f-beds">Bedrooms</label><select id="f-beds" name="bedrooms"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5+</option></select></div>
+            <div class="fld"><label for="f-baths">Bathrooms</label><select id="f-baths" name="bathrooms"><option>1</option><option selected>2</option><option>3</option><option>4+</option></select></div>
+          </div>
+          <div class="frow">
+            <div class="fld"><label for="f-svc">Service</label><select id="f-svc" name="service"><option>Standard clean</option><option>Deep clean</option><option>Move-in / Move-out</option></select></div>
+            <div class="fld"><label for="f-day">Preferred day</label><input id="f-day" name="preferred_day" type="text" placeholder="e.g. next Friday"></div>
+          </div>
+          <div class="fld"><label for="f-notes">Anything we should know?</label><textarea id="f-notes" name="notes" placeholder="Pets, priorities, parking — anything helps."></textarea></div>
+          <button class="submit" type="submit">Request my quote</button>
+          <p class="form-note">No spam, no pressure — just a quote.</p>
+        </form>
+        <div class="call-card">
+          <div class="cc-k">Or just call</div>
+          <div class="cc-t">Talk to a real person about your home.</div>
+          <a class="big-tel" href="tel:+15025550100">(502) 555-0100</a><!-- [PLACEHOLDER phone] -->
+          <p>Veteran-owned and fully insured. Serving the Louisville area — homes, apartments, and everything in between.</p>
+        </div>
+      </div>
+      <p style="margin-top:26px;text-align:center;font-size:13.5px;color:var(--muted)">↻ <a href="#" id="replayWalk" style="color:var(--green);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(47,125,91,.35)">Walk the house again</a></p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner">
+      <span class="eyebrow">What we do</span>
+      <h2>Three ways to get your place back.</h2>
+      <div class="svc-grid" data-reveal-group>
+        <div class="svc"><img src="img/S4-livingroom-midclean.jpg" alt="" loading="lazy">
+          <div class="sv-b"><h3>Standard clean</h3><p>The regular reset — floors, surfaces, kitchens, baths. The house you meant to keep, kept.</p><div class="sv-q">Quote in 60 seconds →</div></div></div>
+        <div class="svc"><img src="img/S5-kitchen-brighter.jpg" alt="" loading="lazy">
+          <div class="sv-b"><h3>Deep clean</h3><p>Every surface, every time — baseboards, appliances, the corners nobody sees. The full wake-up.</p><div class="sv-q">Quote in 60 seconds →</div></div></div>
+        <div class="svc"><img src="img/S6-bathroom-sparkling.jpg" alt="" loading="lazy">
+          <div class="sv-b"><h3>Move-in / Move-out</h3><p>Empty-home top to bottom — ready for keys, deposits, and fresh starts.</p><div class="sv-q">Quote in 60 seconds →</div></div></div>
+      </div>
+      <div class="trust" data-reveal-group>
+        <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l2.4 5.3L20 8l-4 4 1 5.7L12 15l-5 2.7L8 12 4 8l5.6-.7L12 2z" fill="#2F7D5B"/></svg>Veteran-owned</span>
+        <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z" fill="#2F7D5B"/></svg>Fully insured</span>
+        <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="10" r="3" fill="#2F7D5B"/><path d="M12 2a8 8 0 018 8c0 5.3-8 12-8 12S4 15.3 4 10a8 8 0 018-8z" stroke="#2F7D5B" stroke-width="2"/></svg>Louisville local</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="about" style="background:#EFF5F0">
+    <div class="inner">
+      <span class="eyebrow">The founder</span>
+      <h2>Built on a veteran's standard.</h2>
+      <div style="display:grid;grid-template-columns:130px 1fr;gap:clamp(20px,4vw,40px);align-items:start;margin-top:34px" data-reveal-group>
+        <div style="width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,#2F7D5B,#1E5B41);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:42px;color:#F7F9F7;box-shadow:0 14px 34px rgba(47,125,91,.3)" aria-hidden="true">VB</div><!-- [PLACEHOLDER: swap for Vincent's real photo at launch — never a stock face] -->
+        <div>
+          <p class="lead" style="max-width:640px;margin-top:0"><strong style="color:var(--ink)">Vincent Barnes</strong> is a Navy veteran and Louisville builder. The discipline he learned in the service — show up, do it right, leave it better than you found it — is the whole company. Kentucky Cleaning Pros brings that standard into homes across Louisville: a vetted crew, honest quotes, and work that's done when it's actually done.</p>
+          <p class="lead" style="max-width:640px;margin-top:12px;font-style:italic">"Clean spaces, better places" isn't a slogan — it's what we leave behind in every room.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band area">
+    <div class="inner">
+      <span class="eyebrow" style="color:#B8E6CE">Service area</span>
+      <h2>Serving the Louisville area.</h2>
+      <p class="lead">Homes and apartments across Louisville and the surrounding neighborhoods. Not sure if we reach you? Ask — we probably do.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-inner">
+      <div><strong style="font-family:var(--serif);color:#F2F6F3">Kentucky Cleaning Pros</strong><br>Clean spaces, better places.</div>
+      <div><a href="tel:+15025550100">(502) 555-0100</a><br><a href="mailto:hello@kentuckycleaningpros.com">hello@kentuckycleaningpros.com</a><!-- [PLACEHOLDER email] --></div>
+      <div class="credit">Site by <a href="https://phorethoughtconsulting-ux.github.io/phorethought-site/" rel="noopener">Phorethought</a></div>
+    </div>
+  </footer>
+</main>
+
+<!-- concept preview overlay (owner handoff — dismiss persists per session) -->
+<div id="poc" role="dialog" aria-label="Concept preview notice">
+  <div class="p-card">
+    <h3>Concept preview</h3>
+    <p>This is a working preview of the Kentucky Cleaning Pros site. Phone, email, and the quote form are placeholders until launch — everything else is real. Click through the house.</p>
+    <button id="pocBtn" type="button">Enter the house →</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  /* ── concept preview ── */
+  var poc=document.getElementById('poc');
+  try{ if(sessionStorage.getItem('kcp-poc')) poc.classList.add('hide'); }catch(e){}
+  document.getElementById('pocBtn').addEventListener('click',function(){ poc.classList.add('hide'); try{sessionStorage.setItem('kcp-poc','1');}catch(e){} });
+
+  /* ── walkthrough engine (ported from approved prototype, origins as tuned) ── */
+  var walk=document.getElementById('walk'),
+      scenes=[].slice.call(walk.querySelectorAll('.scene')),
+      bloom=document.getElementById('bloom'),
+      dotsW=document.getElementById('dots'),
+      cap=document.getElementById('cap'), capK=document.getElementById('capK'), capT=document.getElementById('capT'), capS=document.getElementById('capS'),
+      hint=document.getElementById('hint'),
+      hdr=document.getElementById('hdr'),
+      bookCta=document.getElementById('bookCta'),
+      reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,
+      hasGsap=!!window.gsap,
+      COPY=[
+        ['KENTUCKY CLEANING PROS','Clean spaces, better places.','Residential cleaning · Louisville — step inside ↓'],
+        ['WELCOME','Come on in.','We’ll show you what we do.'],
+        ['LIFE GETS BUSY','That’s not a flaw — that’s a family.','It’s also where we come in.'],
+        ['THE CREW','The people you’ll trust your home to.','Veteran-owned · Fully insured'],
+        ['WHAT WE DO','Standard · Deep · Move-in / Move-out','Every home is different — your quote takes 60 seconds.'],
+        null,
+        ['DONE MEANS DONE','Book → Clean → Relax.','Every surface, every time.'],
+        null,
+        ['THE SAME ROOM','Clean spaces, better places.','']
+      ],
+      i=0, busy=false, finished=false;
+
+  // dots for real rooms only
+  var realIdx=[]; scenes.forEach(function(s,k){ if(!s.dataset.bridge){ realIdx.push(k); var d=document.createElement('i'); dotsW.appendChild(d);} });
+  var dots=[].slice.call(dotsW.children);
+  function paintDots(){ var r=realIdx.filter(function(k){return k<=i;}).length-1; dots.forEach(function(d,idx){ d.className=idx===Math.max(0,r)?'on':''; }); }
+
+  // the living layer: each scene's clip plays on arrival, rests on its final frame, then the frame breathes.
+  function vid(s){ return s.querySelector('video'); }
+  var allowMotion=!reduce&&hasGsap;
+  function preload(k){ for(var n=k;n<Math.min(k+2,scenes.length);n++){ var v=vid(scenes[n]); if(v&&allowMotion&&v.preload!=='auto'){ v.preload='auto'; try{v.load();}catch(e){} } } }
+  function playScene(s){
+    var v=vid(s); if(!v||!allowMotion) return;
+    try{ v.currentTime=0; var p=v.play(); if(p&&p.catch)p.catch(function(){ if(scenes[i]===s) breathe(s); }); }catch(e){ if(scenes[i]===s) breathe(s); }  // autoplay refused (low-power/data-saver) → the frame still breathes
+  }
+  function pauseScene(s){ var v=vid(s); if(v){ try{v.pause();}catch(e){} } }
+
+  var drift=null;
+  function breathe(s){
+    if(!allowMotion) return;
+    if(drift) drift.kill();
+    gsap.set(s,{scale:1.015,xPercent:0,yPercent:0});
+    drift=gsap.to(s,{scale:1.04,duration:16,ease:'sine.inOut',yoyo:true,repeat:-1});  // whisper-quiet scale-only breath — no wiggle, no shake
+  }
+  /* travel clips: the walk between rooms (index k = leaving scene k) */
+  var travel=document.getElementById('travel');
+  var TRAVELS=['vid/T1.mp4','vid/T2.mp4','vid/T3.mp4','vid/T4.mp4','vid/T5.mp4','vid/T6.mp4','vid/T7.mp4','vid/T8.mp4'];
+  function preloadTravel(k){ if(allowMotion&&TRAVELS[k]){ try{ var t=document.createElement('video'); t.preload='auto'; t.src=TRAVELS[k]; t.load(); }catch(e){} } }
+  // when a clip settles on its last frame, the breath takes over — the scene never dies
+  scenes.forEach(function(s){ var v=vid(s); if(v){ v.addEventListener('ended',function(){ if(scenes[i]===s&&!busy) breathe(s); }); } });
+  function setCapText(k){ if(COPY[k]){ capK.textContent=COPY[k][0]; capT.textContent=COPY[k][1]; capS.textContent=COPY[k][2]||''; } }
+  function capShow(on){
+    cap.classList.toggle('off',!on);
+    if(on&&hasGsap&&!reduce){ gsap.fromTo([capK,capT,capS],{y:16,opacity:0},{y:0,opacity:1,duration:.8,ease:'power3.out',stagger:.09}); }
+  }
+  function setCap(k){ setCapText(k); capShow(!!COPY[k]); }
+
+  /* room labels + progress fill */
+  var ROOMS=['The Home','The Front Door','The Foyer','The Living Room','The Kitchen','','The Bathroom','','The Foyer — Reborn'];
+  var roomLabel=document.getElementById('roomLabel'), wprog=document.getElementById('wprog');
+  function paintRoom(){
+    var r=realIdx.indexOf(i);
+    roomLabel.textContent=ROOMS[i]?(ROOMS[i]+'  ·  '+(Math.max(0,realIdx.filter(function(k){return k<=i;}).length))+' of '+realIdx.length):'';
+    wprog.style.width=((i)/(scenes.length-1)*100)+'%';
+  }
+
+  /* ambient sound — starts on the first walk gesture (autoplay-safe), toggle persists */
+  var amb=document.getElementById('amb'), sndBtn=document.getElementById('sndBtn'), sndOn=true, ambStarted=false;
+  try{ if(sessionStorage.getItem('kcp-snd')==='off'){ sndOn=false; sndBtn.textContent='🔇'; } }catch(e){}
+  function startAmb(){
+    if(ambStarted||!sndOn) return; ambStarted=true;
+    try{ amb.volume=0; var p=amb.play();
+      if(p&&p.then) p.then(function(){ if(hasGsap) gsap.to(amb,{volume:0.22,duration:2.5}); else amb.volume=0.22; }).catch(function(){ ambStarted=false; });
+    }catch(e){ ambStarted=false; }
+  }
+  sndBtn.addEventListener('click',function(){
+    sndOn=!sndOn; sndBtn.textContent=sndOn?'🔊':'🔇';
+    try{ sessionStorage.setItem('kcp-snd',sndOn?'on':'off'); }catch(e){}
+    if(sndOn){ ambStarted=false; startAmb(); } else { try{ amb.pause(); }catch(e){} ambStarted=false; }
+  });
+
+  /* idle nudge — the hint breathes back after 8s of stillness in a room */
+  var idleT=null;
+  function armIdle(){ clearTimeout(idleT); idleT=setTimeout(function(){ if(!finished&&!busy) hint.style.opacity=1; },8000); }
+  function calmIdle(){ hint.style.opacity=0; armIdle(); }
+  function arriveEnd(){ walk.classList.add('end'); hint.style.opacity=0; }
+
+  // arrival at a scene: swap layers frame-identically, play its clip, chain bridges when their clip ends
+  function arrive(dest){
+    var nxt=scenes[dest];
+    scenes.forEach(function(s,idx){ s.classList.toggle('on',idx===dest); if(idx!==dest) pauseScene(s); });
+    gsap.set(nxt,{opacity:1,scale:1,filter:'none'});
+    i=dest; paintDots();
+    playScene(nxt);
+    var v=vid(nxt);
+    paintRoom();   // progress always true; ROOMS[''] on bridges keeps the label silent while moving
+    if(nxt.dataset.bridge){
+      // bridge: its clip plays (the climb/descent), then the walk continues on its own —
+      // with the same double-guard as travels: a refused/stalled clip never strands the walk
+      var went=false;
+      var go=function(){ if(went) return; went=true; if(v) v.removeEventListener('ended',go); busy=false; step(); };
+      if(v&&!v.ended&&allowMotion){
+        v.addEventListener('ended',go);
+        setTimeout(function(){ if(!went&&(v.paused||v.readyState<2)) go(); },1500);
+      } else { go(); }
+      return;
+    }
+    if(!v||v.ended||v.paused){ breathe(nxt); }
+    if(COPY[dest]) capShow(true);
+    armIdle();
+    busy=false;
+    if(i===scenes.length-1) arriveEnd();
+  }
+
+  /* step BACK — plain crossfade to the previous room (bridges skipped); the walk forward stays the film */
+  function stepBack(){
+    if(busy||finished||i===0) return;
+    var prev=i-1; while(prev>0&&scenes[prev].dataset.bridge) prev--;
+    busy=true; hint.style.opacity=0;
+    if(drift) drift.kill();
+    pauseScene(scenes[i]);
+    var from=scenes[i], to=scenes[prev];
+    capShow(false);
+    var land=function(){
+      scenes.forEach(function(s,idx){ s.classList.toggle('on',idx===prev); });
+      gsap&&hasGsap?gsap.set(to,{opacity:1,scale:1,filter:'none'}):0;
+      i=prev; setCapText(i); if(COPY[i]) capShow(true);
+      paintDots(); paintRoom(); armIdle();
+      walk.classList.remove('end');
+      playScene(to); var v=vid(to); if(!v||v.ended||v.paused) breathe(to);
+      busy=false;
+    };
+    if(reduce||!hasGsap){ land(); return; }
+    gsap.set(to,{opacity:0,scale:1}); to.classList.add('on');
+    gsap.timeline({onComplete:land})
+      .to(from,{opacity:0,duration:0.35,ease:'power1.inOut'},0)
+      .to(to,{opacity:1,duration:0.35,ease:'power1.inOut'},0.05);
+  }
+
+  function step(){
+    if(busy||finished) return;
+    if(i>=scenes.length-1){ return; }            // final scene: only BOOK NOW proceeds
+    busy=true;
+    var cur=scenes[i], nxt=scenes[i+1], dest=i+1;
+    hint.style.opacity=0;
+    preload(dest); preloadTravel(dest);
+    if(reduce||!hasGsap){                         // reduced motion / no-gsap: clean crossfade, bridge guard held
+      i++;
+      scenes.forEach(function(s,idx){s.classList.toggle('on',idx===i);});
+      setCap(i); paintDots(); paintRoom();
+      if(scenes[i].dataset.bridge){ setTimeout(function(){ busy=false; step(); },350); }
+      else { busy=false; if(i===scenes.length-1) arriveEnd(); }
+      return;
+    }
+    if(drift) drift.kill();
+    capShow(false); setTimeout(function(){ setCapText(dest); },600);   // words never travel
+
+    // THE WALK: play the frame-anchored travel clip — the camera physically walks to the next room
+    var src=TRAVELS[i];
+    if(src){
+      pauseScene(cur);
+      travel.src=src; travel.style.opacity=1;                          // first frame == cur's final frame: seamless
+      var done=false;
+      var fadeDur=(i===1)?0.5:0.12;   // the threshold light-pass dissolves through its own glow; anchored travels swap frame-identically
+      var finishTravel=function(){
+        if(done) return; done=true;
+        travel.removeEventListener('ended',finishTravel);
+        arrive(dest);
+        gsap.to(travel,{opacity:0,duration:fadeDur,onComplete:function(){ travel.removeAttribute('src'); travel.load(); }});
+      };
+      travel.addEventListener('ended',finishTravel);
+      var bail=function(){ if(done) return; done=true; travel.removeEventListener('ended',finishTravel); travel.style.opacity=0; travel.removeAttribute('src'); travel.load(); bloomWalk(cur,nxt,dest); };
+      var tp=travel.play();
+      if(tp&&tp.catch) tp.catch(bail);                                                    // travel refused → graceful bloom fallback
+      setTimeout(function(){ if(!done&&(travel.paused||travel.readyState<2)) bail(); },1200);  // stalled load → fallback
+      return;
+    }
+    bloomWalk(cur,nxt,dest);
+  }
+
+  // fallback walk (no travel clip available): gentle zoom + light — no blur, no heavy settle
+  function bloomWalk(cur,nxt,dest){
+    var ox=cur.dataset.ox, oy=cur.dataset.oy;
+    var fromBridge=!!cur.dataset.bridge;
+    var inDur=fromBridge?0.6:0.8;
+    bloom.style.setProperty('--bx',ox); bloom.style.setProperty('--by',oy);
+    cur.style.transformOrigin=ox+' '+oy;
+    gsap.set(nxt,{opacity:0,scale:1.06});
+    nxt.classList.add('on');
+    var tl=gsap.timeline({onComplete:function(){ arrive(dest); }});
+    tl.to(cur,{scale:1.7,duration:inDur,ease:'power2.in'},0)
+      .to(bloom,{opacity:1,duration:0.45,ease:'power2.in'},inDur*0.45)
+      .to(cur,{opacity:0,duration:0.18},inDur*0.92)
+      .to(nxt,{opacity:1,scale:1.0,duration:0.5,ease:'power2.out'},inDur*0.98)
+      .to(bloom,{opacity:0,duration:0.55,ease:'power2.out'},inDur+0.12);
+  }
+
+  /* ── leaving the house: the walkthrough releases upward into the booking page ── */
+  function finish(){
+    if(finished) return; finished=true;
+    clearTimeout(idleT);
+    document.body.classList.remove('walking');
+    var mainEl=document.querySelector('main'); if(mainEl) mainEl.removeAttribute('inert');
+    if(ambStarted&&hasGsap){ gsap.to(amb,{volume:0.10,duration:2}); }   // the bed settles to a whisper on the booking page — control stays in the header
+    hdr.classList.add('solid');
+    wprog.style.width='100%';
+    if(drift) drift.kill();
+    pauseScene(scenes[i]);
+    window.scrollTo(0,0);
+    if(reduce||!hasGsap){ walk.classList.add('gone'); return; }
+    gsap.to(walk,{yPercent:-100,duration:1.1,ease:'power3.inOut',onComplete:function(){ walk.classList.add('gone'); }});
+  }
+
+  function walkFwd(){ startAmb(); calmIdle(); if(i===scenes.length-1&&!busy){ finish(); return; } step(); }  // at the gleaming foyer, one more scroll carries you into the site
+  walk.addEventListener('click',function(e){ if(e.target===bookCta) return; walkFwd(); });
+  bookCta.addEventListener('click',function(){ startAmb(); finish(); });
+  document.getElementById('skipBtn').addEventListener('click',finish);
+  addEventListener('keydown',function(e){
+    if(finished) return;
+    if(e.key==='ArrowLeft'){ e.preventDefault(); stepBack(); return; }
+    if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){
+      if(document.activeElement===bookCta||document.activeElement===document.getElementById('skipBtn')||document.activeElement===sndBtn) return; // let buttons act
+      e.preventDefault(); walkFwd();
+    }
+  });
+  /* SCROLL IS THE WALK — wheel steps forward, scroll-up steps back; swipe-up/-down on touch */
+  var wAcc=0, wLock=0;
+  walk.addEventListener('wheel',function(e){
+    if(finished) return; e.preventDefault();
+    var now=Date.now(); if(now<wLock) return;
+    wAcc+=e.deltaY;
+    if(wAcc>70){ wAcc=0; wLock=now+650; walkFwd(); }
+    else if(wAcc<-70){ wAcc=0; wLock=now+650; stepBack(); }
+  },{passive:false});
+  var tx=null,ty=null;
+  walk.addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; ty=e.touches[0].clientY; },{passive:true});
+  walk.addEventListener('touchmove',function(e){ if(!finished) e.preventDefault(); },{passive:false});   // the house owns the gesture until you leave it
+  walk.addEventListener('touchend',function(e){
+    if(tx===null) return;
+    var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; tx=ty=null;
+    if(Math.abs(dy)>Math.abs(dx)){ if(dy<-40) walkFwd(); else if(dy>40) stepBack(); }
+    else { if(dx<-40) walkFwd(); else if(dx>40) stepBack(); }
+  },{passive:true});
+
+  var mainEl=document.querySelector('main'); if(mainEl) mainEl.setAttribute('inert','');   // booking DOM unreachable until the walk releases it
+  scenes[0].classList.add('on'); setCap(0); paintDots(); paintRoom(); armIdle(); preload(0); preloadTravel(0); playScene(scenes[0]);
+  if(matchMedia('(pointer:coarse)').matches) hint.textContent='Swipe up to walk through';
+  var replay=document.getElementById('replayWalk');
+  if(replay) replay.addEventListener('click',function(e){ e.preventDefault(); location.reload(); });
+  // (reduced-motion shows the static poster by design — no drift, per prefers-reduced-motion)
+
+  /* ── booking-page reveals (motion-kit pattern, guarded) ── */
+  if(hasGsap && window.ScrollTrigger && !reduce){
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('[data-reveal-group]').forEach(function(group){
+      var kids=gsap.utils.toArray(group.children);
+      gsap.set(kids,{opacity:0,y:30});
+      ScrollTrigger.batch(kids,{start:'top 88%',once:true,onEnter:function(b){gsap.to(b,{opacity:1,y:0,duration:.9,ease:'power2.out',stagger:.1});}});
+    });
+  }
+})();
+</script>
+</body>
+</html>

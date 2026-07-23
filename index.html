@@ -10,12 +10,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Phorethought — You think it, we create it.">
 <meta property="og:description" content="Custom AI tools, software, and sites — built for you, with taste. You think it, we create it.">
-<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/camo-grey.jpg">
+<meta property="og:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/hero-poster.jpg">
 <meta property="og:url" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Phorethought — You think it, we create it.">
 <meta name="twitter:description" content="Custom AI tools, software, and sites — built for you, with taste. You think it, we create it.">
-<meta name="twitter:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/camo-grey.jpg">
+<meta name="twitter:image" content="https://phorethoughtconsulting-ux.github.io/phorethought-site/assets/hero-poster.jpg">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -126,7 +126,7 @@
   @media (max-width:900px){ .hero-atmos{ display:none; } }
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
   /* ─── VIDEO BACKGROUND HERO ─── */
-  .hero-stage{ position:relative; }
+  .hero-stage{ position:relative; min-height:100svh; background:#0a0f1e; }  /* dark backing + full-height so no white body ever shows through the scroll-pin */
   .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e; }
   .hero-scrim{ position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;
     background:
@@ -216,9 +216,6 @@
     transition: border-color 0.2s;
   }
   .btn-ghost:hover { border-color: var(--ink); }
-  /* subtle doorway into the film — a whisper, not a button */
-  .hero-door{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.72);text-shadow:0 1px 14px rgba(0,0,0,.55);text-decoration:none;transition:color .25s,letter-spacing .25s}
-  .hero-door:hover{color:#e7ad55;letter-spacing:2.2px}
   .hero-scroll {
     margin-top: 80px;
     display: flex;
@@ -840,9 +837,9 @@
 <noscript><style>#phdoor{display:none}</style></noscript>
 
 <!-- NAV -->
-<nav>
+<nav id="top">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Phorethought</a>
+    <a href="#top" class="nav-logo">Phorethought</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#services">What we make</a></li>
@@ -857,6 +854,7 @@
 <!-- HERO -->
 <section class="hero-stage">
 <video class="hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" aria-hidden="true">
+  <source data-src="assets/hero-bg.webm" type="video/webm">
   <source data-src="assets/hero-bg.mp4" type="video/mp4">
 </video>
 <div class="hero-scrim" aria-hidden="true"></div>
@@ -867,13 +865,12 @@
     You think it,<br><em>we create it.</em>
   </h1>
   <p class="hero-sub">
-    We help you see what to build, build it, then keep it running — custom AI tools, software, and sites, made with taste. For creators, founders, and small teams. You never have to touch the tech.
+    You bring the idea. We design it, build it, and keep it running — websites, apps, and AI tools, made for you. You never touch the tech.
   </p>
   <div class="hero-actions">
-    <a href="study/index.html" class="btn-primary">Bring an idea →</a>
-    <a href="#work" class="btn-ghost">See the work →</a>
+    <a href="clients/kentucky-cleaning-pros/index.html" class="btn-primary">See a site you can walk through →</a>
+    <a href="study/index.html" class="btn-ghost">Bring me an idea →</a>
   </div>
-  <a class="hero-door" href="experience/index.html">✈&nbsp; or step into the studio first</a>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     Scroll
@@ -1153,7 +1150,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <a href="#" class="footer-logo">Phorethought</a>
+    <a href="#top" class="footer-logo">Phorethought</a>
     <ul class="footer-links">
       <li><a href="#services">What we make</a></li>
       <li><a href="#work">The work</a></li>
@@ -1183,8 +1180,9 @@
     var saveData=(navigator.connection && navigator.connection.saveData);
     // only desktop / fine experiences load + play the video; phones, data-saver and reduced-motion get the poster (no download, no battery drain)
     if(v && !(reduce || small || saveData)){
-      var s=v.querySelector('source');
-      if(s && s.getAttribute('data-src')){ s.src=s.getAttribute('data-src'); v.load(); }
+      var srcs=v.querySelectorAll('source'), any=false;
+      srcs.forEach(function(s){ var d=s.getAttribute('data-src'); if(d){ s.src=d; any=true; } });
+      if(any){ v.load(); }
       var inView=true, hidden=false;
       function play(){ if(inView && !hidden){ try{ var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); }catch(e){} } }
       function pause(){ try{ v.pause(); }catch(e){} }

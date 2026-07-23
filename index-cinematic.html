@@ -127,26 +127,27 @@
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
   /* ─── VIDEO BACKGROUND HERO ─── */
   .hero-stage{ position:relative; min-height:100svh; background:#0a0f1e; }  /* dark backing + full-height so no white body ever shows through the scroll-pin */
-  .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e; }
-  /* veil — the real studio is bright travertine; darken a center band so the white gold-accent headline reads, edges keep the studio visible */
+  .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e;
+    filter:brightness(1.18) saturate(1.08) contrast(1.02); }  /* let the room feel alive + present, not buried */
+  /* veil — a SOFT dark halo only behind the words + a gentle floor; the studio stays vivid at the edges (you're in the room) */
   .hero-veil{ position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:radial-gradient(95% 75% at 50% 44%, rgba(6,9,17,0.60), rgba(6,9,17,0.26) 72%), linear-gradient(180deg, rgba(6,9,17,0.44), rgba(6,9,17,0.10) 32%, rgba(6,9,17,0.12) 60%, rgba(6,9,17,0.74)); }
+    background:radial-gradient(56% 42% at 50% 46%, rgba(5,8,15,0.50), rgba(5,8,15,0) 70%), linear-gradient(180deg, rgba(5,8,15,0.18) 0%, rgba(5,8,15,0) 26%, rgba(5,8,15,0) 60%, rgba(5,8,15,0.52) 100%); }
   .hero-replay{ margin-top:22px; display:inline-flex; align-items:center; gap:7px; cursor:pointer; background:transparent; border:1px solid rgba(255,255,255,0.28);
     font-family:var(--mono); font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(255,255,255,0.7); padding:9px 15px; border-radius:30px; transition:color .2s, border-color .2s; }
   .hero-replay:hover{ color:#e7ad55; border-color:rgba(231,173,85,0.5); }
   @media(prefers-reduced-motion:reduce){ .hero-wall{ animation:none; transform:scale(1.04); } }
   .hero-scrim{ position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;
     background:
-      linear-gradient(95deg, rgba(7,9,16,0.82) 0%, rgba(7,9,16,0.56) 42%, rgba(7,9,16,0.30) 72%, rgba(7,9,16,0.22) 100%),
-      linear-gradient(180deg, rgba(7,9,16,0.28) 0%, rgba(7,9,16,0) 28%, rgba(7,9,16,0.50) 100%);
+      linear-gradient(95deg, rgba(7,9,16,0.34) 0%, rgba(7,9,16,0.16) 45%, rgba(7,9,16,0.06) 78%, rgba(7,9,16,0.04) 100%),
+      linear-gradient(180deg, rgba(7,9,16,0.16) 0%, rgba(7,9,16,0) 26%, rgba(7,9,16,0.30) 100%);
     transition:opacity .45s ease;
   }
-  /* light hero text so the words stand out over the video */
-  .hero .hero-headline{ color:#fff; text-shadow:0 2px 32px rgba(0,0,0,0.5); }
-  .hero .hero-headline em{ color:#e7ad55; }
-  .hero .hero-tag{ color:rgba(255,255,255,0.82); }
-  .hero .hero-tag::before{ background:rgba(255,255,255,0.5); }
-  .hero .hero-sub{ color:rgba(255,255,255,0.88); text-shadow:0 1px 20px rgba(0,0,0,0.55); }
+  /* light hero text so the words stand out over the vivid studio — carried by shadow, not by darkening the whole room */
+  .hero .hero-headline{ color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.92), 0 0 44px rgba(0,0,0,0.6); }
+  .hero .hero-headline em{ color:#e7ad55; text-shadow:0 2px 12px rgba(0,0,0,0.9), 0 0 34px rgba(231,173,85,0.35); }
+  .hero .hero-tag{ color:rgba(255,255,255,0.9); text-shadow:0 1px 10px rgba(0,0,0,0.85); }
+  .hero .hero-tag::before{ background:rgba(255,255,255,0.6); }
+  .hero .hero-sub{ color:#fff; text-shadow:0 1px 10px rgba(0,0,0,0.92), 0 0 26px rgba(0,0,0,0.6); }
   .hero .hero-scroll{ color:rgba(255,255,255,0.72); }
   .hero .hero-scroll-line{ background:rgba(255,255,255,0.6); }
   .hero .btn-primary{ background:#e7ad55; color:#0a0f1e; }

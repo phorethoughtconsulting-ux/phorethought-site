@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start Your Free Portfolio — Phorethought</title>
-<meta name="description" content="Claim your free portfolio. Tell Phorethought who you are and what you do, and we'll build you a one-of-a-kind site. You think it, we create it.">
+<title>Become a Founding Client — Phorethought</title>
+<meta name="description" content="Become a founding client. Tell Phorethought who you are and what you do, and we'll build you a one-of-a-kind site at the founding rate. You think it, we create it.">
 <meta name="theme-color" content="#0a0f1e">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23fff' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Start Your Free Portfolio — Phorethought">
+<meta property="og:title" content="Become a Founding Client — Phorethought">
 <meta property="og:description" content="Tell us who you are and what you do, and we'll build you a one-of-a-kind site.">
 <meta property="og:image" content="../assets/camo-grey.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -88,14 +88,15 @@
 
 <header class="head">
   <div class="wrap">
-    <div class="label">Start your free portfolio</div>
+    <div class="label">Founding clients · first five</div>
     <h1>Tell me <em>who you are.</em></h1>
     <p>The more I know about you, the more your site will feel like nobody else's. Takes about 5 minutes — no design experience needed.</p>
     <div class="rules">
-      <span class="rule-chip">Free for the first 10</span>
+      <span class="rule-chip">Founding rate · site $500 · cinematic $900</span>
       <span class="rule-chip">One build + one revision</span>
       <span class="rule-chip">Send content within 7 days</span>
     </div>
+    <div style="margin-top:22px"><a href="https://cal.com/phorethought-tpnezu/intro" target="_blank" rel="noopener" style="display:inline-block;background:var(--ink);color:#fff;font-family:var(--mono);font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;padding:13px 24px;border-radius:8px">Prefer to talk first? Book a call →</a></div>
   </div>
 </header>
 
@@ -205,7 +206,7 @@
       <textarea id="extra" name="extra" rows="3" placeholder="Photos, logos, specific pages, deadlines — whatever you want me to know."></textarea>
     </div>
 
-    <button type="submit" class="submit">Claim my free portfolio →</button>
+    <button type="submit" class="submit">Send my founding intake →</button>
     <p class="note">After you submit, I'll reply with next steps — and you can send your photos and logo straight back to that email.</p>
   </form>
 
@@ -235,7 +236,7 @@
       var done=function(){f.style.display='none';document.getElementById('done').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});};
       var nm=(document.getElementById('name')||{}).value||'', em=(document.getElementById('email')||{}).value||'';
       var tasks=[];
-      if(WEB3FORMS_KEY){ var fd=new FormData(f); fd.append('access_key',WEB3FORMS_KEY); fd.append('subject','New free-10 intake — Phorethought'); fd.append('from_name','Phorethought free-10'); tasks.push(fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).catch(function(){})); }
+      if(WEB3FORMS_KEY){ var fd=new FormData(f); fd.append('access_key',WEB3FORMS_KEY); fd.append('subject','New founding-client intake — Phorethought'); fd.append('from_name','Phorethought founding'); tasks.push(fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).catch(function(){})); }
       if(SLACK_WEBHOOK){ tasks.push(fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':sparkles: *New free-10 intake*\nName: '+nm+'\nEmail: '+em})}).catch(function(){})); }
       if(!tasks.length){ done(); return; } // not wired yet → graceful success
       Promise.allSettled(tasks).then(done);

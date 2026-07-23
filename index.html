@@ -89,14 +89,14 @@
   }
   .nav-links a:hover { color: var(--ink); }
   .nav-cta {
-    background: var(--ink);
-    color: #fff !important;
+    background: var(--gold);
+    color: #0a0f1e !important;
     padding: 9px 20px;
     border-radius: 6px;
     font-weight: 600 !important;
     transition: background 0.2s !important;
   }
-  .nav-cta:hover { background: #1a2744 !important; }
+  .nav-cta:hover { background: #f0bd6e !important; }
 
   /* ─── HERO ─── */
   .hero {
@@ -127,19 +127,27 @@
   @media (prefers-reduced-motion:reduce){ .hero-atmos{ animation:none; } }
   /* ─── VIDEO BACKGROUND HERO ─── */
   .hero-stage{ position:relative; min-height:100svh; background:#0a0f1e; }  /* dark backing + full-height so no white body ever shows through the scroll-pin */
-  .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e; }
+  .hero-video{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; pointer-events:none; background:#0a0f1e;
+    filter:brightness(1.18) saturate(1.08) contrast(1.02); }  /* let the room feel alive + present, not buried */
+  /* veil — a SOFT dark halo only behind the words + a gentle floor; the studio stays vivid at the edges (you're in the room) */
+  .hero-veil{ position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(56% 42% at 50% 46%, rgba(5,8,15,0.50), rgba(5,8,15,0) 70%), linear-gradient(180deg, rgba(5,8,15,0.18) 0%, rgba(5,8,15,0) 26%, rgba(5,8,15,0) 60%, rgba(5,8,15,0.52) 100%); }
+  .hero-replay{ margin-top:22px; display:inline-flex; align-items:center; gap:7px; cursor:pointer; background:transparent; border:1px solid rgba(255,255,255,0.28);
+    font-family:var(--mono); font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(255,255,255,0.7); padding:9px 15px; border-radius:30px; transition:color .2s, border-color .2s; }
+  .hero-replay:hover{ color:#e7ad55; border-color:rgba(231,173,85,0.5); }
+  @media(prefers-reduced-motion:reduce){ .hero-wall{ animation:none; transform:scale(1.04); } }
   .hero-scrim{ position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;
     background:
-      linear-gradient(95deg, rgba(7,9,16,0.82) 0%, rgba(7,9,16,0.56) 42%, rgba(7,9,16,0.30) 72%, rgba(7,9,16,0.22) 100%),
-      linear-gradient(180deg, rgba(7,9,16,0.28) 0%, rgba(7,9,16,0) 28%, rgba(7,9,16,0.50) 100%);
+      linear-gradient(95deg, rgba(7,9,16,0.34) 0%, rgba(7,9,16,0.16) 45%, rgba(7,9,16,0.06) 78%, rgba(7,9,16,0.04) 100%),
+      linear-gradient(180deg, rgba(7,9,16,0.16) 0%, rgba(7,9,16,0) 26%, rgba(7,9,16,0.30) 100%);
     transition:opacity .45s ease;
   }
-  /* light hero text so the words stand out over the video */
-  .hero .hero-headline{ color:#fff; text-shadow:0 2px 32px rgba(0,0,0,0.5); }
-  .hero .hero-headline em{ color:#e7ad55; }
-  .hero .hero-tag{ color:rgba(255,255,255,0.82); }
-  .hero .hero-tag::before{ background:rgba(255,255,255,0.5); }
-  .hero .hero-sub{ color:rgba(255,255,255,0.88); text-shadow:0 1px 20px rgba(0,0,0,0.55); }
+  /* light hero text so the words stand out over the vivid studio — carried by shadow, not by darkening the whole room */
+  .hero .hero-headline{ color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.92), 0 0 44px rgba(0,0,0,0.6); }
+  .hero .hero-headline em{ color:#e7ad55; text-shadow:0 2px 12px rgba(0,0,0,0.9), 0 0 34px rgba(231,173,85,0.35); }
+  .hero .hero-tag{ color:rgba(255,255,255,0.9); text-shadow:0 1px 10px rgba(0,0,0,0.85); }
+  .hero .hero-tag::before{ background:rgba(255,255,255,0.6); }
+  .hero .hero-sub{ color:#fff; text-shadow:0 1px 10px rgba(0,0,0,0.92), 0 0 26px rgba(0,0,0,0.6); }
   .hero .hero-scroll{ color:rgba(255,255,255,0.72); }
   .hero .hero-scroll-line{ background:rgba(255,255,255,0.6); }
   .hero .btn-primary{ background:#e7ad55; color:#0a0f1e; }
@@ -836,6 +844,7 @@
 <div id="phdoor" aria-hidden="true"></div>
 <noscript><style>#phdoor{display:none}</style></noscript>
 
+
 <!-- NAV -->
 <nav id="top">
   <div class="nav-inner">
@@ -843,6 +852,7 @@
     <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#services">What we make</a></li>
+      <li><a href="clients/index.html">Work</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="https://cal.com/phorethought-tpnezu/intro" target="_blank" rel="noopener" class="nav-cta">Let's talk</a></li>
@@ -852,29 +862,125 @@
 
 <!-- HERO -->
 <section class="hero-stage">
-<video class="hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg" aria-hidden="true">
-  <source data-src="assets/hero-bg.webm" type="video/webm">
-  <source data-src="assets/hero-bg.mp4" type="video/mp4">
+<!-- HERO = THE STUDIO, brought to life (moving loop of the real studio — glass office, graffiti wall, pool table; no paper plane) -->
+<video class="hero-video" muted loop playsinline preload="none" poster="assets/hero-studio-poster.jpg" aria-hidden="true">
+  <source data-src="assets/hero-studio.mp4" type="video/mp4">
 </video>
 <div class="hero-scrim" aria-hidden="true"></div>
-<div class="hero">
-  <div class="hero-atmos" aria-hidden="true"></div>
-  <div class="hero-tag">Creative Technology Studio</div>
-  <h1 class="hero-headline">
-    You think it,<br><em>we create it.</em>
-  </h1>
-  <p class="hero-sub">
-    You bring the idea. We design it, build it, and keep it running — websites, apps, and AI tools, made for you. You never touch the tech.
-  </p>
-  <div class="hero-actions">
-    <a href="clients/kentucky-cleaning-pros/index.html" class="btn-primary">See a site you can walk through →</a>
-    <a href="study/index.html" class="btn-ghost">Bring me an idea →</a>
+<div class="hero-veil" aria-hidden="true"></div>
+<style>
+  /* ── CONCEPT B · Think it into the room ── */
+  .bhero .hero-tag{ margin-bottom:34px; }
+  .b-stage{ position:relative; height:132px; width:100%; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+  .b-cube{ width:86px; height:86px; position:relative; transform-style:preserve-3d; opacity:0; transform:scale(.4) rotateX(-22deg) rotateY(0); filter:drop-shadow(0 0 24px rgba(231,173,85,.6)); }
+  .b-cube.on{ opacity:1; transform:scale(1) rotateX(-22deg) rotateY(0); transition:opacity .55s ease, transform .85s cubic-bezier(.2,.8,.2,1); animation:bspin 10s linear infinite .85s; }
+  @keyframes bspin{ from{ transform:scale(1) rotateX(-22deg) rotateY(0); } to{ transform:scale(1) rotateX(-22deg) rotateY(360deg); } }
+  .b-cube span{ position:absolute; inset:0; border:1.5px solid rgba(231,173,85,.9); box-shadow:inset 0 0 12px rgba(231,173,85,.35); }
+  .b-cube span:nth-child(1){ transform:translateZ(43px); }
+  .b-cube span:nth-child(2){ transform:rotateY(180deg) translateZ(43px); }
+  .b-cube span:nth-child(3){ transform:rotateY(90deg) translateZ(43px); }
+  .b-cube span:nth-child(4){ transform:rotateY(-90deg) translateZ(43px); }
+  .b-cube span:nth-child(5){ transform:rotateX(90deg) translateZ(43px); }
+  .b-cube span:nth-child(6){ transform:rotateX(-90deg) translateZ(43px); }
+  .b-label{ position:absolute; bottom:2px; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#e7ad55; opacity:0; transition:opacity .5s ease .35s; white-space:nowrap; text-shadow:0 1px 12px rgba(0,0,0,.85); max-width:80vw; overflow:hidden; text-overflow:ellipsis; }
+  .b-label.on{ opacity:1; }
+  .b-particle{ position:absolute; width:7px; height:7px; border-radius:50%; background:#f0bd6e; box-shadow:0 0 12px 2px rgba(231,173,85,.75); pointer-events:none; }
+  .b-msg{ position:relative; min-height:112px; width:100%; display:flex; align-items:center; justify-content:center; }
+  .b-wrap{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity .5s ease, transform .5s ease; }
+  .b-wrap.gone{ opacity:0; transform:translateY(-10px); pointer-events:none; }
+  .b-input{ background:transparent; border:none; outline:none; text-align:center; font-family:var(--serif); font-size:clamp(30px,5.2vw,62px); line-height:1.1; color:#fff; caret-color:#e7ad55; width:min(86vw,620px); text-shadow:0 2px 16px rgba(0,0,0,.9); }
+  .b-input::placeholder{ color:rgba(231,173,85,.72); opacity:1; }
+  .b-hint{ margin-top:20px; font-family:var(--mono); font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(255,255,255,.66); text-shadow:0 1px 10px rgba(0,0,0,.85); transition:opacity .4s; }
+  .b-complete{ position:absolute; font-family:var(--serif); font-style:italic; font-size:clamp(26px,4.2vw,54px); color:#e7ad55; opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; text-shadow:0 2px 20px rgba(0,0,0,.88); }
+  .b-complete.on{ opacity:1; transform:none; }
+  .b-cta{ margin-top:34px; opacity:0; transform:translateY(12px); transition:opacity .55s ease .15s, transform .55s ease .15s; pointer-events:none; }
+  .b-cta.on{ opacity:1; transform:none; pointer-events:auto; }
+  @media(prefers-reduced-motion:reduce){ .b-cube,.b-cube.on{ animation:none; } }
+  /* ── COMBINED · brain object · services cycle in dramatic type · words fade on scroll ── */
+  /* push the studio BACK so the words win: soft focus + a real dark plate behind the text */
+  /* studio stays SHARP + present (no blur); a focused dark pool sits only behind the words so they read */
+  .hero-video{ filter:brightness(1.02) saturate(1.07) contrast(1.03) !important; transform:scale(1.10); transition:transform .35s cubic-bezier(.2,.7,.2,1); will-change:transform; }
+  .hero-veil{ background:
+      radial-gradient(46% 44% at 50% 47%, rgba(3,5,11,0.82), rgba(3,5,11,0.34) 58%, rgba(3,5,11,0) 82%),
+      linear-gradient(180deg, rgba(3,5,11,0.30) 0%, rgba(3,5,11,0) 30%, rgba(3,5,11,0) 60%, rgba(3,5,11,0.55) 100%) !important; }
+  .chero{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:100svh; width:100%; padding:0 24px; }
+  .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; will-change:transform,opacity,filter; }
+  /* THE OBJECT — generated glowing gold hologram brain; black drops out via screen-blend so only the gold glows over the studio */
+  .c-obj{ display:flex; align-items:center; justify-content:center; margin-bottom:10px; animation:cFloat 5.2s ease-in-out infinite; }
+  .c-brain{ width:clamp(240px,32vw,360px); height:auto; display:block; mix-blend-mode:screen; pointer-events:none;
+    /* dissolve the hard black square edges so the brain floats (works regardless of blend support) */
+    -webkit-mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%);
+    mask-image:radial-gradient(circle at 50% 48%, #000 0 42%, rgba(0,0,0,0.35) 56%, transparent 66%); }
+  @keyframes cFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-12px); } }
+  @media(prefers-reduced-motion:reduce){ .c-obj{ animation:none; } }
+  /* DRAMATIC type — big, tight, high-contrast; the service word is the star */
+  .c-pre,.c-post{ font-family:var(--serif); font-size:clamp(24px,3.4vw,40px); letter-spacing:.5px; color:#fff; text-shadow:0 3px 18px rgba(0,0,0,.98), 0 0 30px rgba(0,0,0,.7); line-height:1.1; text-align:center; }
+  .c-cycle{ min-height:1.05em; display:flex; align-items:center; justify-content:center; margin:8px 0; padding:0 12px; }
+  .c-word{ font-family:var(--serif); font-style:italic; font-size:clamp(52px,10.5vw,132px); line-height:.98; letter-spacing:-1px; color:#e7ad55; white-space:nowrap;
+    text-shadow:0 3px 26px rgba(0,0,0,.98), 0 0 60px rgba(231,173,85,.5); opacity:0; transform:translateY(16px) scale(.92);
+    transition:opacity .5s ease, transform .55s cubic-bezier(.2,.8,.2,1); }
+  .c-word.show{ opacity:1; transform:none; }
+  .c-cta{ margin-top:44px; align-self:center; display:inline-flex; width:auto; }
+</style>
+<div class="hero chero">
+  <div class="c-fade" id="cFade">
+    <div class="c-obj" aria-hidden="true">
+      <video class="c-brain" src="assets/brain.mp4" poster="assets/brain-poster.jpg" muted loop autoplay playsinline preload="auto"></video>
+    </div>
+    <div class="c-pre">You think it,</div>
+    <div class="c-cycle"><span class="c-word" id="cWord">a website</span></div>
+    <div class="c-post">we create it.</div>
+    <a class="btn-primary c-cta" href="clients/kentucky-cleaning-pros/index.html">See a site you can walk through →</a>
   </div>
-  <div class="hero-scroll">
+  <div class="hero-scroll" id="cScrollCue">
     <div class="hero-scroll-line"></div>
     Scroll
   </div>
 </div>
+<script>
+(function(){
+  var word=document.getElementById('cWord'), fade=document.getElementById('cFade');
+  if(!word) return;
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // Nicky's current services — the word cycles through them (edit freely)
+  var SERVICES=['a website','an experience','an app','an AI tool','a brand','a film','an automation'];
+  var i=0;
+  function next(){
+    word.classList.remove('show');
+    setTimeout(function(){ i=(i+1)%SERVICES.length; word.innerHTML=SERVICES[i]; word.classList.add('show'); }, reduce?240:440);
+  }
+  word.innerHTML=SERVICES[0];
+  requestAnimationFrame(function(){ word.classList.add('show'); });
+  setInterval(next, 2800);
+
+  // words fade + lift away as you scroll down, and come right back as you scroll up (reversible)
+  if(fade){
+    var ticking=false;
+    function onScroll(){
+      if(ticking) return; ticking=true;
+      requestAnimationFrame(function(){
+        var h=window.innerHeight||800, p=Math.min(1, Math.max(0, window.scrollY/(h*0.62)));
+        fade.style.opacity=(1-p).toFixed(3);
+        fade.style.transform='translateY('+(-p*90)+'px) scale('+(1-p*0.05).toFixed(3)+')';
+        fade.style.filter='blur('+(p*4).toFixed(2)+'px)';
+        var cue=document.getElementById('cScrollCue'); if(cue) cue.style.opacity=(1-p*1.6).toFixed(3);
+        ticking=false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  }
+
+  // parallax — the room shifts as you move, like a window into the studio (feel of being there)
+  var video=document.querySelector('.hero-video');
+  if(video && !reduce && !matchMedia('(pointer:coarse)').matches){
+    document.addEventListener('mousemove', function(e){
+      var dx=(e.clientX/(window.innerWidth||1)-0.5), dy=(e.clientY/(window.innerHeight||1)-0.5);
+      video.style.transform='scale(1.10) translate('+(-dx*18).toFixed(1)+'px,'+(-dy*13).toFixed(1)+'px)';
+    }, {passive:true});
+  }
+})();
+</script>
 </section>
 
 <!-- WHAT WE MAKE -->
@@ -906,7 +1012,7 @@
 <section id="services">
   <div class="section-inner">
     <div class="section-label">What we make</div>
-    <h2 class="section-title">Four things,<br>done exceptionally.</h2>
+    <h2 class="section-title">Three things,<br>done exceptionally.</h2>
     <p class="section-body make-intro">You bring the idea; we make it real. Every one of these is proven by something live you can open right now — no mockups, no maybes.</p>
     <div class="make-grid">
 
@@ -1127,7 +1233,7 @@
       <div class="about-copy">
         <div class="section-label">About</div>
         <h2 class="section-title">One studio.<br>One point of contact.</h2>
-        <p class="about-body">I'm Nicky B. You bring the idea; I take it from a conversation to a built, shipped thing — and keep it running after. Custom AI tools, software, and sites, made with taste, for individuals, creators, and small teams. You never have to touch the tech. OpsGrade is live proof: a full AI SaaS, built and launched in six weeks.</p>
+        <p class="about-body">I'm Nicky B. You bring the idea; I take it from a conversation to a built, shipped thing — and keep it running after. Custom AI tools, software, and sites, made with taste, for individuals, creators, and small teams. You never have to touch the tech. OpsGrade is live proof: a full AI SaaS I built and shipped in six weeks — now in launch.</p>
         <a href="study/index.html" class="btn-primary">Work with us</a>
         <a href="https://myopsgrade.com/founder" target="_blank" rel="noopener noreferrer" class="about-more">More about the founder ↗</a>
         <div class="about-stats">
@@ -1150,9 +1256,9 @@
     <div class="price-grid">
       <div class="price-card">
         <div class="price-k">A clean website</div>
-        <div class="price-name">Static site</div>
-        <div class="price-tag">from $300</div>
-        <p class="price-note">Custom, fast, and fully yours at handoff. Like Vincent's.</p>
+        <div class="price-name">Website</div>
+        <div class="price-tag"><b>$500</b><span class="price-was">$1,500</span></div>
+        <p class="price-note">Custom, fast, fully yours at handoff. Founding rate. Simple one-pagers from $300. Like Vincent's.</p>
       </div>
       <div class="price-card feature">
         <div class="price-k">Signature · cinematic</div>
@@ -1167,8 +1273,8 @@
         <p class="price-note">A custom tool or app built to fit exactly what you do. Like OpsGrade.</p>
       </div>
     </div>
-    <p class="price-founding">Five founding clients at a rate we'll never repeat — full sites <b>$500</b>, cinematic <b>$900</b>.</p>
-    <p class="price-care">Want us to keep it running after? Care plans from $29/mo. Optional, always.</p>
+    <p class="price-founding">Five founding clients at a rate we'll never repeat — websites <b>$500</b>, cinematic <b>$900</b>.</p>
+    <p class="price-care">Not sure yet? Start with <b>The Study — $97</b>, a paid deep-dive that ends in a clear plan and quote (credited toward your build). Care plans from $29/mo, optional.</p>
   </div>
 </section>
 

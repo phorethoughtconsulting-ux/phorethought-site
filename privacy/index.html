@@ -4,15 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Phorethought</title>
+<meta name="description" content="How Phorethought collects, uses, and protects your information.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='%23e7ad55' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--ink:#0a0f1e;--soft:#444;--muted:#888;--paper:#fff;--warm:#f9f8f6;--rule:#e8e8e8}
+  :root{--ink:#0a0f1e;--soft:#444;--muted:#888;--paper:#fff;--warm:#f9f8f6;--rule:#e8e8e8;--gold:#e7ad55}
   body{font-family:'DM Sans',system-ui,sans-serif;background:var(--warm);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
   .wrap{max-width:720px;margin:0 auto;padding:40px 28px 80px}
   a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}a:hover{opacity:.65}
   .back{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);display:inline-block;margin-bottom:34px}
+  .back b{color:var(--ink);font-weight:600}.back span{color:var(--gold)}
   h1{font-family:'DM Serif Display',serif;font-size:clamp(34px,6vw,52px);letter-spacing:-1px;margin-bottom:8px}
+  h1::after{content:'';display:block;width:56px;height:3px;background:var(--gold);border-radius:2px;margin-top:16px}
   .upd{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:32px}
   h2{font-family:'DM Serif Display',serif;font-size:22px;margin:34px 0 10px}
   p{font-weight:300;color:var(--soft);margin-bottom:14px}
@@ -20,38 +25,14 @@
   ul{margin:0 0 14px 20px}li{font-weight:300;color:var(--soft);margin-bottom:8px}
   .foot{margin-top:50px;padding-top:22px;border-top:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
 </style>
-<!-- PF-GATE (delete this whole block to remove the PIN) -->
-<style id="pfhide">html{visibility:hidden!important}</style>
-<script>(function(){
-var P="2027";
-function reveal(){["pfhide","pf-gate"].forEach(function(id){var el=document.getElementById(id);if(el&&el.parentNode)el.parentNode.removeChild(el);});}
-function build(){
-if(document.getElementById("pf-gate"))return;
-var o=document.createElement("div");o.id="pf-gate";
-o.setAttribute("style","position:fixed;inset:0;z-index:2147483647;visibility:visible!important;background:radial-gradient(120% 80% at 82% -12%,rgba(231,173,85,.10),transparent 55%),linear-gradient(180deg,#0a0f1e,#0b1120 60%,#080d17);display:flex;align-items:center;justify-content:center;color:#ece7dd;font-family:Georgia,'Times New Roman',serif");
-o.innerHTML='<div style="text-align:center;visibility:visible!important">'
-+'<div style="font-size:40px;color:#fff;letter-spacing:.5px">Phorethought</div>'
-+'<div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#e7ad55;margin-top:12px">By invitation</div>'
-+'<input id="pf-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Enter PIN" style="margin-top:30px;width:170px;text-align:center;font-size:28px;letter-spacing:14px;padding:12px 0 12px 14px;background:transparent;border:0;border-bottom:2px solid rgba(231,173,85,.5);color:#fff;outline:none;font-family:ui-monospace,Menlo,monospace">'
-+'<div id="pf-err" style="height:18px;margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:1px;color:#c9622e">&nbsp;</div>'
-+'</div>';
-document.body.appendChild(o);
-var inp=document.getElementById("pf-pin"),err=document.getElementById("pf-err");
-try{inp.focus();}catch(e){}
-function check(){if(inp.value===P){reveal();}else{err.textContent="Not quite.";inp.value="";setTimeout(function(){if(err)err.innerHTML="&nbsp;";},1100);}}
-inp.addEventListener("input",function(){err.innerHTML="&nbsp;";if(inp.value.length>=4)check();});
-}
-if(document.body){build();}else{document.addEventListener("DOMContentLoaded",build);}
-})();</script>
-<!-- /PF-GATE -->
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="../index.html">← Phorethought</a>
+  <a class="back" href="../index.html"><span>←</span> <b>Phorethought</b></a>
   <h1>Privacy Policy</h1>
   <div class="upd">Last updated: June 23, 2026</div>
 
-  <p>Phorethought ("we", "us") is operated by Nicky B. This policy explains what we collect and how we use it when you visit phorethought.com or contact us.</p>
+  <p>Phorethought ("we", "us") is operated by Nicky B. This policy explains what we collect and how we use it when you visit our website or contact us.</p>
 
   <h2>What we collect</h2>
   <ul>
@@ -89,6 +70,11 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
 
   <div class="foot">© 2026 Phorethought · <a href="../terms/index.html">Terms</a> · <a href="../index.html">Home</a></div>
 </div>
+<!-- THE THRESHOLD · shared ink-door transition -->
+<style>#phdoor{position:fixed;inset:0;z-index:9999;background:#0a0f1e;opacity:1;pointer-events:none;transition:opacity .45s ease}#phdoor.open{opacity:0}@media(prefers-reduced-motion:reduce){#phdoor{transition:none}}</style>
+<div id="phdoor" aria-hidden="true"></div>
+<script>(function(){var d=document.getElementById('phdoor');if(!d)return;requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.add('open');});});document.addEventListener('click',function(e){if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(!h||h.charAt(0)==='#'||a.target==='_blank'||/^(https?:|mailto:|tel:)/i.test(h))return;e.preventDefault();d.classList.remove('open');setTimeout(function(){location.href=h;},470);},true);addEventListener('pageshow',function(ev){if(ev.persisted)d.classList.add('open');});})();</script>
+<!-- /THE THRESHOLD -->
 <!-- PH-ANALYTICS -->
 <script data-goatcounter="https://phorethought.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>

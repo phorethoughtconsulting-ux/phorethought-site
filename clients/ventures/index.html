@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vincent Barnes — Builder · Investor · Veteran · Educator</title>
 <meta name="description" content="Vincent Barnes — Navy veteran, builder, real estate investor, and educator. His story, his businesses including First Call Handyman, and the resources he shares on business, money, and leadership.">
@@ -175,30 +176,6 @@
   }
   @media(max-width:560px){.cform .frow{flex-direction:column}.dgrid,.rgrid{grid-template-columns:1fr}.idcards{grid-template-columns:1fr}}
 </style>
-<!-- PF-GATE (delete this whole block to remove the PIN) -->
-<style id="pfhide">html{visibility:hidden!important}</style>
-<script>(function(){
-var P="2027";
-function reveal(){["pfhide","pf-gate"].forEach(function(id){var el=document.getElementById(id);if(el&&el.parentNode)el.parentNode.removeChild(el);});}
-function build(){
-if(document.getElementById("pf-gate"))return;
-var o=document.createElement("div");o.id="pf-gate";
-o.setAttribute("style","position:fixed;inset:0;z-index:2147483647;visibility:visible!important;background:radial-gradient(120% 80% at 82% -12%,rgba(231,173,85,.10),transparent 55%),linear-gradient(180deg,#0a0f1e,#0b1120 60%,#080d17);display:flex;align-items:center;justify-content:center;color:#ece7dd;font-family:Georgia,'Times New Roman',serif");
-o.innerHTML='<div style="text-align:center;visibility:visible!important">'
-+'<div style="font-size:40px;color:#fff;letter-spacing:.5px">Phorethought</div>'
-+'<div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#e7ad55;margin-top:12px">By invitation</div>'
-+'<input id="pf-pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Enter PIN" style="margin-top:30px;width:170px;text-align:center;font-size:28px;letter-spacing:14px;padding:12px 0 12px 14px;background:transparent;border:0;border-bottom:2px solid rgba(231,173,85,.5);color:#fff;outline:none;font-family:ui-monospace,Menlo,monospace">'
-+'<div id="pf-err" style="height:18px;margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:1px;color:#c9622e">&nbsp;</div>'
-+'</div>';
-document.body.appendChild(o);
-var inp=document.getElementById("pf-pin"),err=document.getElementById("pf-err");
-try{inp.focus();}catch(e){}
-function check(){if(inp.value===P){reveal();}else{err.textContent="Not quite.";inp.value="";setTimeout(function(){if(err)err.innerHTML="&nbsp;";},1100);}}
-inp.addEventListener("input",function(){err.innerHTML="&nbsp;";if(inp.value.length>=4)check();});
-}
-if(document.body){build();}else{document.addEventListener("DOMContentLoaded",build);}
-})();</script>
-<!-- /PF-GATE -->
 </head>
 <body>
 
@@ -382,7 +359,7 @@ if(document.body){build();}else{document.addEventListener("DOMContentLoaded",bui
   // contact form → email (Web3Forms) + Slack ping. Paste the same two values used on every other form.
   (function(){var f=document.getElementById('cform');if(!f)return;
    var WEB3FORMS_KEY='bb4252da-6cf6-4eee-8e78-933ef950b3ad';  // Web3Forms access key
-   var SLACK_WEBHOOK='';  // your Slack Incoming Webhook URL
+   var SLACK_WEBHOOK='';  // left empty — webhook here = public secret GitHub blocks; route Slack via Web3Forms
    f.addEventListener('submit',function(e){e.preventDefault();
      var n=(document.getElementById('cf-name').value||'').trim(),em=(document.getElementById('cf-email').value||'').trim();
      var mEl=document.getElementById('cf-msg')||document.getElementById('cf-message');var m=mEl?(mEl.value||'').trim():'';

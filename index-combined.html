@@ -897,20 +897,28 @@
   @media(prefers-reduced-motion:reduce){ .b-cube,.b-cube.on{ animation:none; } }
   /* ── COMBINED · brain object · services cycle in dramatic type · words fade on scroll ── */
   /* push the studio BACK so the words win: soft focus + a real dark plate behind the text */
-  .hero-video{ filter:brightness(0.92) saturate(1.02) contrast(1.02) blur(3px) !important; transform:scale(1.06); }
+  /* studio stays SHARP + present (no blur); a focused dark pool sits only behind the words so they read */
+  .hero-video{ filter:brightness(1.02) saturate(1.07) contrast(1.03) !important; transform:scale(1.10); transition:transform .35s cubic-bezier(.2,.7,.2,1); will-change:transform; }
   .hero-veil{ background:
-      radial-gradient(60% 55% at 50% 46%, rgba(3,5,11,0.78), rgba(3,5,11,0.30) 78%),
-      linear-gradient(180deg, rgba(3,5,11,0.42) 0%, rgba(3,5,11,0.10) 34%, rgba(3,5,11,0.10) 58%, rgba(3,5,11,0.62) 100%) !important; }
+      radial-gradient(46% 44% at 50% 47%, rgba(3,5,11,0.82), rgba(3,5,11,0.34) 58%, rgba(3,5,11,0) 82%),
+      linear-gradient(180deg, rgba(3,5,11,0.30) 0%, rgba(3,5,11,0) 30%, rgba(3,5,11,0) 60%, rgba(3,5,11,0.55) 100%) !important; }
   .chero{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:100svh; width:100%; padding:0 24px; }
   .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; will-change:transform,opacity,filter; }
-  /* THE OBJECT — a gold wireframe brain, slowly swaying + glowing (easy to remove: delete the .c-obj block) */
-  .c-obj{ perspective:1000px; height:150px; display:flex; align-items:center; justify-content:center; margin-bottom:26px; animation:cFloat 4.6s ease-in-out infinite; }
-  .c-shape{ width:132px; height:132px; transform-style:preserve-3d; animation:cSway 6.5s ease-in-out infinite, cGlow 3.4s ease-in-out infinite; }
-  .c-shape svg{ width:100%; height:100%; display:block; fill:none; stroke:#e7ad55; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+  /* THE OBJECT — a real 3D gold brain: six brain-outlines latheed around the Y axis, spinning (delete .c-obj to remove) */
+  .c-obj{ perspective:1200px; height:180px; display:flex; align-items:center; justify-content:center; margin-bottom:28px; animation:cFloat 4.8s ease-in-out infinite; }
+  .brain3d{ width:158px; height:158px; position:relative; transform-style:preserve-3d; animation:brainSpin 11s linear infinite, cGlow 3.6s ease-in-out infinite; }
+  .brain3d .bp{ position:absolute; inset:0; }
+  .brain3d .bp svg{ width:100%; height:100%; display:block; fill:none; stroke:rgba(231,173,85,.52); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .brain3d .bp:nth-child(1){ transform:rotateY(0); }
+  .brain3d .bp:nth-child(2){ transform:rotateY(30deg); }
+  .brain3d .bp:nth-child(3){ transform:rotateY(60deg); }
+  .brain3d .bp:nth-child(4){ transform:rotateY(90deg); }
+  .brain3d .bp:nth-child(5){ transform:rotateY(120deg); }
+  .brain3d .bp:nth-child(6){ transform:rotateY(150deg); }
   @keyframes cFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-11px); } }
-  @keyframes cSway{ 0%,100%{ transform:rotateY(-26deg) rotateX(6deg); } 50%{ transform:rotateY(26deg) rotateX(-4deg); } }
-  @keyframes cGlow{ 0%,100%{ filter:drop-shadow(0 0 20px rgba(231,173,85,.5)); } 50%{ filter:drop-shadow(0 0 44px rgba(231,173,85,.95)); } }
-  @media(prefers-reduced-motion:reduce){ .c-obj,.c-shape{ animation:none; } }
+  @keyframes brainSpin{ from{ transform:rotateY(0); } to{ transform:rotateY(360deg); } }
+  @keyframes cGlow{ 0%,100%{ filter:drop-shadow(0 0 20px rgba(231,173,85,.5)); } 50%{ filter:drop-shadow(0 0 46px rgba(231,173,85,.95)); } }
+  @media(prefers-reduced-motion:reduce){ .c-obj,.brain3d{ animation:none; } }
   /* DRAMATIC type — big, tight, high-contrast; the service word is the star */
   .c-pre,.c-post{ font-family:var(--serif); font-size:clamp(24px,3.4vw,40px); letter-spacing:.5px; color:#fff; text-shadow:0 3px 18px rgba(0,0,0,.98), 0 0 30px rgba(0,0,0,.7); line-height:1.1; text-align:center; }
   .c-cycle{ min-height:1.05em; display:flex; align-items:center; justify-content:center; margin:8px 0; padding:0 12px; }
@@ -922,8 +930,13 @@
 </style>
 <div class="hero chero">
   <div class="c-fade" id="cFade">
-    <div class="c-obj" aria-hidden="true"><div class="c-shape" id="cShape">
-      <svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0 M42 54 q4 3 8 1 M58 54 q-4 3 -8 1"/></svg>
+    <div class="c-obj" aria-hidden="true"><div class="brain3d" id="brain">
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
+      <div class="bp"><svg viewBox="0 0 100 100"><path d="M50 24 C44 19 33 20 31 28 C22 28 20 39 27 44 C20 49 24 59 33 58 C34 68 45 70 50 64 C55 70 66 68 67 58 C76 59 80 49 73 44 C80 39 78 28 69 28 C67 20 56 19 50 24 Z"/><path d="M50 24 V64"/><path d="M40 31 q6 3 2 9 M60 31 q-6 3 -2 9 M35 45 q7 4 12 0 M65 45 q-7 4 -12 0"/></svg></div>
     </div></div>
     <div class="c-pre">You think it,</div>
     <div class="c-cycle"><span class="c-word" id="cWord">a website</span></div>
@@ -967,6 +980,15 @@
     }
     window.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
+  }
+
+  // parallax — the room shifts as you move, like a window into the studio (feel of being there)
+  var video=document.querySelector('.hero-video');
+  if(video && !reduce && !matchMedia('(pointer:coarse)').matches){
+    document.addEventListener('mousemove', function(e){
+      var dx=(e.clientX/(window.innerWidth||1)-0.5), dy=(e.clientY/(window.innerHeight||1)-0.5);
+      video.style.transform='scale(1.10) translate('+(-dx*18).toFixed(1)+'px,'+(-dy*13).toFixed(1)+'px)';
+    }, {passive:true});
   }
 })();
 </script>

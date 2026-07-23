@@ -892,7 +892,8 @@
   .make-card{display:flex;flex-direction:column;background:#0e1526;padding:clamp(24px,3vw,34px);transition:background .3s ease}
   .make-card.feature{background:#111a30;box-shadow:inset 0 0 0 1px rgba(231,173,85,0.28)}
   .make-k{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e7ad55;margin-bottom:14px}
-  .make-name{font-family:var(--serif);font-size:clamp(21px,2.5vw,27px);line-height:1.12;color:#fff;margin-bottom:12px}
+  .make-name{font-family:var(--serif);font-size:clamp(21px,2.5vw,27px);line-height:1.12;color:#fff;margin-bottom:8px}
+  .make-purpose{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:#e7ad55;margin-bottom:12px}
   .make-desc{font-size:14.5px;line-height:1.6;color:rgba(255,255,255,0.62);flex:1}
   .make-foot{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.12)}
   .make-price{font-family:var(--mono);font-size:14px;letter-spacing:.5px;color:#fff}
@@ -914,6 +915,7 @@
       <article class="make-card">
         <div class="make-k">Websites · Static</div>
         <h3 class="make-name">Clean, fast, yours.</h3>
+        <div class="make-purpose">Get seen</div>
         <p class="make-desc">A custom site built to your identity — quick to load, clear to read, handed off completely yours. For a person or a brand that needs to look real online.</p>
         <div class="make-foot"><span class="make-price">from $300</span><a class="make-proof" href="https://vincentbarnes.com" target="_blank" rel="noopener" data-evt="view-vincent">See Vincent's site ↗</a></div>
       </article>
@@ -921,6 +923,7 @@
       <article class="make-card feature">
         <div class="make-k">Websites · Cinematic · Signature</div>
         <h3 class="make-name">A world people step into.</h3>
+        <div class="make-purpose">Get remembered</div>
         <p class="make-desc">A site that opens like a film — real footage, motion, sound, a story you walk through instead of scroll past. Nobody in your market has one. The front door of this very site is one.</p>
         <div class="make-foot"><span class="make-price">$3,500 · <b>founding $900</b></span><a class="make-proof" href="clients/kentucky-cleaning-pros/" data-evt="kcp-walkthrough">Walk the cleaning site ↗</a></div>
       </article>
@@ -928,6 +931,7 @@
       <article class="make-card">
         <div class="make-k">AI Tools &amp; Apps</div>
         <h3 class="make-name">Software for your exact problem.</h3>
+        <div class="make-purpose">Get it built</div>
         <p class="make-desc">A tool or app that doesn't exist yet — built around the thing in front of you, not pulled off a shelf. OpsGrade is proof: a complete AI product, shipped in 6 weeks. Full SaaS builds scale from there.</p>
         <div class="make-foot"><span class="make-price">from $3,000</span><a class="make-proof" href="https://myopsgrade.com" target="_blank" rel="noopener">Try OpsGrade ↗</a></div>
       </article>
@@ -957,6 +961,52 @@
         <span class="tag">Cinematic Film · This site</span><div class="wt">The Front Door</div><div class="wd">The scored flight-through that opens this site — written, generated, scored, and built in-house. Proof of the cinematic tier.</div><span class="view">Ride it ↗</span></a>
     </div>
     <div class="work-foot" style="margin-top:22px"><a href="clients/index.html" style="font-family:var(--mono);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--ink);border-bottom:1px solid var(--ink-ghost,rgba(10,15,30,.2))">See the full gallery →</a></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIAL — BUILT & READY. Un-comment the block below and
+     replace the bracketed text with Vincent's REAL words + real
+     title. Do NOT ship a fabricated quote (integrity rule).
+     ============================================================
+<hr class="rule">
+<style>
+  .testi{background:var(--paper-warm)}
+  .testi-quote{font-family:var(--serif);font-size:clamp(24px,3.6vw,42px);line-height:1.24;color:var(--ink);max-width:840px;margin:22px 0 20px}
+  .testi-quote::before{content:'\201C';color:var(--gold)}
+  .testi-quote::after{content:'\201D';color:var(--gold)}
+  .testi-by{font-family:var(--mono);font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:#5a5f6b}
+  .testi-by a{color:var(--ink);border-bottom:1px solid var(--ink-ghost,rgba(10,15,30,.2));text-decoration:none}
+</style>
+<section class="testi">
+  <div class="section-inner">
+    <div class="section-label">What clients say</div>
+    <blockquote class="testi-quote">[VINCENT'S REAL WORDS — one or two sentences about the site we built and what it did for him]</blockquote>
+    <div class="testi-by">Vincent Barnes · Navy veteran &amp; founder · <a href="https://vincentbarnes.com" target="_blank" rel="noopener">vincentbarnes.com</a></div>
+  </div>
+</section>
+     ============================================================ -->
+
+<hr class="rule">
+
+<!-- HOW IT WORKS (compact) -->
+<style>
+  .how-row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,40px);margin-top:38px}
+  .how-step{position:relative;padding-top:6px}
+  .how-n{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--gold);font-weight:500}
+  .how-step b{display:block;font-family:var(--serif);font-size:clamp(19px,2.2vw,23px);color:var(--ink);margin:10px 0 8px;font-weight:400}
+  .how-step p{font-size:14.5px;line-height:1.6;color:#5a5f6b}
+  @media (max-width:760px){ .how-row{grid-template-columns:1fr;gap:26px} }
+</style>
+<section class="how">
+  <div class="section-inner">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Simple on purpose.</h2>
+    <div class="how-row" data-reveal-group>
+      <div class="how-step"><span class="how-n">01</span><b>Talk it through</b><p>Bring the idea. We tell you exactly what to build, what it costs, and how long — plain English, zero guesswork.</p></div>
+      <div class="how-step"><span class="how-n">02</span><b>We build it</b><p>Custom, start to finish. Check in anytime. It ships when it's right, not when a deadline forces it.</p></div>
+      <div class="how-step"><span class="how-n">03</span><b>It's yours</b><p>You own everything — code, domain, accounts, handed off clean. We keep it running on a plan if you want us to.</p></div>
+    </div>
   </div>
 </section>
 
@@ -1026,6 +1076,9 @@
     go(0);
   })();
 </script>
+
+<!-- CAMO BRAND BAND (separates the two dark bands) -->
+<div class="camo-band" title="PHORETHOUGHT"></div>
 
 <!-- OTHER THINGS WE CAN DO (the tuck) -->
 <section class="svc-menu" id="more">
@@ -1200,7 +1253,7 @@
           // the crumble — scrubbed to the hero's scroll; headline chars + sub words fall, scatter, spin, fade (random order)
           // pin the stage so the video holds full-screen and the words hold, then crumble over ~2-3 scrolls (not one)
           var crumbleTL = gsap.timeline({
-            scrollTrigger:{ trigger:'.hero-stage', start:'top top', end:'+=250%', scrub:0.8, pin:true, anticipatePin:1 }
+            scrollTrigger:{ trigger:'.hero-stage', start:'top top', end:'+=130%', scrub:0.8, pin:true, anticipatePin:1 }
           });
           crumbleTL
             .to(pieces,{

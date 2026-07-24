@@ -869,33 +869,6 @@
 <div class="hero-scrim" aria-hidden="true"></div>
 <div class="hero-veil" aria-hidden="true"></div>
 <style>
-  /* ── CONCEPT B · Think it into the room ── */
-  .bhero .hero-tag{ margin-bottom:34px; }
-  .b-stage{ position:relative; height:132px; width:100%; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-  .b-cube{ width:86px; height:86px; position:relative; transform-style:preserve-3d; opacity:0; transform:scale(.4) rotateX(-22deg) rotateY(0); filter:drop-shadow(0 0 24px rgba(231,173,85,.6)); }
-  .b-cube.on{ opacity:1; transform:scale(1) rotateX(-22deg) rotateY(0); transition:opacity .55s ease, transform .85s cubic-bezier(.2,.8,.2,1); animation:bspin 10s linear infinite .85s; }
-  @keyframes bspin{ from{ transform:scale(1) rotateX(-22deg) rotateY(0); } to{ transform:scale(1) rotateX(-22deg) rotateY(360deg); } }
-  .b-cube span{ position:absolute; inset:0; border:1.5px solid rgba(231,173,85,.9); box-shadow:inset 0 0 12px rgba(231,173,85,.35); }
-  .b-cube span:nth-child(1){ transform:translateZ(43px); }
-  .b-cube span:nth-child(2){ transform:rotateY(180deg) translateZ(43px); }
-  .b-cube span:nth-child(3){ transform:rotateY(90deg) translateZ(43px); }
-  .b-cube span:nth-child(4){ transform:rotateY(-90deg) translateZ(43px); }
-  .b-cube span:nth-child(5){ transform:rotateX(90deg) translateZ(43px); }
-  .b-cube span:nth-child(6){ transform:rotateX(-90deg) translateZ(43px); }
-  .b-label{ position:absolute; bottom:2px; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#e7ad55; opacity:0; transition:opacity .5s ease .35s; white-space:nowrap; text-shadow:0 1px 12px rgba(0,0,0,.85); max-width:80vw; overflow:hidden; text-overflow:ellipsis; }
-  .b-label.on{ opacity:1; }
-  .b-particle{ position:absolute; width:7px; height:7px; border-radius:50%; background:#f0bd6e; box-shadow:0 0 12px 2px rgba(231,173,85,.75); pointer-events:none; }
-  .b-msg{ position:relative; min-height:112px; width:100%; display:flex; align-items:center; justify-content:center; }
-  .b-wrap{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity .5s ease, transform .5s ease; }
-  .b-wrap.gone{ opacity:0; transform:translateY(-10px); pointer-events:none; }
-  .b-input{ background:transparent; border:none; outline:none; text-align:center; font-family:var(--serif); font-size:clamp(30px,5.2vw,62px); line-height:1.1; color:#fff; caret-color:#e7ad55; width:min(86vw,620px); text-shadow:0 2px 16px rgba(0,0,0,.9); }
-  .b-input::placeholder{ color:rgba(231,173,85,.72); opacity:1; }
-  .b-hint{ margin-top:20px; font-family:var(--mono); font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(255,255,255,.66); text-shadow:0 1px 10px rgba(0,0,0,.85); transition:opacity .4s; }
-  .b-complete{ position:absolute; font-family:var(--serif); font-style:italic; font-size:clamp(26px,4.2vw,54px); color:#e7ad55; opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; text-shadow:0 2px 20px rgba(0,0,0,.88); }
-  .b-complete.on{ opacity:1; transform:none; }
-  .b-cta{ margin-top:34px; opacity:0; transform:translateY(12px); transition:opacity .55s ease .15s, transform .55s ease .15s; pointer-events:none; }
-  .b-cta.on{ opacity:1; transform:none; pointer-events:auto; }
-  @media(prefers-reduced-motion:reduce){ .b-cube,.b-cube.on{ animation:none; } }
   /* ── MAGAZINE HERO · editorial, text-only, dramatic ── */
   /* studio stays present + visible — only a light vignette for mood, no central curtain */
   .hero-video{ filter:brightness(1.04) saturate(1.06) contrast(1.03) !important; transform:scale(1.10); transition:transform .35s cubic-bezier(.2,.7,.2,1); will-change:transform; }

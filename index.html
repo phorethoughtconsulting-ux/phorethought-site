@@ -716,7 +716,7 @@
   .reel-copy h2 { font-family: var(--serif); font-size: clamp(32px,5vw,56px); line-height: 1.04; color: #fff; margin-bottom: 16px; }
   .reel-copy h2 em { font-style: italic; color: rgba(255,255,255,0.55); }
   .reel-copy p { color: rgba(255,255,255,0.8); font-size: 17px; line-height: 1.6; max-width: 460px; margin-bottom: 10px; }
-  .reel-credit { font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 26px; }
+  .reel-credit { font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; color: rgba(255,255,255,0.58); text-transform: uppercase; margin-bottom: 26px; }
   .reel-cta { display: inline-block; font-family: var(--mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: #e7ad55; color: #0a0f1e; padding: 15px 28px; border-radius: 40px; text-decoration: none; font-weight: 600; transition: transform 0.2s, background 0.2s; }
   .reel-cta:hover { transform: translateY(-2px); background: #f0bd6e; }
   @media(max-width:760px){ .reel-inner { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 30px; } .reel-copy p { margin-left:auto; margin-right:auto; } }
@@ -907,10 +907,10 @@
   .chero .c-furn{ position:absolute; z-index:2; font-family:var(--mono); font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.6); text-shadow:0 1px 8px rgba(0,0,0,.95); pointer-events:none; }
   .chero .c-furn-tl{ top:106px; left:34px; right:auto; } .chero .c-furn-tr{ top:106px; right:34px; left:auto; }
   @media(max-width:680px){ .chero .c-furn-tr{ display:none; } .chero .c-furn-tl{ left:22px; top:90px; } }
-  .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; max-width:1120px; will-change:transform,opacity,filter;
+  .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; max-width:1120px; min-width:0; will-change:transform,opacity,filter;
     /* the words get their OWN soft dark plate that hugs the text — studio stays visible all around it */
-    padding:clamp(30px,6vh,72px) clamp(24px,7vw,110px);
-    background:radial-gradient(ellipse 76% 92% at 50% 50%, rgba(4,7,13,0.86) 0%, rgba(4,7,13,0.70) 42%, rgba(4,7,13,0.34) 72%, rgba(4,7,13,0) 100%); }
+    padding:clamp(30px,6vh,72px) clamp(20px,7vw,110px);
+    background:radial-gradient(ellipse 88% 92% at 50% 50%, rgba(4,7,13,0.86) 0%, rgba(4,7,13,0.72) 46%, rgba(4,7,13,0.34) 74%, rgba(4,7,13,0) 100%); }
   /* the cover line — dramatic display type framed by hairline gold rules */
   .c-pre,.c-post{ font-family:var(--serif); font-size:clamp(21px,3vw,38px); letter-spacing:1px; color:#fff; text-shadow:0 3px 18px rgba(0,0,0,.98); line-height:1.05; }
   .c-rule{ width:min(74vw,640px); height:1px; background:linear-gradient(90deg,transparent,rgba(231,173,85,.9),transparent); margin:clamp(12px,1.6vw,20px) 0; }
@@ -921,6 +921,11 @@
   .c-word.show{ opacity:1; transform:none; }
   .c-strip{ margin-top:26px; font-family:var(--mono); font-size:clamp(10px,1.3vw,13px); letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.64); text-shadow:0 1px 8px rgba(0,0,0,.95); }
   .c-cta{ margin-top:36px; align-self:center; display:inline-flex; width:auto; }
+  /* small phones — keep the longest cycling word ("an automation") + the strip inside the viewport */
+  @media(max-width:430px){
+    .c-word{ font-size:clamp(28px,8.4vw,58px); letter-spacing:-1px; }
+    .c-strip{ letter-spacing:1.4px; }
+  }
 </style>
 <div class="hero chero">
   <div class="c-furn c-furn-tl">— Creative Technology Studio</div>
@@ -1134,6 +1139,11 @@
   .cta-body{ color:rgba(255,255,255,0.74); }
   .cta-note{ color:rgba(255,255,255,0.6) !important; }
   .cta-note a{ color:#e7ad55 !important; border-bottom-color:rgba(231,173,85,0.4) !important; }
+  /* FIX: buttons on dark sections were ink-on-dark (ghost invisible, primary no affordance) */
+  .cta-section .btn-ghost, .about .btn-ghost{ color:#fff; border-bottom-color:rgba(255,255,255,0.45); }
+  .cta-section .btn-ghost:hover, .about .btn-ghost:hover{ border-bottom-color:#fff; }
+  .cta-section .btn-primary, .about .btn-primary{ background:#e7ad55; color:#0a0f1e; }
+  .cta-section .btn-primary:hover, .about .btn-primary:hover{ background:#f0bd6e; }
 </style>
 
 <!-- HOW IT WORKS (compact) -->
@@ -1345,7 +1355,7 @@
     var v=document.querySelector('.hero-video');
     var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var saveData=(navigator.connection && navigator.connection.saveData);
-    // play the moving studio on every device (mp4 419KB / webm 335KB — cheap); only reduced-motion or data-saver users get the still poster
+    // play the moving studio on every device (mp4 ~870KB, lazy via data-src, paused off-screen); only reduced-motion or data-saver users get the still poster
     if(v && !(reduce || saveData)){
       var srcs=v.querySelectorAll('source'), any=false;
       srcs.forEach(function(s){ var d=s.getAttribute('data-src'); if(d){ s.src=d; any=true; } });

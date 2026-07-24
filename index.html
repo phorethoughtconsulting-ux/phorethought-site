@@ -903,10 +903,10 @@
       radial-gradient(130% 100% at 50% 42%, transparent 42%, rgba(3,5,11,0.34) 100%),
       linear-gradient(180deg, rgba(3,5,11,0.34) 0%, transparent 22%, transparent 60%, rgba(3,5,11,0.58) 100%) !important; }
   .chero{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:100svh; width:100%; padding:0 24px; }
-  /* editorial furniture — mono masthead labels in the corners */
-  .c-furn{ position:absolute; z-index:2; font-family:var(--mono); font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.6); text-shadow:0 1px 8px rgba(0,0,0,.95); pointer-events:none; }
-  .c-furn-tl{ top:106px; left:34px; } .c-furn-tr{ top:106px; right:34px; }
-  @media(max-width:680px){ .c-furn-tr{ display:none; } .c-furn-tl{ left:22px; top:90px; } }
+  /* editorial furniture — mono masthead labels in the corners (higher specificity so .hero>* can't force it back into flow) */
+  .chero .c-furn{ position:absolute; z-index:2; font-family:var(--mono); font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.6); text-shadow:0 1px 8px rgba(0,0,0,.95); pointer-events:none; }
+  .chero .c-furn-tl{ top:106px; left:34px; right:auto; } .chero .c-furn-tr{ top:106px; right:34px; left:auto; }
+  @media(max-width:680px){ .chero .c-furn-tr{ display:none; } .chero .c-furn-tl{ left:22px; top:90px; } }
   .c-fade{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; max-width:1120px; will-change:transform,opacity,filter;
     /* the words get their OWN soft dark plate that hugs the text — studio stays visible all around it */
     padding:clamp(30px,6vh,72px) clamp(24px,7vw,110px);
@@ -915,7 +915,7 @@
   .c-pre,.c-post{ font-family:var(--serif); font-size:clamp(21px,3vw,38px); letter-spacing:1px; color:#fff; text-shadow:0 3px 18px rgba(0,0,0,.98); line-height:1.05; }
   .c-rule{ width:min(74vw,640px); height:1px; background:linear-gradient(90deg,transparent,rgba(231,173,85,.9),transparent); margin:clamp(12px,1.6vw,20px) 0; }
   .c-cycle{ min-height:1.02em; display:flex; align-items:center; justify-content:center; padding:0 6px; }
-  .c-word{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(46px,11vw,142px); line-height:.9; letter-spacing:-2px; color:#e7ad55; white-space:nowrap;
+  .c-word{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(40px,11vw,142px); line-height:.9; letter-spacing:-2px; color:#e7ad55; white-space:nowrap;
     text-shadow:0 4px 30px rgba(0,0,0,.98), 0 0 72px rgba(231,173,85,.45); opacity:0; transform:translateY(20px) scale(.94);
     transition:opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
   .c-word.show{ opacity:1; transform:none; }

@@ -237,7 +237,7 @@
       var nm=(document.getElementById('name')||{}).value||'', em=(document.getElementById('email')||{}).value||'';
       var tasks=[];
       if(WEB3FORMS_KEY){ var fd=new FormData(f); fd.append('access_key',WEB3FORMS_KEY); fd.append('subject','New founding-client intake — Phorethought'); fd.append('from_name','Phorethought founding'); tasks.push(fetch('https://api.web3forms.com/submit',{method:'POST',body:fd}).catch(function(){})); }
-      if(SLACK_WEBHOOK){ tasks.push(fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':sparkles: *New free-10 intake*\nName: '+nm+'\nEmail: '+em})}).catch(function(){})); }
+      if(SLACK_WEBHOOK){ tasks.push(fetch(SLACK_WEBHOOK,{method:'POST',mode:'no-cors',body:JSON.stringify({text:':sparkles: *New founding-client intake*\nName: '+nm+'\nEmail: '+em})}).catch(function(){})); }
       if(!tasks.length){ done(); return; } // not wired yet → graceful success
       Promise.allSettled(tasks).then(done);
     });
